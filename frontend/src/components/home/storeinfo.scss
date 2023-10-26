@@ -1,0 +1,91 @@
+@import "../../sass/variable";
+
+.storeinfo__main{
+    margin: 1rem 0;
+    margin-bottom: 0 !important;
+    background-color: $store-info;
+    padding: 2rem 0;
+    .row{
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-template-rows: auto;
+        gap: 1rem;
+        .box{
+            display: flex;
+            color: $white;
+            .icon{
+                font-size: $fs-1;
+            }
+            .storeinfo__text{
+                margin-left: 1rem;
+                p{
+                    font-size: $fs-6;
+                    font-weight: $weight-400;
+                    margin-bottom: 0.2rem;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                }
+                span{
+                    font-size: $fs-7;
+                    font-weight: $weight-300;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .storeinfo__main{
+        margin: 1rem 0;
+        background-color: $store-info;
+        padding: 1.5rem 0;
+        .row{
+            grid-template-columns: auto auto;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            .box{
+                .icon{
+                    font-size: $fs-1;
+                }
+                .storeinfo__text{
+                    margin-left: 1rem;
+                    p{
+                        font-size: $fs-7;
+                        margin-bottom: 0.1rem;
+                        letter-spacing: 0.5px;
+                    }
+                    span{
+                        font-size: $fs-8;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .storeinfo__main{
+        margin: 1rem 0;
+        background-color: $store-info;
+        padding: 1.5rem 0;
+        .row{
+            gap: 1rem;
+            .box{
+                .icon{
+                    font-size: $fs-2;
+                }
+                .storeinfo__text{
+                    margin-left: 0.5rem;
+                    p{
+                        font-size: $fs-9;
+                    }
+                    span{
+                        font-size: $fs-10;
+                    }
+                }
+            }
+        }
+    }
+}

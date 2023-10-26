@@ -1,0 +1,147 @@
+@import "../../../sass/variable";
+
+.dashboard__container{
+    .dashboard__row{
+        display: grid;
+        grid-template-columns: 250px auto;
+        gap: 4rem;
+        >:nth-child(2){
+            margin-top: 2rem;
+        }
+        .profile__content{
+
+            .dashboard_heading{
+                font-size: $fs-7;
+                color: #333;
+                font-family: $font-domine;
+
+            }
+            .dashboard__content{
+                .dashboard__top__row{
+                    margin-top: 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 1rem;
+                    .col_1{
+                        flex-basis: 40%;
+                    }
+                    .col_2{
+                        flex-basis: 30%;
+                    }
+                    .col_3{
+                        flex-basis: 30%;
+                    }
+                    .col{
+                        height: 100%;
+                        box-shadow: 0px 0px 10px -3px rgba(0,0, 0, 0.5);
+                        padding: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+                        .icon__row{
+                            display: flex;
+                            gap: 10px;
+                            color: #333;
+                            h3{
+                                font-size: $fs-6;
+                                span{
+                                    font-size: $fs-8;
+                                    color: $spanish-gray;
+                                }
+                            }
+                        }
+                        h5{
+                            font-size: $fs-6;
+                            padding-left: 1.5rem;
+                        }
+                        a{
+                            h5{
+                                color: rgb(102, 165, 248) !important;
+                                font-weight: $weight-500;
+                                font-size: $fs-7 !important;
+                                padding-left: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            .latest_orders{
+                margin-top: 2rem;
+                .order_container{
+                    margin-top: 1rem;
+                    box-shadow: 0px 0px 10px -3px rgba(0,0, 0, 0.5);
+                    .row{
+                        margin-bottom: 10px !important;
+                        padding: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .dashboard__container{
+        .dashboard__row{
+            grid-template-columns: 40px auto;
+            gap: 1rem !important;
+            >:nth-child(2){
+                margin-top: 1rem;
+            }
+            .dashboard__sidebar{
+                background: $white;
+               
+            }
+            .profile__content{
+                margin-top: 1rem;
+                .dashboard__content{
+                    .dashboard__top__row{
+                        display: grid;
+                        grid-template-columns: repeat(2, auto);
+                        gap: 10px;
+                        
+                        .col{
+                            gap: 1rem;
+                           
+                          
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+}
+
+
+@media only screen and (max-width: 480px){
+    .dashboard__container{
+        .dashboard__row{
+            grid-template-columns: 30px auto !important;
+            gap: 10px !important;
+
+            >:nth-child(2){
+                margin-top: 10px;
+            }
+
+            .profile__content{
+
+                .dashboard__content{
+                    .dashboard__top__row{
+                        grid-template-columns: repeat(1, auto);
+                        gap: 10px;
+                        
+                        .col{
+                            gap: 10px;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+}

@@ -1,0 +1,178 @@
+@import "../../../sass/variable";
+
+.address__main{
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .container__heading{
+            margin: 0 !important;
+            text-align: left;
+        }
+        button{
+            width: 20%;
+        }
+    }
+
+    .card__row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+        border-radius: 2px;
+        p{
+            font-size: $fs-7;
+            line-height: 1.2rem;
+        }
+        .delete__icon{
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    }
+    .empty__address{
+        width: 100%;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.new__address{
+    background: $white;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 100%;
+    max-width: 450px;
+    height: 90vh;
+    padding: 20px;
+    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+    overscroll-behavior: contain;
+    transition: 0.5s ease !important;
+    z-index: 5; 
+    cursor: default;
+
+    .new__address__main{
+
+        .hide__address__popup{
+            display: flex;
+            justify-content: flex-end;
+            font-size: 1.5rem;
+            .icon{
+                cursor: pointer;
+            }
+        }
+
+        .heading{
+            text-align: center;
+            h2{
+                font-size: $fs-5;
+                font-weight: 400;
+                font-family: $font-domine;
+            }
+        }
+        form{
+            margin-top: 1rem;
+            .box{
+                width: 100%;
+                margin-top: 0.8rem;
+                label{
+                    font-size: $fs-7;
+                    font-weight: 400;
+                }
+                select, input{
+                    display: block;
+                    width: 100%;
+                    padding: 5px 10px;
+                    margin-top: 0.2rem;
+                    margin-bottom: 15px;
+                    border: 1px solid #eee;
+                    background-color: rgb(232, 240, 254);
+                    color: #000;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    line-height: 20px;
+                    &:focus{
+                        outline: 1px solid $black-main;
+                    }
+                }
+                button{
+                    width: 100%;
+                    margin-top: 0.8rem;
+                }
+            }
+            .box__row{
+                display: flex;
+                gap: 1rem;
+            }
+        }
+    }
+}
+.new__address.active{
+    left: 50%;
+    transform: translate(-50%, -60%);
+}
+
+
+
+@media only screen and (max-width: 1024px){
+    .address__main{
+        .header{
+            .container__heading{
+                font-size: 1rem;
+            }
+            button{
+                width: 40%;
+            }
+        }
+    }
+    .new__address{
+        max-width: 450px;
+        height: 100vh;
+    }
+    .new__address.active{
+        left: 50%;
+        transform: translate(-50%, -60%);
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .address__main{
+        .header{
+            .container__heading{
+                font-size: $fs-7;
+            }
+            button{
+                width: 40%;
+            }
+        }
+    }
+    .new__address.active{
+        transform: translate(-50%, -55%);
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .address__main{
+        .header{
+            .container__heading{
+                font-size: $fs-10;
+            }
+            button{
+                width: 55%;
+                font-size: $fs-10;
+            }
+        }
+    }
+    .new__address.active{
+        transform: translate(-50%, -50%);
+    }
+    
+}

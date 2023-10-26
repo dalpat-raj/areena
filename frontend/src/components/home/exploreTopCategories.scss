@@ -1,0 +1,117 @@
+@import "../../sass/variable";
+
+.explore__main{
+    // margin: 1rem 0 !important;
+
+    .react-multiple-carousel__arrow--right{
+        right: -0%;
+    }
+    .react-multiple-carousel__arrow--left{
+        left: -0%;
+    }
+
+    .react-multi-carousel-track {
+        column-gap: inherit !important;
+   
+    
+    .box{
+        cursor: pointer;
+        overflow: hidden;
+        height: 75%;
+        width: 96% !important;
+    
+        img{
+            transition: 0.4s ease-in-out;
+            height: 100%;
+            &:hover{
+                transform: scale(1.070);
+            }
+        }
+        .box__text{
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            p{
+                font-size: $fs-2;
+                font-weight: $weight-500;
+            }
+            button{
+                padding: 0.6rem 2rem ;
+                border-radius: $border-radius-sm;
+                background-color: $white;
+                color: #333333;
+                font-weight: $weight-400;
+                border: 1px solid #333333;
+                font-size: $fs-9;
+                letter-spacing: 1px;
+                margin-top: 1rem;
+                transition: $transition-timing;
+                &:hover{
+                    background-color: #333333;
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+}
+
+
+@media only screen and (max-width: 480px){
+    
+    .box__text{
+        p{
+            font-size: $fs-8 !important;
+        }
+    }
+    .box{
+        height: 30vh !important;
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .box__text{
+        button{
+            padding: 0.5rem 1rem !important;
+            font-size: $fs-10 !important;
+        }
+        p{
+            font-size: $fs-8 !important;
+        }
+    }
+    .box{
+        overflow: hidden !important;
+        height: 50vh;
+    }
+    img{
+        height: 80% !important;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .box__text{
+        width: 100%;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        p{
+            display: block !important;
+        }
+        button{
+            padding: 0.5rem 1rem !important;
+        }
+    }
+    .box{
+        overflow: hidden !important;
+        height: 100% !important;
+        // height: 55vh !important;
+    }
+    img{
+        width: 100% !important;
+        height: 100% !important;
+    }
+}

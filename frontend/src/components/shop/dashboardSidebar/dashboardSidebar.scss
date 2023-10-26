@@ -1,0 +1,132 @@
+@import "../../../sass/variable";
+
+.dashboardSidebar__main{
+    width: 100%;
+    box-shadow: 5px 0 5px -5px #888;
+    padding-top: 10px;
+    .dashboardSidebar__row{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        // border-bottom: 1px solid #eeeeee;
+        padding: 10px 0;
+        transition: 0.5s;
+
+        .icon__box{
+            color: #888888;
+        }
+        
+        .sidebar__header{
+            display: flex;
+            align-items: center;
+            color: #333;
+            gap: 1rem;
+            font-size: $fs-7;
+            font-family: $font-domine;
+
+            .icon{
+                color: #333 !important;
+                font-size: $fs-2;
+            }
+        }
+    }
+    .dashboardSidebar__row.active{
+        .icon__box{
+            color: #EA3A4A;
+        }
+        .sidebar__header{
+            color: #EA3A4A;
+            font-size: $fs-6;
+            font-weight: 600;
+            .icon{
+                color: #EA3A4A !important;
+                font-size: $fs-1;
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 768px){
+    .dashboardSidebar__main{
+        width: auto;
+        .dashboardSidebar__row{
+            display: block;
+            border: 0;
+            cursor: pointer;
+            a{
+                text-decoration: none ;
+            }
+    
+            .icon__box{
+                display: none;
+            }
+            
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-3;
+                }
+                .text{
+                    display: none;
+                }
+            }
+        }
+
+        .dashboardSidebar__row.active{
+            border-bottom: 0;
+            .icon__box{
+                color: #000;
+            }
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-1;
+                }
+            }
+        }
+        
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .dashboardSidebar__main{
+        width: 30px;
+        .dashboardSidebar__row{
+            display: block;
+            border: 0;
+            cursor: pointer;
+            a{
+                text-decoration: none ;
+            }
+    
+            .icon__box{
+                display: none;
+            }
+            
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-4;
+                }
+                .text{
+                    display: none;
+                }
+            }
+        }
+
+        .dashboardSidebar__row.active{
+            border-bottom: 0;
+            .icon__box{
+                color: #000;
+            }
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-2;
+                }
+            }
+        }
+        
+    }
+}

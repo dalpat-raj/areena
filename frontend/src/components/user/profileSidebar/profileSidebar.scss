@@ -1,0 +1,84 @@
+@import "../../../sass/variable";
+
+.profileSidebar__main{
+    width: 100%;
+    box-shadow: 5px 0 5px -5px #888;
+    padding-top: 10px;
+    .profileSidebar__row{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 15px 0;
+        transition: 0.5s;
+
+        .icon__box{
+            color: #888888;
+        }
+        
+        .sidebar__header{
+            display: flex;
+            align-items: center;
+            color: #333;
+            gap: 1rem;
+            font-size: $fs-7;
+            :nth-child(1){
+                font-size: $fs-2;
+            }
+        }
+    }
+    .profileSidebar__row.active{
+        .icon__box{
+            color: #000;
+        }
+        .sidebar__header{
+            color: #EA3A4A;
+            font-size: $fs-6;
+            font-weight: 600;
+            :nth-child(1){
+                font-size: $fs-1;
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 768px){
+    .profileSidebar__main{
+        width: auto;
+        padding: 0 10px;
+        .profileSidebar__row{
+            display: block;
+            border: 0;
+            cursor: pointer;
+    
+            .icon__box{
+                display: none;
+            }
+            
+            .sidebar__header{
+                :nth-child(1){
+                    font-size: $fs-4;
+                }
+                :nth-child(2){
+                    display: none;
+                }
+            }
+        }
+
+        .profileSidebar__row.active{
+            border-bottom: 0;
+            .icon__box{
+                color: #000;
+            }
+            .sidebar__header{
+                :nth-child(1){
+                    font-size: $fs-1;
+                }
+            }
+        }
+        
+    }
+}

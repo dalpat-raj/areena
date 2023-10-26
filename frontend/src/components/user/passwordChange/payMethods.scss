@@ -1,0 +1,83 @@
+@import "../../../sass/variable";
+
+.password__main{
+    .header{
+        .container__heading{
+            font-family: $font-domine;
+        }
+    }
+
+    .input__row{
+        margin: 3rem auto;
+        width: 50%;
+
+        .box{
+            position: relative;
+            label{
+                font-size: $fs-7;
+            }
+
+            input{
+                display: block;
+                width: 100%;
+                padding: 5px 18px;
+                margin-top: 0.2rem;
+                margin-bottom: 15px;
+                border: 1px solid #eee;
+                background-color: rgb(232, 240, 254);
+                color: #000;
+                border-radius: 6px;
+                font-size: 13px;
+                line-height: 20px;
+                &:focus{
+                    outline: 1px solid $black-main;
+                }
+            }
+            span{
+                cursor: pointer;
+                position: absolute;
+                top: 85%;
+                right: 3%;
+                transform: translate(3%, -85%);
+                color: #333;
+                font-size: 1.1rem;
+            }
+            button{
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .password__main{
+        .header{
+            .container__heading{
+                font-size: 1rem;
+            }
+        }
+    
+        .input__row{
+            margin: 3rem auto;
+            width: 100%;
+    
+        }
+    }
+     
+}
+
+@media only screen and (max-width: 1024px){
+    .password__main{
+        .input__row{
+            .box{
+                span{
+                    top: 70%;
+                }
+            }
+    
+        }
+    }
+     
+}

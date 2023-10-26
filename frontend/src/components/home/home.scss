@@ -1,0 +1,155 @@
+@import "../../sass/variable";
+
+.home__section{
+
+    .home__carousel{
+        .box__1{
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url("../../../public/b1.webp");
+            background-position: 80% 20%;
+            background-size: cover;
+            .hero__text{
+            position: absolute;
+            left: 10%;
+            top: 50%;
+            transform: translate(0, -50%);
+            text-align: left;
+            }
+        }
+        .hero__text{
+            p{
+                font-size: $fs-9;
+                font-weight: $weight-300;
+            }
+            h2{
+                font-size: 4rem;
+                line-height: 3rem;
+                margin: 1rem 0;
+            }
+            .sub__heading{
+                font-weight: $weight-400;
+            }
+            button{
+                margin-top: 1rem;
+            }
+        }
+        .box__2{
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url("../../../public/b2.webp");
+            background-size: cover;
+            .hero__text{
+                position: absolute;
+                right: 10%;
+                top: 50%;
+                transform: translate(0, -50%);
+                text-align: left;
+            }
+            h2{
+                line-height: 4rem;
+            }
+            .btn__box{
+                :last-child{
+                    margin-left: 1rem;
+                    &:hover{
+                        background-color: #333333;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.carousel .control-dots .dot{
+    width: 20px;
+    border-radius: 0;
+    height: 5px;
+    background-color: #333333;
+}
+
+
+@media only screen and (max-width: 320px){
+    .box__2{
+
+        .btn__box{
+            display: flex;
+            button{
+                padding: 0.7rem 1rem !important;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .home__section{
+
+        button{
+            padding: 0.7rem 1rem !important;
+            font-size: $fs-9 !important;
+        }
+        .home__carousel{
+           .box__1, .box__2{
+            align-items: flex-end !important;
+        }
+            .hero__text{
+                h2{
+                    font-size: 2rem;
+                    line-height: 2rem !important;
+                }
+            }
+            .box__1{
+                height: 50vh !important;
+                background-position: 78% 20%;
+                h2{
+                    line-height: 1.4rem !important;
+                    margin: 0.5rem 0;
+                }
+            }
+            .box__2{
+                height: 50vh !important;
+                background-position: 22% 70% !important;
+                p{
+                    display: none;
+                } 
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 1024px){
+    
+    
+    .box__1{
+        background-position: 80% 50%;
+        h2{
+            line-height: 2rem !important;
+        }
+    }
+    .box__2{
+        background-position: 20% 60% !important;
+       
+    }
+
+    .hero__text{
+        text-align: center !important;
+        position: static !important;
+        h2{
+            font-size: 2rem !important;
+            line-height: 1.9rem !important;
+        }
+    }
+    .box__1, .box__2{
+        width: 100%;
+        display: flex;
+        height: 80vh !important;
+        justify-content: center !important;
+        align-items: flex-end !important;
+    }
+}

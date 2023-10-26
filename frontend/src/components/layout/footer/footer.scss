@@ -1,0 +1,215 @@
+@import "../../../sass/variable";
+
+
+.footer__main{
+    background-color: $footer-back;
+    padding: 3rem 0;
+    width: 100%;
+   
+
+    .row{
+        display: grid;
+        grid-template-columns: 305px auto auto 305px;
+        gap: 1rem;
+        .box{
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            .logo{
+                img{
+                    width: 80px !important;
+                    height: 80px !important;
+                    object-fit: contain;
+                }
+            }
+            .description, li{
+                font-size: $fs-8;
+                text-transform: capitalize;
+            }
+            ul{
+                li, a{
+                    color: $black-main;
+                    margin-bottom: 0.6rem;
+                    cursor: pointer;
+                    transition: $transition-timing;
+                    &:hover{
+                        color: $hover;
+                    }
+                }
+            }
+            h4{
+                text-transform: uppercase;
+                font-weight: $weight-500;
+                font-size: $fs-7;
+                cursor: pointer;
+                display: block;
+                text-align: left;
+            }
+            .social__icon{
+                display: flex;
+                .icon{
+                    margin-right: 1rem;
+                    cursor: pointer;
+                    transition: $transition-timing;
+                    &:hover{
+                        color: $hover;
+                    }
+                }
+            }
+            .input__box{
+                width: 100%;
+                position: relative;
+                input{
+                    width: 100%;
+                    padding: 0.4rem 0.5rem;
+                    border: 0;
+                    border-radius: 5px 0 0 5px;
+                }
+
+                button{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    background-color: $black-main;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    color: $white;
+                    font-size: $fs-9;
+                    letter-spacing: 1px;
+                    border-radius: 0 5px 5px 0;
+                }
+            }
+            .open-icon, .close-icon, .hide-icon{
+                display: none;
+            }
+        }
+        
+    }
+    .bottom__header{
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}
+
+
+@media only screen and (max-width: 1024px){
+    .footer__main{
+        padding-bottom: 4rem;
+        .row{
+            grid-template-columns: 300px 200px 300px;
+            gap: 2rem;
+            .box{
+                gap: 1rem;
+            }
+        }
+        .bottom__header{
+            
+            img{
+                width: 200px !important;
+            }
+            p{
+                font-size: $fs-8;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .footer__main{
+        padding-bottom: 6rem;
+    
+        .row{
+            grid-template-columns: auto;
+            gap: 2rem;
+            .box{
+                padding-bottom: 0.5rem;
+                gap: 0.8rem;
+                .logo{
+                    h2{
+                        font-size: 2rem;
+                    }
+                }
+                .description, li{
+                    font-size: $fs-8;
+                }
+                ul{
+                    li{
+                        margin-bottom: 0.5rem;
+                    }
+                }
+                .accordion-menuu{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 !important;
+                    .open-icon, .close-icon{
+                        display: block;
+                    }
+                    .hide-icon{
+                        display: none;
+                    }
+                }
+                
+            }
+            .borr{
+                border-bottom: 1px solid #ede9e9;
+
+                .category-list{
+                    display: none;
+                  
+                }
+                .category-list-show{
+                    display: block;
+                   
+                }
+            }
+        }
+        .bottom__header{
+            display: flex;
+            align-items: self-start;
+            flex-direction: column-reverse;
+            img{
+                width: 200px !important;
+                border-radius: 5px;
+            }
+            p{
+                font-size: $fs-9;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .footer__main{
+        background-color: $footer-back;
+        padding: 3rem 0;
+        padding-bottom: 5rem;
+
+        .row{
+            grid-template-columns: auto;
+            gap: 1.5rem;
+            .box{
+                gap: 0.8rem;
+                .logo{
+                    h2{
+                        font-size: 2rem;
+                    }
+                }
+                .description, li{
+                    font-size: $fs-8;
+                }
+                ul{
+                    li{
+                        margin-bottom: 0.5rem;
+                    }
+                }
+                
+            }
+        }
+    }
+}

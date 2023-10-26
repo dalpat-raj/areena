@@ -1,0 +1,50 @@
+@import "../../sass/variable";
+
+.profile__container{
+    
+    margin-bottom: 2rem;
+    .profile__row{
+        display: grid;
+        grid-template-columns: 250px auto;
+        gap: 4rem;
+        .profile__sidebar{
+            box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.2);
+        }
+        .profile__content{
+            margin-top: 2rem;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .profile__container{
+        .profile__row{
+            grid-template-columns: 40px auto;
+            gap: 1.5rem;
+            .profile__sidebar{
+                background: $white;
+                border-right: 1px solid #eee;
+               
+            }
+            .profile__content{
+                margin-top: 1.5rem;
+            }
+        }
+    }
+
+}
+
+
+@media only screen and (max-width: 480px){
+    .profile__container{
+        .profile__row{
+            gap: 10px;
+
+            .profile__content{
+                margin-top: 1rem;
+            }
+        }
+    }
+
+}

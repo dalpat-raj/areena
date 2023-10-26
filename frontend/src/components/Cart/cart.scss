@@ -1,0 +1,146 @@
+
+
+@import "../../sass/variable.scss";
+
+.cart__main{
+    .free__shipping{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 1rem 0.5rem;
+        background-color: $footer-back;
+        p{
+            font-size: $fs-8;
+            font-weight: $weight-400;
+            padding-left: 1rem;
+        }
+    }
+    .cart__service{
+        position: relative;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid $cultured;
+        .row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            
+            .box{
+                background-color: $footer-back;
+                padding: 0.8rem 0;
+                width: 100%;
+                font-size: $fs-2;
+                cursor: pointer;
+                .giftComponentView{
+                    background-color: $white;
+                    position: fixed;
+                    bottom: -100%;
+                    right: 0;
+                    width: 100%;
+                    max-width: 450px;
+                    padding: 30px;
+                    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+                    overflow: hidden;
+                    transition: 0.5s ease !important;
+                    z-index: 5;
+                    span{
+                        color: red;
+                        font-size: $fs-8;
+                    }
+                    p{
+                        font-size: $fs-6;
+                        font-weight: $weight-500;
+                        letter-spacing: 1px;
+                        margin: 0.5rem 0;
+                    }
+                }
+                .giftComponentView.active{
+                    bottom: 0%;
+                }
+                .coupon__code{
+                    span{
+                        display: block;
+                        text-align: left;
+                    }
+                    p{
+                        text-align: left;
+                    }
+                    .coupon_code_header{
+                        display: flex;
+                        align-items: center;
+                        h2{
+                            padding: 0.5rem 0;
+                            padding-left: 1rem;
+                        }
+                        p{
+                            padding-left: 1rem;
+                        }
+                    }
+                    input{
+                        padding: 10px 5px;
+                        border-radius: 5px;
+                        outline: none;
+                        border: 1px solid $spanish-gray;
+                        font-size: $fs-8;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+    
+    .cart__total{
+        padding-top: 0.8rem;
+        .row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        p{
+            font-size: $fs-8;
+            text-align: left;
+            font-weight: $weight-400;
+            padding: 8px 0;
+        }
+    }
+    .btn_group{
+        button{
+            display: block;
+            width: 100%;
+            margin: 0.6rem 0;
+        }
+    }
+    .cart__item__card{
+        min-height: 35vh;
+        position: relative;
+        .cart__empty{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+        }
+    }
+    
+}
+
+
+
+@media only screen and (max-width: 480px){
+    .cart__service{
+        .row{
+            .box{
+                font-size: $fs-3 !important;
+                .giftComponentView{
+                    bottom: 0%;
+                    right: 0;
+                    width: 100%;
+                    max-width: 350px !important;
+                    padding: 30px;
+                    box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+                    z-index: 2; 
+                }
+            }
+        }
+    }
+}

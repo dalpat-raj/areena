@@ -1,0 +1,188 @@
+@import "../../../sass/variable";
+
+.product__container{
+    
+    .product__row{
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+        display: grid;
+        grid-template-columns: 25% auto;
+        align-items: flex-start;
+        gap: 2rem;
+
+        .filter__sidebar{
+            .close__icon{
+                display: none;
+            }
+        }
+        .product__bar{
+            width: 100%;
+            .top__filter{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .filter__open__icon{
+                    display: none;
+                }
+                .total__items{
+                    font-size: $fs-8;
+                    font-style: italic;
+                }
+                .top__right__filter{
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    .grid__icon{
+                        font-size: 1.2rem;
+                        cursor: pointer;
+                    }
+                    .list__icon{
+                        font-size: 1.6rem;
+                        cursor: pointer;
+                    }
+                    select{
+                        padding: 6px !important;
+                        background-color: $white;
+                        border: 1px solid #eeeeee;
+                        outline: none;
+                        border-radius: 5px;
+                    }
+                }
+            }
+
+            .product__container{
+                .products__row{
+                    grid-template-columns: auto auto auto !important;
+                    gap: 1rem;
+                    margin-top: 2rem;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 768px){
+    .product__container{
+    
+        .product__row{
+            position: relative;
+            margin-top: 2rem;
+            grid-template-columns: auto;
+            gap: 0rem;
+
+            .filter__sidebar{
+                background: $white;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                max-width: 450px;
+                height: 100vh;
+                padding: 30px;
+                box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.2);
+                overflow-y: scroll;
+                overscroll-behavior: contain;
+                transition: 0.5s ease !important;
+                z-index: 5; 
+
+                .close__icon{
+                    display: block;
+                    position: absolute;
+                    top: 30px;
+                    right: 30px;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                }
+            }
+            .filter__sidebar.active{
+                left: 0;
+            }
+    
+            .product__bar{
+                .top__filter{
+                    .filter__open__icon{
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        font-size: 1.2rem;
+                        cursor: pointer;
+                        span{
+                            font-size: $fs-8;
+                        }
+                    }
+                    .top__right__filter{
+                        gap: 0.8rem;
+                        .grid__icon{
+                            font-size: 1.2rem;
+                            cursor: pointer;
+                        }
+                        .list__icon{
+                            font-size: 1.4rem;
+                            cursor: pointer;
+                        }
+                        select{
+                            padding: 0 1rem;
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .product__container{
+                    margin-top: 1.2rem;
+
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .product__container{
+    
+        .product__row{
+            position: relative;
+            margin-top: 2rem;
+            .filter__sidebar{
+                max-width: 320px;
+                .close__icon{
+                    font-size: 1.5rem;
+                }
+            }
+    
+            .product__bar{
+                .product__container{
+                    margin-top: 1.5rem;
+                    grid-template-columns: auto auto;
+                }
+                .top__filter{
+                    .filter__open__icon{
+                        display: flex;
+                        align-items: center;
+                        span{
+                            font-size: $fs-8;
+                        }
+                    }
+                    .total__items{
+                        display: none;
+                    }
+                    .top__right__filter{
+                        gap: 0.8rem;
+                        .grid__icon{
+                            font-size: 1.2rem;
+                        }
+                        .list__icon{
+                            font-size: 1.4rem;
+                        }
+                        select{
+                            width: 100px;
+                            padding: 5px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

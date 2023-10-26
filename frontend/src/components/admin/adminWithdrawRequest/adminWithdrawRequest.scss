@@ -1,0 +1,114 @@
+@import "../../../sass/variable";
+
+.admin__withdraw__requset{
+    margin-top: 2rem;
+    .withdraw__rows{
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 10px;
+        margin-bottom: 10px;
+        gap: 1rem;
+        .cols{
+            p{
+                font-size: $fs-8;
+                color: #2c2c2c;
+                padding-bottom: 3px;
+                span{
+                    font-family: $font-domine;
+                    font-size: $fs-7;
+                }
+            }
+            span{
+                font-family: $font-domine;
+                font-size: $fs-7;
+            }
+            select{
+                margin-top: 5px;
+                padding: 5px !important;
+            }
+        }
+        .select__btn{
+            button{
+                display: block;
+                margin-top: 5px;
+                width: 100%;
+                padding: 5px !important;
+            }
+        }
+    }
+    .set__open{
+        position: fixed;
+        top: 50%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 1rem;
+        z-index: 10;
+        .heading{
+            h2{
+                font-size: $fs-4 !important;
+                font-family: $font-domine;
+            }
+        }
+        p{
+            font-size: $fs-8;
+            padding: 5px 0;
+            span{
+                font-size: $fs-7;
+            }
+        }
+        button{
+            display: block;
+            margin-top: 10px !important;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .admin__withdraw__requset{
+        margin-top: 2rem;
+        .withdraw__rows{
+            flex-wrap: wrap;
+            .select__btn{
+                button{
+                    display: block;
+                    margin-top: 3px;
+                    width: 100%;
+                    padding: 5px !important;
+                }
+            }
+        }
+        .set__open{
+            width: 70%;
+            left: 50%;
+        }
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .admin__withdraw__requset{
+        margin-top: 1rem;
+        .withdraw__rows{
+            justify-content: flex-start;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            gap: 10px;
+            .cols{
+                select{
+                    margin-top: 3px;
+                }
+            }
+            .select__btn{
+                button{
+                    margin-top: 3px;
+                    padding: 5px !important;
+                }
+            }
+        }
+        .set__open{
+            width: 90%;
+        }
+    }
+}

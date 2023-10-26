@@ -1,0 +1,73 @@
+@import "../../../sass/variable.scss";
+
+.adminSidebar__main{
+    width: 100%;
+    box-shadow: 5px 0 5px -5px #888;
+    padding-top: 10px;
+    
+    .adminSidebar__row{
+        cursor: pointer;
+        padding: 13px 0;
+        transition: 0.5s;
+
+        .sidebar__header{
+            display: flex;
+            align-items: center;
+            color: #333;
+            gap: 1rem;
+            font-size: $fs-7;
+            .icon{
+                font-size: $fs-2;
+            }
+
+        }
+    }
+    .adminSidebar__row.active{
+        
+        .sidebar__header{
+            color: #EA3A4A;
+            font-size: $fs-6;
+            font-weight: 600;
+            :nth-child(1){
+                font-size: $fs-1;
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 768px){
+    .adminSidebar__main{
+        width: auto;
+        .adminSidebar__row{
+            border: 0;
+            cursor: pointer;
+            a{
+                text-decoration: none ;
+            }
+            
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-4;
+                }
+                .icon_text{
+                    display: none;
+                }
+            }
+        }
+
+        .adminSidebar__row.active{
+            border-bottom: 0;
+            .icon__box{
+                color: #000;
+            }
+            .sidebar__header{
+                .icon{
+                    font-size: $fs-3;
+                }
+            }
+        }
+        
+    }
+}

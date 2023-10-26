@@ -1,0 +1,56 @@
+@import "../../../../sass/variable";
+
+.shopInfo__main{
+    border-right: 1px solid #eee;
+    .profile__img{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        img{
+            width: 60px !important;
+            height: 60px !important;
+            object-fit: cover;
+            border-radius: 50%;
+            background-color: #eee;
+        }
+        h4{
+            margin-top: 0.5rem;
+        }
+    }
+    .name{
+        margin-top: 1.5rem;
+    }
+    .address, .phone, .product, .rating, .joined {
+        margin-top: 0.7rem;
+        h5{
+            font-weight: 500;
+            font-size: $fs-7;
+        }
+        span{
+            font-size: $fs-8;
+            color: $onyx;
+        }
+    }
+    .btn-group{
+        button{
+            display: block;
+            margin: 0.7rem 0;
+            width: 95%;
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 480px){
+    .shopInfo__main{
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        .btn-group{
+            button{
+                width: 100%;
+            }
+        }
+    }
+}

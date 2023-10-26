@@ -1,0 +1,186 @@
+@import "../../sass/variable";
+
+.event__main{
+    margin: 3rem 0;
+    padding: 2rem 0;
+    // background-color: $footer-back;
+
+    .row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4rem;
+        .img__box{
+            flex-basis: 40%;
+
+            img{
+                width: 100%;
+                // height: 400px;
+                object-fit: contain;
+
+            }
+        }
+
+        .details__box{
+            flex-basis: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            .seller{
+                font-size: $fs-8;
+                text-decoration: underline;
+            }
+            .heading{
+                font-size: $fs-1;
+                font-family: $font-paci;
+                font-weight: 600;
+                padding: 0.5rem 0;
+            }
+            .description{
+                font-size: $fs-7;
+                color: #333;
+            }
+            .counter__button{
+                .counter{
+                    margin: 2rem 0;
+                    display: flex;
+                    gap: 5px;
+    
+                    .day, .hour, .minutes, .second{
+                        position: relative;
+                        background-color: #333;
+                        border-radius: 5px;
+                        width: 50px;
+                        height: 50px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: #fff;
+                        letter-spacing: 1px;
+                        span{
+                            color: #333;
+                            font-size: $fs-9;
+                            position: absolute;
+                            top: -35%;
+                            left: 50%;
+                            transform: translate(-50%, 0);
+                        }
+                    }
+                }
+                .button{
+                    display: inline-block;
+                    text-align: left;
+                    margin: 1rem 0;
+                    :nth-child(2){
+                        margin-left: 1rem;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1024px){
+    .event__main{
+        .row{
+            display: flex;
+            .details__box{
+                width: 80%;
+                height: auto;
+                display: block;
+                text-align: center;
+                .seller{
+                    font-size: $fs-8;
+                }
+                .heading{
+                    font-size: $fs-4;
+                    line-height: 1.2;
+                    color: #333;
+                }
+                .description{
+                    font-size: $fs-8;
+                }
+                .counter__button{
+                    .counter{
+                        margin: 1rem 0;
+                        justify-content: center;
+        
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .event__main{
+        .row{
+            display: block;
+            position: relative;
+            .details__box{
+                width: 80%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 10px !important;
+                text-align: center;
+                .seller{
+                    font-size: $fs-8;
+                    display: none;
+                }
+                .heading{
+                    font-size: $fs-4;
+                    line-height: 1.2;
+                    color: #333;
+                }
+                .description{
+                    font-size: $fs-8;
+                }
+                .counter__button{
+                    .counter{
+                        margin: 1rem 0;
+                        justify-content: center;
+        
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 450px){
+    .event__main{
+        .row{
+            .details__box{
+                position: static;
+                top: 0;
+                left: 0;
+                transform: translate(0,0);
+                width: 100%;
+                .seller{
+                    font-size: $fs-8;
+                }
+                .heading{
+                    font-size: $fs-6;
+                    line-height: 1.2;
+                    color: #333;
+                }
+                .description{
+                    font-size: $fs-9;
+                }
+                .counter__button{
+                    .counter{
+                        margin: 0.5rem 0;
+                    }
+                }
+            }
+        }
+    }
+}

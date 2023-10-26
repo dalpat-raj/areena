@@ -1,0 +1,145 @@
+@import "../../../../sass/variable";
+
+
+.ShopProfileData{
+
+    .ShopProfileData__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .ShopProfileData__navbar{
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            li{
+                margin-right: 1.5rem;
+                color: #000;
+                font-size: $fs-7;
+                font-weight: 500;
+                cursor: pointer;
+                border: 1px solid #333;
+                padding: 10px 15px;
+                border-radius: 5px;
+            }
+            li.active{
+                color: #fff;
+                background-color: #333;
+            }
+        }
+    }
+    .shopprofileDataBox{
+        margin-top: 2rem;
+        
+
+        .products__row{
+            display: grid;
+            grid-template-columns: auto auto auto !important;
+            gap: 10px;
+        }
+
+        .shop__reviews__main{
+            .shop__review{
+                border: 1px solid #eee;
+                padding: 10px;
+                margin-bottom: 10px;
+                .review__row{
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    .img__boxx{
+                        color: #333;
+                    }
+                    .review__details{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        .name__rating__row{
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            p{
+                                font-size: $fs-7;
+                                font-weight: 500;
+                                color: #333;
+                            }
+                        }
+                        .comment{
+                            p{
+                                font-size: $fs-8;
+                                color: #333;
+                            }
+                        }
+                        .day__ago{
+                            p{
+                                font-size: $fs-9;
+                                color: $spanish-gray;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    
+.ShopProfileData{
+
+    .ShopProfileData__header{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 1rem;
+        .ShopProfileData__navbar{
+            align-items: flex-start;
+            flex-direction: column;
+            li{
+                margin-right: 1.5rem;
+                color: #333;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            li.active{
+                color: #fff;
+                background-color: #333;
+            }
+        }
+    }
+    .shopprofileDataBox{
+        margin-top: 1rem;
+
+        .products__row{
+            display: grid;
+            grid-template-columns: auto !important;
+            gap: 10px;
+        }
+    }
+}
+}
+
+
+@media only screen and (max-width: 480px){
+    .ShopProfileData{
+        .shopprofileDataBox{
+            margin-top: 1rem;
+    
+            .products__row{
+                grid-template-columns: auto auto !important;
+            }
+        }
+    }
+    }
+
+    @media only screen and (max-width: 320px){
+        .ShopProfileData{
+            .shopprofileDataBox{
+                margin-top: 1rem;
+        
+                .products__row{
+                    grid-template-columns: auto !important;
+                }
+            }
+        }
+        }

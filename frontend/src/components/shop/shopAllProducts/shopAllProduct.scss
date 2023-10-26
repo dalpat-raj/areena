@@ -1,0 +1,8 @@
+@import "../../../sass/variable";
+
+.shop__all__products {
+  display: flex;
+  justify-content: first baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

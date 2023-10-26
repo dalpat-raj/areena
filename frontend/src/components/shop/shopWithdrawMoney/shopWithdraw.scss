@@ -1,0 +1,141 @@
+@import "../../../sass/variable";
+
+.pop_up{
+    .form__container{
+        width: 40%;
+        margin: auto;
+
+        form{
+            .inpu__box{
+                position: relative;
+                width: 100%;
+                margin-bottom: 15px;
+                label{
+                    font-size: $fs-7;
+                    color: #333;
+                }
+                input{
+                    width: 100% !important;
+                    padding: 8px 10px;
+                    margin-top: 3px;
+                    margin-bottom: 15px;
+                    border: 1px solid #eeeeeed7;
+                    color: #000;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    line-height: 20px;
+                    &:focus{
+                        outline: 1px solid $black-main;
+                    }
+                }
+                button{
+                    width: 100% !important;
+                }
+            }
+
+        }
+    }
+    .no_withdraw_methods{
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        h5{
+            font-size: $fs-2;
+            color: #333;
+            font-family: $font-domine;
+        }
+        button{
+            margin-top: 2rem;
+        }
+    }
+    .withdraw_text_hide{
+        display: none;
+    }
+
+    // && true
+    .withdraw__main__container{
+        .withdraw__row{
+            width: 30%;
+            border: 1px solid #c0c0c0;
+            border-radius: 5px;
+            padding: 10px;
+            .col{
+                .account__number{
+                    display: flex;
+                    justify-content: space-between;
+                    .name__account{
+                        font-size: $fs-7;
+                    }
+                    .delete__methods{
+                        font-size: $fs-2;
+                        color: #333;
+                    }
+                }
+                .available__balance{
+                    margin: 10px 0;
+                    font-size: $fs-7;
+                    color: #333;
+                }
+                .withdraw__amount{
+                    input{
+                        width: 40%;
+                        padding: 3px 5px;
+                        border: 1px solid #333;
+                        border-radius: 5px;
+                        font-size: $fs-7;
+                        &:focus{
+                            outline: 0;
+                        }
+                    }
+                    button{
+                        margin-top: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .pop_up{
+        .form__container{
+            width: 100%;
+        }
+        // && true
+    .withdraw__main__container{
+        .withdraw__row{
+            width: 50%;
+        }
+    }
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .pop_up{
+        .form__container{
+            width: 100%;
+        }
+        // && true
+    .withdraw__main__container{
+        .withdraw__row{
+            width: 70%;
+        }
+    }
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .pop_up{
+        .form__container{
+            width: 100%;
+        }
+        // && true
+    .withdraw__main__container{
+        .withdraw__row{
+            width: 100%;
+        }
+    }
+    }
+}

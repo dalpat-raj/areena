@@ -1,0 +1,73 @@
+@import "../../sass/variable.scss";
+
+
+.cart_item_card{
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid $cultured;
+    img{
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: contain;
+    }
+    .item__details{
+        text-align: left;
+        padding-left: 1rem;
+        p{
+            font-size: $fs-8;
+            font-weight: $weight-500;
+        }
+        span{
+            display: block;
+            font-size: $fs-10;
+            // padding-bottom: 5px;
+        }
+        :nth-child(3){
+            padding-top: 0.6rem;
+            padding-bottom: 0.4rem;
+        }
+    }
+    .cartInput{
+        display: flex;
+        align-items: center;
+        input, .inc__item, .dec__item{
+            font-size: 13px;
+            line-height: 19px;
+            width: 32px;
+            height: 32px;
+            padding: 4px 0 !important;
+            outline: none;
+            border: 0;
+            border-top: 1px;
+            border-bottom: 1px;
+            border-style: solid;
+            border-color: #eee;
+            text-align: center ;            
+        }
+        
+        .inc__item, .dec__item{
+            border-left: 1px;
+            border-right: 1px;
+            border-style: solid;
+            border-color: #eee;
+            font-size: 12px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .inc__item{
+            border-radius: 0 5px 5px 0;
+        }
+        .dec__item{
+            border-radius: 5px 0 0 5px;
+        }
+        .delete__item{
+            padding-left: 1rem;
+        }
+    }
+}
+
+
+
+

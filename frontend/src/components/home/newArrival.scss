@@ -1,0 +1,27 @@
+
+.arrival__main{
+    margin: 1rem 0;
+
+    .product__container{
+        .row{
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            grid-template-rows: auto auto;
+            gap: 10px;
+        }
+    }
+}
+
+.button{
+    display: block;
+    text-align: center;
+    
+}
+
+@media only screen and (max-width: 1024px){
+    .arrival__main{
+        margin: 3rem 0;
+    }
+}
+
+

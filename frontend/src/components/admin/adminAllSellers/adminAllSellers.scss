@@ -1,0 +1,87 @@
+@import "../../../sass/variable.scss";
+
+.admin__sellers{
+    margin-top: 2rem;
+    .seller__row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        margin-bottom: 1rem;
+
+        .img__name__box{
+            flex-basis: 40%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            img{
+                width: 60px !important;
+                height: 60px !important;
+                object-fit: contain;
+                background-color: #eee;
+            }
+            .name{
+                p{
+                    font-size: $fs-7;
+                    font-weight: 500;
+                    color: #333;
+                }
+                span{
+                    display: block;
+                    margin-top: 5px;
+                    font-size: $fs-8;
+                }
+            }
+        }
+        .delete__seller{
+            flex-basis: 20%;
+            font-size: 25px;
+            color: #333;
+            cursor: pointer;
+        }
+        .phone__email__address{
+            flex-basis: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: left;
+            p{
+                font-size: $fs-7;
+                color: $spanish-gray;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .admin__sellers{
+        margin-top: 2rem;
+        .seller__row{
+            position: relative;
+            align-items: first baseline;
+            justify-content: space-between;
+            flex-direction: column;
+            gap: 10px;
+            .img__name__box{
+                width: 100%;
+                gap: 10px;
+                img{
+                    width: 50px !important;
+                    height: 50px !important;
+                }
+               
+            }
+            .delete__seller{
+               position: absolute;
+               right: 10px;
+               top: 10px;
+            }
+            .phone__email__address{
+                width: 100%;
+                gap: 3px;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+@import "../../../sass/variable.scss";
+
+.admin__container {
+  .dashboard__row {
+    display: grid;
+    grid-template-columns: 250px auto;
+    gap: 4rem;
+
+    .admin__products {
+      margin-top: 2rem;
+      .dashboard_heading {
+        font-size: $fs-7;
+        color: #333;
+        font-family: $font-domine;
+      }
+
+      //
+      .products__container {
+        .products__row {
+          display: grid;
+          grid-template-columns: repeat(3, auto);
+          grid-template-rows: auto auto auto auto auto;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .dashboard__container {
+    .dashboard__row {
+      grid-template-columns: 40px auto;
+      gap: 1.5rem;
+      .dashboard__sidebar {
+        background: $white;
+      }
+      
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .profile__container {
+    .profile__row {
+      gap: 1rem;
+    }
+  }
+}

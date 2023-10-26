@@ -1,0 +1,119 @@
+@import "../../../sass/variable";
+
+.login__container{
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+
+    .container__heading{
+        margin-bottom: 2rem;
+    }
+
+    .login__row{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+
+        .col__2{
+            flex-basis: 40%;
+            min-height: 300px;
+            padding: 2rem;
+            border: 1px solid #eeeeee;
+
+            .col__heading{
+                h4{
+                    font-size: 18px;
+                    font-weight: 600;
+                    font-family: $font-domine;
+                }
+            }
+            p{
+                margin: 1.5rem 0;
+                font-size: 13px;
+                line-height: 1.2rem;
+                color: $black-main;
+            }
+
+            .input__container{
+                .input__box{
+                    position: relative;
+                    width: 100%;
+                    margin-bottom: 15px;
+                    input{
+                        padding: 10px 38px;
+                        margin-bottom: 15px;
+                        border: 1px solid #eee;
+                        background-color: rgb(232, 240, 254);
+                        color: #000;
+                        border-radius: 6px;
+                        font-size: 13px;
+                        line-height: 20px;
+                        &:focus{
+                            outline: 1px solid $black-main;
+                        }
+                    }
+                    span{
+                        position: absolute;
+                        top: 50%;
+                        left: 2%;
+                        transform: translate(0, -50%);
+                    }
+                    .pass__icon{
+                        position: absolute;
+                        top: 50%;
+                        right: 3%;
+                        transform: translate(-3%, -50%);
+                        font-size: 1.1rem;
+                        color: #333;
+                    }
+                }
+            }
+            .button__container{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                a{
+                    font-size: 13px;
+                    color: $black-main;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width:768px){
+    .login__container{
+        margin-top: 3rem;
+    
+        .container__heading{
+            margin-bottom: 2rem;
+        }
+    
+        .login__row{
+            flex-direction: column;            
+            .col__2{
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width:480px){
+    .login__container{
+        margin-top: 2rem;
+    
+        .container__heading{
+            margin-bottom: 1.5rem;
+        }
+    
+        .login__row{
+            flex-direction: column;            
+            .col__2{
+                width: 100%;
+                padding: 2rem 1rem;
+            }
+        }
+    }
+}

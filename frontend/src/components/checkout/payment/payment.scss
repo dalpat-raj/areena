@@ -1,0 +1,252 @@
+@import "../../../sass/variable";
+
+.payment__main{
+    .row{
+        width: 100%;
+        display: flex;
+        
+        .payment__col{
+            flex-basis: 57%;
+            background-color: #fff;
+            border-right: 1px solid #adadad;
+            padding: 50px 50px 50px 120px;
+                .input__col{
+                    // margin-bottom: 1rem;
+                    .select__box{
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        margin-bottom: 1rem;
+                        cursor: pointer;
+                        .round__box{
+                            content: "";
+                            width: 15px;
+                            height: 15px;
+                            border: 1px solid #000;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 2px;
+                            .active{
+                                content: "";
+                                width: 100%;
+                                height: 100%;
+                                background-color: #000;
+                                border-radius: 50%;
+    
+                            }
+                        }
+                        p{
+                            margin-left: 0.5rem;
+                            font-size: $fs-7;
+                            font-weight: 500;
+                            color: #333;
+                        }
+                    }
+                    
+                }
+                .input__details{
+                    margin-top: 1rem;
+                    margin-bottom: 2rem;
+                    .box{
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    input, .input{
+                        flex-basis: 48%;
+                        width: 100% !important;
+                        padding: 10px 10px;
+                        margin-bottom: 15px;
+                        border: 1px solid #c9c9c9;
+                        color: #000;
+                        border-radius: 6px;
+                        font-size: 13px;
+                        line-height: 20px;
+                        &:focus{
+                            outline: 1px solid $black-main;
+                        }
+                    }
+                }
+                
+                 
+
+        }
+
+        .coupon__col{
+            flex-basis: 43%;
+            padding: 50px 120px 50px 50px;
+            background-color: $footer-back;
+
+            .cart__products{
+
+                .product__row{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                    .col{
+                        .img{
+                            position: relative;
+                            width: 70px;
+                            height: 70px;
+                            border: 1px solid #dfdfdf;
+                            border-radius: 10px;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
+                            }
+                            .product__qty{
+                                position: absolute;
+                                background-color: #333;
+                                top: -10%;
+                                right: -10%;
+                                min-width: 20px;
+                                min-height: 20px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                color: #fff;
+                                font-size: $fs-8;
+                                border-radius: 50%;
+                            }
+                        }
+                    }
+                }
+                .img__row{
+                    display: flex;
+                    gap: 2rem;
+                    align-items: center;
+                    .product__name{
+                        p{
+                            font-size: $fs-6;
+                            font-weight: $weight-500;
+                        }
+                        span{
+                            font-size: $fs-8;
+                            color: $spanish-gray;
+                        }
+                    }
+                }
+                .col_price{
+                    p{
+                        font-size: $fs-7;
+                    }
+                }
+
+                .discount__code{
+                    margin: 30px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    input{
+                        width: 72%;
+                        padding: 10px 20px;
+                        font-size: $fs-7;
+                        border-radius: 5px;
+                        outline: none;
+                        border: 1px solid $spanish-gray;
+                    }
+                    button{
+                        width: 25%;
+                    }
+                }
+
+                .price{
+                    .row{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 5px;
+                        p{
+                            font-size: $fs-7;
+                            font-weight: $weight-400;
+                        }
+                    }
+                    .shipping{
+                        .shipping__price{
+                            color: $spanish-gray;
+                        }
+                    }
+                    .total{
+                        margin-top: 10px;
+                        .total__text, .total__price{
+                            font-size: $fs-6;
+                            font-weight: $weight-500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .payment__main{
+        .row{
+            flex-direction: column;
+            
+            .payment__col{
+                border-right: 0;
+                padding: 50px 50px 50px 50px;
+                border-bottom: 1px solid #adadad;
+            }
+    
+            .coupon__col{
+                padding: 50px 50px 50px 50px;
+    
+                .cart__products{
+    
+                    .product__row{
+                        justify-content: space-between;
+                    }
+                    .img__row{
+                        gap: 2rem;
+                        align-items: center;
+                        .product__name{
+                            p{
+                                font-size: $fs-6;
+                                font-weight: $weight-500;
+                            }
+                            span{
+                                font-size: $fs-8;
+                                color: $spanish-gray;
+                            }
+                        }
+                    }
+    
+                    .price{
+                        .row{
+                            flex-direction: row;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 480px){
+    .payment__main{
+        .row{
+            .payment__col{
+                padding: 30px 10px;
+            }
+    
+            .coupon__col{
+                padding: 30px 10px;
+    
+                .cart__products{
+                    .product__row{
+                        justify-content: space-between;
+                    }
+                    .img__row{
+                        gap: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}

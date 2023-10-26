@@ -1,0 +1,48 @@
+@import "../../../sass/variable";
+
+
+.recomended__product{
+    width: 100%;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    .container__heading{
+        text-align: center;
+    }
+   
+    .recomended__container{
+        .rows{
+            display: flex;
+            justify-content: space-between;
+            align-items: top;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .recomended__product{
+        .recomended__container{
+            .rows{
+                .product__rating{
+                    display: block;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .recomended__product{
+        .recomended__container{
+            .rows{
+                .product__rating{
+                    display: block;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
