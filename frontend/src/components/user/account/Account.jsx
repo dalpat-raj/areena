@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./account.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser, updateUserInfo } from '../../../actions/userAction';
-import { backend__url, server } from '../../../Server';
+import { backend__url } from '../../../Server';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { BsCameraFill } from 'react-icons/bs';
@@ -36,7 +36,7 @@ const Account = () => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     
-    await axios.put(`${server}/update-user-avatar`, formData, {
+    await axios.put(`/update-user-avatar`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

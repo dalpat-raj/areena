@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./payMethods.scss";
 import axios from "axios";
-import { server } from "../../../Server";
 import { toast } from "react-toastify";
 
 const PasswordChange = () => {
@@ -20,7 +19,7 @@ const PasswordChange = () => {
       if (newPassword === confirmPassword) {
         await axios
           .put(
-            `${server}/update-user-password`,
+            `/update-user-password`,
             {
               oldPassword,
               newPassword,

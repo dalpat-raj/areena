@@ -1,5 +1,4 @@
 import axios from "axios";
-import { server } from "../Server";
 
 // get all withdraw request
 export const getAllWithdrawRequest = () => async (dispatch) => {
@@ -7,7 +6,7 @@ export const getAllWithdrawRequest = () => async (dispatch) => {
     dispatch({
       type: "getAllWithdrawRequest",
     });
-    const { data } = await axios.get(`${server}/get-all-withdraw-request`, { withCredentials: true });
+    const { data } = await axios.get(`/get-all-withdraw-request`, { withCredentials: true });
     dispatch({
       type: "getAllWithdrawSuccess",
       payload: data.withdraws,

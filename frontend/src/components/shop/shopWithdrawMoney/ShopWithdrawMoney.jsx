@@ -37,7 +37,7 @@ const ShopWithdrawMoney = () => {
    
     await axios
       .put(
-        `${server}/add-seller-withdraw-methods`,
+        `/add-seller-withdraw-methods`,
         { withdrawMethods },
         { withCredentials: true }
       )
@@ -58,7 +58,7 @@ const ShopWithdrawMoney = () => {
 
   // delete withdraw methods
   const DeleteWithdrawMethodsHandler=async()=>{
-    await axios.delete(`${server}/delete-withdraw-methods`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/delete-withdraw-methods`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         setOpen(false);
         dispatch(loadSeller());
@@ -74,7 +74,7 @@ const ShopWithdrawMoney = () => {
     const amount = withdrawAmount;
     if (seller?.availableBalance >= 1000) {
       if(amount >= 1000){
-        await axios.post(`${server}/create-withdraw-request`, {amount}, {withCredentials: true}).then((res)=>{
+        await axios.post(`/create-withdraw-request`, {amount}, {withCredentials: true}).then((res)=>{
           if(res.data.success === true){
             alert("Request is successfull")
           }

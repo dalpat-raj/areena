@@ -1,5 +1,4 @@
 import axios from "axios";
-import { server } from "../Server";
 
 // Load Seller
 export const loadSeller = () => async (dispatch) => {
@@ -7,7 +6,7 @@ export const loadSeller = () => async (dispatch) => {
     dispatch({
       type: "LoadSellerRequest",
     });
-    const { data } = await axios.get(`${server}/getseller`, {
+    const { data } = await axios.get(`/getseller`, {
       withCredentials: true,
     });
     dispatch({
@@ -28,7 +27,7 @@ export const LoginSeller = (user) => async (dispatch) => {
     dispatch({
       type: "LoginSellerRequest",
     });
-    const { data } = await axios.post(`${server}/shop-login`, user, {
+    const { data } = await axios.post(`/shop-login`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -46,7 +45,7 @@ export const LoginSeller = (user) => async (dispatch) => {
 // logout seller
 export const LogoutSeller = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${server}/shop-logout`, {
+    const { data } = await axios.get(`/shop-logout`, {
       withCredentials: true,
     });
     dispatch({
@@ -67,7 +66,7 @@ export const updateSellerInfo = (seller) => async (dispatch) => {
     dispatch({
       type: "updateShopInfoRequest",
     });
-    const { data } = await axios.put(`${server}/update-shop`, seller, {
+    const { data } = await axios.put(`/update-shop`, seller, {
       withCredentials: true,
     });
     dispatch({
@@ -88,7 +87,7 @@ export const getAllSellerForAdmin = () => async (dispatch) => {
     dispatch({
       type: "getAllSellerForAdminRequest",
     });
-    const {data} = await axios.get(`${server}/admin-get-all-seller`, {withCredentials: true});
+    const {data} = await axios.get(`/admin-get-all-seller`, {withCredentials: true});
     dispatch({
       type: "getAllSellerForAdminSuccess",
       payload: data.sellers,
@@ -107,7 +106,7 @@ export const deleteSellerByAdmin = (id) => async (dispatch) => {
     dispatch({
       type: "deleteSellerByAdminRequest",
     });
-    const {data} = await axios.delete(`${server}/delete-seller-by-admin/${id}`, {withCredentials: true});
+    const {data} = await axios.delete(`/delete-seller-by-admin/${id}`, {withCredentials: true});
     dispatch({
       type: "deleteSellerByAdminSuccess",
       payload: data.message,

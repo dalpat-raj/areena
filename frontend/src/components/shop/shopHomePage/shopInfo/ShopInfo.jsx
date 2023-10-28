@@ -18,7 +18,7 @@ const ShopInfo = ({ isOwner }) => {
 
   useEffect(() => {
     dispatch(getAllProductsShop(id))
-    axios.get(`${server}/get-shop-info/${id}`).then((res) => {
+    axios.get(`/get-shop-info/${id}`).then((res) => {
       setData(res.data.shop);
     });
   }, [id, dispatch]);

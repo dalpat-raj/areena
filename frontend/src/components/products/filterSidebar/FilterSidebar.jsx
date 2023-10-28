@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./filterSidebar.scss";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { server } from "../../../Server";
 import { useDispatch } from "react-redux";
 import { getProduct } from "../../../actions/productAction";
 import RangeSlider from "react-range-slider-input";
@@ -28,7 +27,7 @@ const FilterSidebar = () => {
 
   useEffect(() => {
     axios
-      .get(`${server}/products?fields=category`)
+      .get(`/products?fields=category`)
       .then((res) => {
         const result = new Set(res.data.product.map((item) => item.category));
         setCategoryData(Array.from(result));
@@ -40,7 +39,7 @@ const FilterSidebar = () => {
 
   useEffect(() => {
     axios
-      .get(`${server}/products?fields=color`)
+      .get(`/products?fields=color`)
       .then((res) => {
         const result = new Set(res.data.product.map((item) => item.color));
         setColorData(Array.from(result));

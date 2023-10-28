@@ -8,12 +8,10 @@ import {
   homeOutline,
   locationOutline,
   lockClosedOutline,
-  logoGithub,
   mailOutline,
   personOutline,
 } from "ionicons/icons";
 import axios from "axios";
-import { server } from "../../../Server";
 import "./shopCreate.scss";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
@@ -53,7 +51,7 @@ const ShopCreate = () => {
     };
 
     axios
-      .post(`${server}/shop-create`, shopData, {
+      .post(`/shop-create`, shopData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })

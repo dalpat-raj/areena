@@ -8,7 +8,6 @@ import {
   getAllCoupon,
 } from "../../../actions/couponAction";
 import axios from "axios";
-import { server } from "../../../Server";
 
 const ShopCouponCode = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -33,7 +32,7 @@ const ShopCouponCode = () => {
       selectedProducts: selectedProduct,
     };
     
-    await axios.post(`${server}/create-coupon-code`, obj, {
+    await axios.post(`/create-coupon-code`, obj, {
       withCredentials: true,
     }).then((res)=>{
       if(res.data.success === true){
@@ -50,7 +49,7 @@ const ShopCouponCode = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`${server}/delete-coupon/${id}`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/delete-coupon/${id}`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         alert(res.data.message)
       }

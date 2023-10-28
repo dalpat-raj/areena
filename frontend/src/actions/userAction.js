@@ -1,5 +1,4 @@
 import axios from "axios";
-import { server } from "../Server";
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -7,7 +6,7 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: "LoadUserRequest",
     });
-    const { data } = await axios.get(`${server}/getuser`, {
+    const { data } = await axios.get(`/getuser`, {
       withCredentials: true,
     });
     dispatch({
@@ -28,7 +27,7 @@ export const CreateUser = (userData) => async (dispatch) => {
     dispatch({
       type: "createUserRequest",
     });
-    const {data} = axios.post(`${server}/create-user`, userData, {headers: { "Content-Type": "multipart/form-data"}, withCredentials: true})
+    const {data} = axios.post(`/create-user`, userData, {headers: { "Content-Type": "multipart/form-data"}, withCredentials: true})
     dispatch({
       type: "createUserSuccess",
       payload: data.user,
@@ -48,7 +47,7 @@ export const LoginUser = (user) => async (dispatch) => {
     dispatch({
       type: "LoginUserRequest",
     });
-    const { data } = await axios.post(`${server}/login`, user, {
+    const { data } = await axios.post(`/login`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -65,7 +64,7 @@ export const LoginUser = (user) => async (dispatch) => {
 
 export const LogoutUser = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${server}/user-logout`, {
+    const { data } = await axios.get(`/user-logout`, {
       withCredentials: true,
     });
     dispatch({
@@ -85,7 +84,7 @@ export const updateUserInfo = (user) => async (dispatch) => {
     dispatch({
       type: "updateUserInfoRequest",
     });
-    const { data } = await axios.put(`${server}/update-user`, user, {
+    const { data } = await axios.put(`/update-user`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -130,7 +129,7 @@ export const updateUserAddress = (country, state, city, zipCode, address1, addre
     dispatch({
       type: "updateUserAddressRequest",
     });
-    const { data } = await axios.put(`${server}/update-user-address`, {
+    const { data } = await axios.put(`/update-user-address`, {
       country, 
       state,
       city, 
@@ -159,7 +158,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
     dispatch({
       type: "deleteUserAddressRequest",
     });
-    const { data } = await axios.delete(`${server}/delete-user-address/${id}`, {
+    const { data } = await axios.delete(`/delete-user-address/${id}`, {
       withCredentials: true,
     });
     dispatch({
@@ -169,7 +168,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteUserAddressFail",
-      payload: error.response.data.error.message,
+      payload: error.response?.data?.error.message,
     });
   }
 };
@@ -181,7 +180,7 @@ export const getAllUsersForAdmin = () => async (dispatch) => {
     dispatch({
       type: "getAllUsersForAdminRequest",
     });
-    const {data} = await axios.get(`${server}/admin-get-all-users`, {withCredentials: true});
+    const {data} = await axios.get(`/admin-get-all-users`, {withCredentials: true});
     dispatch({
       type: "getAllUsersForAdminSuccess",
       payload: data.users,
@@ -189,7 +188,7 @@ export const getAllUsersForAdmin = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "getAllUsersForAdminFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };

@@ -1,4 +1,3 @@
-import { server } from "../Server";
 import axios from "axios";
 
 export const createNewReview = ({user, rating, comment, productId, orderId}) => async (dispatch) => {
@@ -8,7 +7,7 @@ export const createNewReview = ({user, rating, comment, productId, orderId}) => 
     });
 
     const { data } = await axios.put(
-      `${server}/create-new-review`,
+      `/create-new-review`,
       { user, rating, comment, productId, orderId },
       { withCredentials: true }
     );

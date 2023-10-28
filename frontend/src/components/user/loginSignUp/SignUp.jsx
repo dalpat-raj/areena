@@ -3,7 +3,6 @@ import { IonIcon } from "@ionic/react";
 import {
   lockClosedOutline,
   mailOutline,
-  personCircleOutline,
   personOutline,
 } from "ionicons/icons";
 import { BsPhone } from "react-icons/bs";
@@ -13,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CreateUser } from "../../../actions/userAction";
 import { useNavigate } from "react-router";
 import Footer from "../../layout/footer/Footer";
-import { backend__url } from "../../../Server";
 
 const SignUp = () => {
   const { isAuthenticated, error } = useSelector((state) => state.user);

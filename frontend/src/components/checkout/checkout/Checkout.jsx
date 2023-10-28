@@ -49,7 +49,7 @@ const Checkout = () => {
   const checkCouponCodeValid=async(e)=>{
     e.preventDefault();
     const name = couponCode;
-    await axios.get(`${server}/get-coupon-value/${name}`).then((res)=>{
+    await axios.get(`/get-coupon-value/${name}`).then((res)=>{
       const productName = res.data?.couponCode?.selectedProducts;
       const couponCodeValue = res.data?.couponCode?.value;
 

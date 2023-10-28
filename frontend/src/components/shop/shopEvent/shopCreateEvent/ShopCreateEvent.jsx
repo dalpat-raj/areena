@@ -6,7 +6,6 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
 import "./shopCreateEvent.scss";
 import axios from "axios";
-import { server } from "../../../../Server";
 
 const ShopCreateEvent = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -78,7 +77,7 @@ const ShopCreateEvent = () => {
       withCredentials: true,
     };
     await axios
-      .post(`${server}/event-create`, newForm, config)
+      .post(`/event-create`, newForm, config)
       .then((res) => {
         if (res.data.success === true) {
           toast.success(res.data.message);

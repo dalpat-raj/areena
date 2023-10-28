@@ -1,4 +1,3 @@
-import { server } from "../Server";
 import axios from "axios";
 
 export const getAllColor = (id) => async (dispatch) => {
@@ -7,7 +6,7 @@ export const getAllColor = (id) => async (dispatch) => {
       type: "allColorRequest"
     });
 
-    const {data} = await axios.get(`${server}/get-all-color`);
+    const {data} = await axios.get(`/get-all-color`);
     dispatch({
       type: "allColorSuccess",
       payload: data.color

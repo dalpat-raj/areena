@@ -1,4 +1,3 @@
-import { server } from "../Server";
 import axios from "axios";
 
 
@@ -9,14 +8,14 @@ export const getProduct =
     try {
       dispatch({ type: "ProductRequest" });
 
-      let link = `${server}/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}`
+      let link = `/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}`
 
       if(category){
-        link = `${server}/products?limit=${limit}&page=${page}${category && `&category=${category}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
+        link = `/products?limit=${limit}&page=${page}${category && `&category=${category}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
       }
 
       if(sortBy){
-        link = `${server}/products?limit=${limit}&page=${page}${sortBy && `&sort=${sortBy}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
+        link = `/products?limit=${limit}&page=${page}${sortBy && `&sort=${sortBy}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
       }
 
       const { data } = await axios.get(link);
@@ -40,7 +39,7 @@ export const getSearchProducts = (searchKeyword) => async(dispatch) => {
       type: "searchProductsRequest",
     });
 
-    const {data} = await axios.get(`${server}/products-search?searchKeyword=${searchKeyword}`);
+    const {data} = await axios.get(`/products-search?searchKeyword=${searchKeyword}`);
     dispatch({
       type: "searchProductsSuccess",
       payload: data.product
@@ -60,7 +59,7 @@ export const getAllProductsShop = (id) => async(dispatch) => {
       type: "allProductShopRequest",
     });
 
-    const {data} = await axios.get(`${server}/get-all-product-shop/${id}`);
+    const {data} = await axios.get(`/get-all-product-shop/${id}`);
     dispatch({
       type: "allProductShopSuccess",
       payload: data.products
@@ -80,7 +79,7 @@ export const getProductDetails = (id) => async(dispatch) => {
       type: "productDetailsRequest",
     });
 
-    const {data} = await axios.get(`${server}/get-product-details/${id}`)
+    const {data} = await axios.get(`/get-product-details/${id}`)
     dispatch({
       type: "productDetailtsSuccess",
       payload: data.product,
@@ -101,7 +100,7 @@ export const getSameProducts = (name) => async(dispatch) => {
       type: "getSameProductsRequest",
     });
 
-    const {data} = await axios.get(`${server}/get-same-products/${name}`, );
+    const {data} = await axios.get(`/get-same-products/${name}`, );
     dispatch({
       type: "getSameProductsSuccess",
       payload: data.products

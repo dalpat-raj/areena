@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { server } from '../../Server';
 
 const ActivationPage = () => {
     const {activation_token} = useParams();
@@ -11,7 +10,7 @@ const ActivationPage = () => {
         if(activation_token){
             const activationEmail = async () => {
                 try {
-                    axios.post(`${server}/shop-activation`,{
+                    axios.post(`/shop-activation`,{
                         activation_token,
                     }).then((res)=>{
                         console.log(res.data);

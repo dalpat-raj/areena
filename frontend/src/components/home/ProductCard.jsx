@@ -20,7 +20,7 @@ import { getAllProductsShop, getProduct, getProductDetails } from "../../actions
 import Rating from "../layout/rating/Rating";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
-import { server } from "../../Server";
+import { backend__url, server } from "../../Server";
 
 const ProductCard = ({ products, isWishlist, isEvent }) => {
   const {seller} = useSelector((state)=>state.seller)
@@ -67,7 +67,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
   // delete product bu seller
   const handleDeleteBySeller=async(id)=>{
-    await axios.delete(`${server}/delete-shop-product/${id}`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/delete-shop-product/${id}`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         toast.success(res.data.message)
       }
@@ -80,7 +80,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
     // delete product bu Admin
     const handleDeleteByAdmin=async(id)=>{
-      await axios.delete(`${server}/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
+      await axios.delete(`/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
         if(res.data.success === true){
           toast.success(res.data.message)
         }
@@ -113,7 +113,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
             <div onClick={() => productDetailsHandler(data?._id)} key={i}>
               {i === 0 && (
                 <img
-                  src={`http://localhost:8800/${item}`}
+                  src={`${backend__url}/${item}`}
                   alt="fgdf"
                   className="img1"
                 />
@@ -121,7 +121,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
               {i === 1 && (
                 <img
-                  src={`http://localhost:8800/${item}`}
+                  src={`${backend__url}/${item}`}
                   alt="fgdf"
                   className="img2"
                 />

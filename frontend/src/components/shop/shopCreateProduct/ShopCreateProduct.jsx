@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { server } from "../../../Server";
 import { getAllColor } from "../../../actions/ColorAction";
 
 const ShopCreateProduct = () => {
@@ -77,7 +76,7 @@ const ShopCreateProduct = () => {
     newForm.append("details", JSON.stringify(mobileTablet));
 
     await axios
-      .post(`${server}/create-product`, newForm, config)
+      .post(`/create-product`, newForm, config)
       .then((res) => {
         if (res.data.success) {
           toast.success("Product Created!");

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "./inbox.scss";
 import { useSelector } from "react-redux";
 import socketIO from "socket.io-client";
-// import { format } from "timeago.js";
-import { backend__url, server } from "../../../Server";
+import { format } from "timeago.js";
+import { backend__url } from "../../../Server";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { RiArrowGoBackFill } from "react-icons/ri";
@@ -46,7 +46,7 @@ const Inbox = () => {
     const getConversation = async () => {
       try {
       const response = await axios
-      .get(`${server}/get-all-conversation-user/${user?._id}`, {
+      .get(`/get-all-conversation-user/${user?._id}`, {
         withCredentials: true,
       })
 
@@ -80,7 +80,7 @@ const Inbox = () => {
     const getMessage = async () => {
       try {
         const response = await axios.get(
-          `${server}/get-all-messages/${currentChat?._id}`
+          `/get-all-messages/${currentChat?._id}`
         )
         setMessages(response.data.messages);
       } catch (error) {
@@ -111,7 +111,7 @@ const Inbox = () => {
     try {
       if (!newMessage !== "") {
         await axios
-          .post(`${server}/create-new-message`, message)
+          .post(`/create-new-message`, message)
           .then((res) => {
             setMessages([...messages, res.data.message]);
             updateLastMessage();
@@ -132,7 +132,7 @@ const Inbox = () => {
     });
 
     await axios
-      .put(`${server}/update-last-message/${currentChat?._id}`, {
+      .put(`/update-last-message/${currentChat?._id}`, {
         lastMessage: newMessage,
         lastMessageId: user?._id,
       })
@@ -170,7 +170,7 @@ const Inbox = () => {
 
     try {
       await axios
-        .post(`${server}/create-new-message`, formData)
+        .post(`/create-new-message`, formData)
         .then((res) => {
           setImages();
           setMessages([...messages, res.data.message]);
@@ -186,7 +186,7 @@ const Inbox = () => {
 
   // update last message
   const updateLastMessageForImage = async () => {
-    await axios.put(`${server}/update-last-message/${currentChat._id}`, {
+    await axios.put(`/update-last-message/${currentChat._id}`, {
       lastMessage: "Photo",
       lastMessageId: user?._id,
     });
@@ -272,7 +272,7 @@ const Message = ({
 
     const getUser = async () => {
       try {
-        const { data } = await axios.get(`${server}/get-shop-info/${userId}`);
+        const { data } = await axios.get(`/get-shop-info/${userId}`);
         setUser(data.shop);
       } catch (error) {
         console.log(error);
@@ -364,8 +364,7 @@ const SellerInbox = ({
                   )}
                 </div>
                 <div className="time__ago">
-                  {/* <p>{format(item?.createdAt.slice(0,10))}</p> */}
-                  {/* timeAgo.format(Date.now() - 24 * 60 * 60 * 1000) */}
+                <p>{format(item.createdAt)}</p>
                 </div>
               </div>
             ))}

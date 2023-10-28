@@ -1,4 +1,3 @@
-import { server } from "../Server";
 import axios from "axios";
 
 export const getAllOrdersUser = (userId) => async (dispatch) => {
@@ -11,7 +10,7 @@ export const getAllOrdersUser = (userId) => async (dispatch) => {
       withCredentials: true,
     };
     const { data } = await axios.get(
-      `${server}//get-all-orders-user/${userId}`,
+      `/get-all-orders-user/${userId}`,
       config
     );
     dispatch({
@@ -36,7 +35,7 @@ export const getSelectedOrdersUser = (orderId) => async (dispatch) => {
       withCredentials: true,
     };
     const { data } = await axios.get(
-      `${server}/get-selected-order-user/${orderId}`,
+      `/get-selected-order-user/${orderId}`,
       config
     );
     dispatch({
@@ -57,7 +56,7 @@ export const orderRefund = (orderId) => async (dispatch) => {
       type: "orderRefundRequest",
     });
 
-    const { data } = await axios.put(`${server}/order-refund/${orderId}`, {
+    const { data } = await axios.put(`/order-refund/${orderId}`, {
       status: "Processing Refund",
     });
     dispatch({
@@ -79,7 +78,7 @@ export const getAllOrdersShop = (ShopId) => async (dispatch) => {
       type: "getAllOrdersShopRequest",
     });
     const { data } = await axios.get(
-      `${server}/get-all-orders-shop/${ShopId}`,
+      `/get-all-orders-shop/${ShopId}`,
       {withCredentials:true}
     );
     dispatch({
@@ -101,7 +100,7 @@ export const getSelectedOrderShop = (orderId) => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `${server}/get-selected-order-shop/${orderId}`,
+      `/get-selected-order-shop/${orderId}`,
       { withCredentials: true }
     );
     dispatch({
@@ -123,7 +122,7 @@ export const updateOrderStatus = (orderId, status) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `${server}/update-order-status/${orderId}`,
+      `/update-order-status/${orderId}`,
       { status },
       { withCredentials: true }
     );
@@ -147,7 +146,7 @@ export const updateRefundOrderStatus =
       });
 
       const { data } = await axios.put(
-        `${server}/shop-order-refund-success/${orderId}`,
+        `/shop-order-refund-success/${orderId}`,
         { status },
         { withCredentials: true }
       );
@@ -171,7 +170,7 @@ export const getAllOrdersAdmin = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `${server}/get-all-orders-admin`, {withCredentials: true}
+      `/get-all-orders-admin`, {withCredentials: true}
     );
     dispatch({
       type: "getAllOrdersAdminSuccess",

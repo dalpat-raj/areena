@@ -14,7 +14,7 @@ import RecomendedProduct from "../recomendedProduct/RecomendedProduct";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../layout/footer/Footer";
 import { toast } from "react-toastify";
-import { backend__url, server } from "../../../Server";
+import { backend__url } from "../../../Server";
 import {
   addToWishlist,
   removeFromWishlist,
@@ -89,7 +89,7 @@ const ProductDetails = () => {
       const userId = user?._id;
       const sellerId = data?.shop?._id;
       await axios
-        .post(`${server}/create-new-conversation`, {
+        .post(`/create-new-conversation`, {
           groupTitle,
           userId,
           sellerId,

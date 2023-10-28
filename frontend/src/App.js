@@ -63,7 +63,7 @@ function App() {
 
   async function getStripeApiKey() {
     await axios
-      .get(`${server}/stripeapikey`)
+      .get(`/stripeapikey`)
       .then((res) => {
         setStripeApiKey(res.data.stripeApiKey);
       })

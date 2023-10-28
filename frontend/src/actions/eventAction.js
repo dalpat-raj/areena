@@ -1,4 +1,3 @@
-import { server } from "../Server";
 import axios from "axios";
 
 // get all events shop
@@ -8,7 +7,7 @@ export const getAllEventShop = (id) => async(dispatch) => {
       type: "allEventShopRequest",
     });
 
-    const {data} = await axios.get(`${server}/get-all-event-shop/${id}`, {withCredentials: true});
+    const {data} = await axios.get(`/get-all-event-shop/${id}`, {withCredentials: true});
     dispatch({
       type: "allEventShopSuccess",
       payload: data.events
@@ -30,7 +29,7 @@ export const deleteShopEvent = (id) => async(dispatch) => {
       type: "deleteShopEventRequest"
     });
 
-    const {data} = await axios.delete(`${server}/delete-shop-event/${id}`, {withCredentials: true})
+    const {data} = await axios.delete(`/delete-shop-event/${id}`, {withCredentials: true})
     dispatch({
       type: "deleteShopEventSuccess",
       payload: data.message,
@@ -52,7 +51,7 @@ export const getAllEventUser = () => async(dispatch) => {
       type: "allEventUserRequest",
     });
 
-    const {data} = await axios.get(`${server}/get-all-events-user`);
+    const {data} = await axios.get(`/get-all-events-user`);
     dispatch({
       type: "allEventUserSuccess",
       payload: data.events
