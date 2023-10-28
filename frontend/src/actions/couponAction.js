@@ -6,7 +6,7 @@ export const getAllCoupon = (id) => async (dispatch) => {
       type: "allCouponRequest"
     });
 
-    const {data} = await axios.get(`/get-coupon/${id}`, {withCredentials: true});
+    const {data} = await axios.get(`/api/v2/get-coupon/${id}`, {withCredentials: true});
     dispatch({
       type: "allCouponSuccess",
       payload: data.couponCodes

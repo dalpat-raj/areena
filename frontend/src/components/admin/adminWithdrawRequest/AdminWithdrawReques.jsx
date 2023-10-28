@@ -21,7 +21,7 @@ const AdminWithdrawReques = () => {
 
 
   const handleSubmit = async () => {
-    await axios.put(`/update-withdraw-request/${withdrawId}`,{shopId}, {withCredentials: true}).then((res)=>{
+    await axios.put(`/api/v2/update-withdraw-request/${withdrawId}`,{shopId}, {withCredentials: true}).then((res)=>{
       alert("Updated")
       if(res.data.success === true){
         setOpen(false);

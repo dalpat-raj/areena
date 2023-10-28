@@ -32,7 +32,7 @@ const ShopCouponCode = () => {
       selectedProducts: selectedProduct,
     };
     
-    await axios.post(`/create-coupon-code`, obj, {
+    await axios.post(`/api/v2/create-coupon-code`, obj, {
       withCredentials: true,
     }).then((res)=>{
       if(res.data.success === true){
@@ -49,7 +49,7 @@ const ShopCouponCode = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`/delete-coupon/${id}`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/api/v2/delete-coupon/${id}`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         alert(res.data.message)
       }

@@ -89,13 +89,13 @@ const ProductDetails = () => {
       const userId = user?._id;
       const sellerId = data?.shop?._id;
       await axios
-        .post(`/create-new-conversation`, {
+        .post(`/api/v2/create-new-conversation`, {
           groupTitle,
           userId,
           sellerId,
         })
         .then((res) => {
-          navigate(`/conversation/${res.data.conversation._id}`);
+          navigate(`/api/v2/conversation/${res.data.conversation._id}`);
         })
         .catch((err) => {
           console.log(err);

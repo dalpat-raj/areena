@@ -22,7 +22,6 @@ const ShopOrderDetails = () => {
   console.log(isLoading);
 
   const updateOrderStatusHandler = () => {
-    console.log("update status");
     dispatch(updateOrderStatus(id, status));
   };
 

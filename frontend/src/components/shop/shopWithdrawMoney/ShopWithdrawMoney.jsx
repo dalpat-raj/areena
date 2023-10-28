@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DashboardSidebar from "../dashboardSidebar/DashboardSidebar";
 import "./shopWithdraw.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { server } from "../../../Server";
 import axios from "axios";
 import { loadSeller } from "../../../actions/sellerAction";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -37,7 +36,7 @@ const ShopWithdrawMoney = () => {
    
     await axios
       .put(
-        `/add-seller-withdraw-methods`,
+        `/api/v2/add-seller-withdraw-methods`,
         { withdrawMethods },
         { withCredentials: true }
       )
@@ -58,7 +57,7 @@ const ShopWithdrawMoney = () => {
 
   // delete withdraw methods
   const DeleteWithdrawMethodsHandler=async()=>{
-    await axios.delete(`/delete-withdraw-methods`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/api/v2/delete-withdraw-methods`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         setOpen(false);
         dispatch(loadSeller());
@@ -74,7 +73,7 @@ const ShopWithdrawMoney = () => {
     const amount = withdrawAmount;
     if (seller?.availableBalance >= 1000) {
       if(amount >= 1000){
-        await axios.post(`/create-withdraw-request`, {amount}, {withCredentials: true}).then((res)=>{
+        await axios.post(`/api/v2/create-withdraw-request`, {amount}, {withCredentials: true}).then((res)=>{
           if(res.data.success === true){
             alert("Request is successfull")
           }

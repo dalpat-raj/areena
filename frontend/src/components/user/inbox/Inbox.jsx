@@ -46,7 +46,7 @@ const Inbox = () => {
     const getConversation = async () => {
       try {
       const response = await axios
-      .get(`/get-all-conversation-user/${user?._id}`, {
+      .get(`/api/v2/get-all-conversation-user/${user?._id}`, {
         withCredentials: true,
       })
 
@@ -80,7 +80,7 @@ const Inbox = () => {
     const getMessage = async () => {
       try {
         const response = await axios.get(
-          `/get-all-messages/${currentChat?._id}`
+          `/api/v2/get-all-messages/${currentChat?._id}`
         )
         setMessages(response.data.messages);
       } catch (error) {
@@ -111,7 +111,7 @@ const Inbox = () => {
     try {
       if (!newMessage !== "") {
         await axios
-          .post(`/create-new-message`, message)
+          .post(`/api/v2/create-new-message`, message)
           .then((res) => {
             setMessages([...messages, res.data.message]);
             updateLastMessage();
@@ -132,7 +132,7 @@ const Inbox = () => {
     });
 
     await axios
-      .put(`/update-last-message/${currentChat?._id}`, {
+      .put(`/api/v2/update-last-message/${currentChat?._id}`, {
         lastMessage: newMessage,
         lastMessageId: user?._id,
       })
@@ -170,7 +170,7 @@ const Inbox = () => {
 
     try {
       await axios
-        .post(`/create-new-message`, formData)
+        .post(`/api/v2/create-new-message`, formData)
         .then((res) => {
           setImages();
           setMessages([...messages, res.data.message]);
@@ -186,7 +186,7 @@ const Inbox = () => {
 
   // update last message
   const updateLastMessageForImage = async () => {
-    await axios.put(`/update-last-message/${currentChat._id}`, {
+    await axios.put(`/api/v2/update-last-message/${currentChat._id}`, {
       lastMessage: "Photo",
       lastMessageId: user?._id,
     });
@@ -272,7 +272,7 @@ const Message = ({
 
     const getUser = async () => {
       try {
-        const { data } = await axios.get(`/get-shop-info/${userId}`);
+        const { data } = await axios.get(`/api/v2/get-shop-info/${userId}`);
         setUser(data.shop);
       } catch (error) {
         console.log(error);

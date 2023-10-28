@@ -67,7 +67,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
   // delete product bu seller
   const handleDeleteBySeller=async(id)=>{
-    await axios.delete(`/delete-shop-product/${id}`, {withCredentials: true}).then((res)=>{
+    await axios.delete(`/api/v2/delete-shop-product/${id}`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
         toast.success(res.data.message)
       }
@@ -80,7 +80,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
     // delete product bu Admin
     const handleDeleteByAdmin=async(id)=>{
-      await axios.delete(`/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
+      await axios.delete(`/api/v2/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
         if(res.data.success === true){
           toast.success(res.data.message)
         }

@@ -6,7 +6,7 @@ export const loadUser = () => async (dispatch) => {
     dispatch({
       type: "LoadUserRequest",
     });
-    const { data } = await axios.get(`/getuser`, {
+    const { data } = await axios.get(`/api/v2/getuser`, {
       withCredentials: true,
     });
     dispatch({
@@ -16,7 +16,7 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LoadUserFail",
-      // payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -27,7 +27,7 @@ export const CreateUser = (userData) => async (dispatch) => {
     dispatch({
       type: "createUserRequest",
     });
-    const {data} = axios.post(`/create-user`, userData, {headers: { "Content-Type": "multipart/form-data"}, withCredentials: true})
+    const {data} = axios.post(`/api/v2/create-user`, userData, {headers: { "Content-Type": "multipart/form-data"}, withCredentials: true})
     dispatch({
       type: "createUserSuccess",
       payload: data.user,
@@ -36,7 +36,7 @@ export const CreateUser = (userData) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: "createUserFail",
-      // payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -47,7 +47,7 @@ export const LoginUser = (user) => async (dispatch) => {
     dispatch({
       type: "LoginUserRequest",
     });
-    const { data } = await axios.post(`/login`, user, {
+    const { data } = await axios.post(`/api/v2/login`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -57,14 +57,14 @@ export const LoginUser = (user) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LoginUserFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
 
 export const LogoutUser = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/user-logout`, {
+    const { data } = await axios.get(`/api/v2/user-logout`, {
       withCredentials: true,
     });
     dispatch({
@@ -74,7 +74,7 @@ export const LogoutUser = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LogoutUserFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -84,7 +84,7 @@ export const updateUserInfo = (user) => async (dispatch) => {
     dispatch({
       type: "updateUserInfoRequest",
     });
-    const { data } = await axios.put(`/update-user`, user, {
+    const { data } = await axios.put(`/api/v2/update-user`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -94,7 +94,7 @@ export const updateUserInfo = (user) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "updateUserInfoFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -129,7 +129,7 @@ export const updateUserAddress = (country, state, city, zipCode, address1, addre
     dispatch({
       type: "updateUserAddressRequest",
     });
-    const { data } = await axios.put(`/update-user-address`, {
+    const { data } = await axios.put(`/api/v2/update-user-address`, {
       country, 
       state,
       city, 
@@ -147,7 +147,7 @@ export const updateUserAddress = (country, state, city, zipCode, address1, addre
   } catch (error) {
     dispatch({
       type: "updateUserAddressFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -158,7 +158,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
     dispatch({
       type: "deleteUserAddressRequest",
     });
-    const { data } = await axios.delete(`/delete-user-address/${id}`, {
+    const { data } = await axios.delete(`/api/v2/delete-user-address/${id}`, {
       withCredentials: true,
     });
     dispatch({
@@ -168,7 +168,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteUserAddressFail",
-      payload: error.response?.data?.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -180,7 +180,7 @@ export const getAllUsersForAdmin = () => async (dispatch) => {
     dispatch({
       type: "getAllUsersForAdminRequest",
     });
-    const {data} = await axios.get(`/admin-get-all-users`, {withCredentials: true});
+    const {data} = await axios.get(`/api/v2/admin-get-all-users`, {withCredentials: true});
     dispatch({
       type: "getAllUsersForAdminSuccess",
       payload: data.users,

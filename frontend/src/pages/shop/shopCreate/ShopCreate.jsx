@@ -51,7 +51,7 @@ const ShopCreate = () => {
     };
 
     axios
-      .post(`/shop-create`, shopData, {
+      .post(`/api/v2/shop-create`, shopData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })

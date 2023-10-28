@@ -48,7 +48,7 @@ const ShopInbox = () => {
     const getConversation = async () => {
       try {
      const response = await axios
-      .get(`/get-all-conversation-seller/${seller?._id}`, {
+      .get(`/api/v2/get-all-conversation-seller/${seller?._id}`, {
         withCredentials: true,
       })
   
@@ -82,7 +82,7 @@ const ShopInbox = () => {
     const getMessage = async () => {
     try {
       const response = await axios.get(
-        `/get-all-messages/${currentChat?._id}`
+        `/api/v2/get-all-messages/${currentChat?._id}`
       )
       setMessages(response.data.messages)
     } catch (error) {
@@ -113,7 +113,7 @@ const ShopInbox = () => {
     try {
       if (newMessage !== "") {
         await axios
-          .post(`/create-new-message`, message)
+          .post(`/api/v2/create-new-message`, message)
           .then((res) => {
             setMessages([...messages, res.data.message]);
             updateLastMessage();
@@ -134,7 +134,7 @@ const ShopInbox = () => {
     });
 
     await axios
-      .put(`/update-last-message/${currentChat?._id}`, {
+      .put(`/api/v2/update-last-message/${currentChat?._id}`, {
         lastMessage: newMessage,
         lastMessageId: seller?._id,
       })
@@ -172,7 +172,7 @@ const ShopInbox = () => {
 
     try {
       await axios
-        .post(`/create-new-message`, formData)
+        .post(`/api/v2/create-new-message`, formData)
         .then((res) => {
           setImages();
           setMessages([...messages, res.data.message]);
@@ -188,7 +188,7 @@ const ShopInbox = () => {
 
   // update last message
   const updateLastMessageForImage = async () => {
-    await axios.put(`/update-last-message/${currentChat._id}`, {
+    await axios.put(`/api/v2/update-last-message/${currentChat._id}`, {
       lastMessage: "Photo",
       lastMessageId: seller?._id,
     });
@@ -279,7 +279,7 @@ const Message = ({
 
     const getUser = async () => {
       try {
-        const { data } = await axios.get(`/user-info/${userId}`);
+        const { data } = await axios.get(`/api/v2/user-info/${userId}`);
         setUser(data.user);
       } catch (error) {
         console.log(error);

@@ -24,7 +24,7 @@ const ShopSetting = () => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
 
-    await axios.put(`/update-shop-avatar`, formData, {
+    await axios.put(`/api/v2/update-shop-avatar`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

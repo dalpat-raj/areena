@@ -19,7 +19,7 @@ const PasswordChange = () => {
       if (newPassword === confirmPassword) {
         await axios
           .put(
-            `/update-user-password`,
+            `/api/v2/update-user-password`,
             {
               oldPassword,
               newPassword,

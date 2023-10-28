@@ -6,7 +6,7 @@ export const getAllWithdrawRequest = () => async (dispatch) => {
     dispatch({
       type: "getAllWithdrawRequest",
     });
-    const { data } = await axios.get(`/get-all-withdraw-request`, { withCredentials: true });
+    const { data } = await axios.get(`/api/v2/get-all-withdraw-request`, { withCredentials: true });
     dispatch({
       type: "getAllWithdrawSuccess",
       payload: data.withdraws,

@@ -49,7 +49,7 @@ const Payment = () => {
       };
 
       const { data } = await axios.post(
-        `/payment/process`,
+        `/api/v2/payment/process`,
         paymentData,
         config
       );
@@ -74,7 +74,7 @@ const Payment = () => {
           };
 
           await axios
-            .post(`/create-order`, order, config)
+            .post(`/api/v2/create-order`, order, config)
             .then((res) => {
               navigate("/order/success");
               localStorage.setItem("cartItems", JSON.stringify([]));
@@ -94,7 +94,7 @@ const Payment = () => {
     };
 
     await axios
-      .post(`/create-order`, order, {
+      .post(`/api/v2/create-order`, order, {
         headers: {
           "Content-Type": "application/json",
         },

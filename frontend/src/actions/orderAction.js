@@ -10,7 +10,7 @@ export const getAllOrdersUser = (userId) => async (dispatch) => {
       withCredentials: true,
     };
     const { data } = await axios.get(
-      `/get-all-orders-user/${userId}`,
+      `/api/v2/get-all-orders-user/${userId}`,
       config
     );
     dispatch({
@@ -35,7 +35,7 @@ export const getSelectedOrdersUser = (orderId) => async (dispatch) => {
       withCredentials: true,
     };
     const { data } = await axios.get(
-      `/get-selected-order-user/${orderId}`,
+      `/api/v2/get-selected-order-user/${orderId}`,
       config
     );
     dispatch({
@@ -56,7 +56,7 @@ export const orderRefund = (orderId) => async (dispatch) => {
       type: "orderRefundRequest",
     });
 
-    const { data } = await axios.put(`/order-refund/${orderId}`, {
+    const { data } = await axios.put(`/api/v2/order-refund/${orderId}`, {
       status: "Processing Refund",
     });
     dispatch({
@@ -78,7 +78,7 @@ export const getAllOrdersShop = (ShopId) => async (dispatch) => {
       type: "getAllOrdersShopRequest",
     });
     const { data } = await axios.get(
-      `/get-all-orders-shop/${ShopId}`,
+      `/api/v2/get-all-orders-shop/${ShopId}`,
       {withCredentials:true}
     );
     dispatch({
@@ -100,7 +100,7 @@ export const getSelectedOrderShop = (orderId) => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `/get-selected-order-shop/${orderId}`,
+      `/api/v2/get-selected-order-shop/${orderId}`,
       { withCredentials: true }
     );
     dispatch({
@@ -122,7 +122,7 @@ export const updateOrderStatus = (orderId, status) => async (dispatch) => {
     });
 
     const { data } = await axios.put(
-      `/update-order-status/${orderId}`,
+      `/api/v2/update-order-status/${orderId}`,
       { status },
       { withCredentials: true }
     );
@@ -146,7 +146,7 @@ export const updateRefundOrderStatus =
       });
 
       const { data } = await axios.put(
-        `/shop-order-refund-success/${orderId}`,
+        `/api/v2/shop-order-refund-success/${orderId}`,
         { status },
         { withCredentials: true }
       );
@@ -170,7 +170,7 @@ export const getAllOrdersAdmin = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `/get-all-orders-admin`, {withCredentials: true}
+      `/api/v2/get-all-orders-admin`, {withCredentials: true}
     );
     dispatch({
       type: "getAllOrdersAdminSuccess",

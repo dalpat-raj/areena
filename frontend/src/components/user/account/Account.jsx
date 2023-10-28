@@ -36,7 +36,7 @@ const Account = () => {
     const formData = new FormData();
     formData.append("image", e.target.files[0]);
     
-    await axios.put(`/update-user-avatar`, formData, {
+    await axios.put(`/api/v2/update-user-avatar`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

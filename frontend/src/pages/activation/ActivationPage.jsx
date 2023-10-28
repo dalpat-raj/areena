@@ -10,16 +10,16 @@ const ActivationPage = () => {
         if(activation_token){
             const activationEmail = async () => {
                 try {
-                    axios.post(`/shop-activation`,{
+                    axios.post(`/api/v2/shop-activation`,{
                         activation_token,
                     }).then((res)=>{
-                        console.log(res.data);
+                        // console.log(res.data);
                     }).catch((err)=>{
-                        console.log(err);
+                        // console.log(err);
                     })
                     
                 } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                     setError(true)
                 }
             }

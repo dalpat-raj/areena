@@ -48,10 +48,6 @@ const ShopCreateProduct = () => {
     origin: "",
   });
 
-  if (mobileTablet) {
-    console.log(mobileTablet.length);
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
@@ -76,7 +72,7 @@ const ShopCreateProduct = () => {
     newForm.append("details", JSON.stringify(mobileTablet));
 
     await axios
-      .post(`/create-product`, newForm, config)
+      .post(`/api/v2/create-product`, newForm, config)
       .then((res) => {
         if (res.data.success) {
           toast.success("Product Created!");

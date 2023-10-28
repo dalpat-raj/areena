@@ -8,14 +8,14 @@ export const getProduct =
     try {
       dispatch({ type: "ProductRequest" });
 
-      let link = `/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}`
+      let link = `/api/v2/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}`
 
       if(category){
-        link = `/products?limit=${limit}&page=${page}${category && `&category=${category}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
+        link = `/api/v2/products?limit=${limit}&page=${page}${category && `&category=${category}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
       }
 
       if(sortBy){
-        link = `/products?limit=${limit}&page=${page}${sortBy && `&sort=${sortBy}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
+        link = `/api/v2/products?limit=${limit}&page=${page}${sortBy && `&sort=${sortBy}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
       }
 
       const { data } = await axios.get(link);
@@ -27,7 +27,7 @@ export const getProduct =
     } catch (error) {
       dispatch({
         type: "ProductFail",
-        payload: error.response.data.message,
+        payload: error?.response?.data?.error?.message,
       });
     }
   };
@@ -39,7 +39,7 @@ export const getSearchProducts = (searchKeyword) => async(dispatch) => {
       type: "searchProductsRequest",
     });
 
-    const {data} = await axios.get(`/products-search?searchKeyword=${searchKeyword}`);
+    const {data} = await axios.get(`/api/v2/products-search?searchKeyword=${searchKeyword}`);
     dispatch({
       type: "searchProductsSuccess",
       payload: data.product
@@ -47,7 +47,7 @@ export const getSearchProducts = (searchKeyword) => async(dispatch) => {
   } catch (error) {
     dispatch({
       type: "searchProductsail",
-      payload: error.response.data.error.message
+      payload: error?.response?.data?.error?.message,
     });
   }
 }
@@ -59,7 +59,7 @@ export const getAllProductsShop = (id) => async(dispatch) => {
       type: "allProductShopRequest",
     });
 
-    const {data} = await axios.get(`/get-all-product-shop/${id}`);
+    const {data} = await axios.get(`/api/v2/get-all-product-shop/${id}`);
     dispatch({
       type: "allProductShopSuccess",
       payload: data.products
@@ -67,7 +67,7 @@ export const getAllProductsShop = (id) => async(dispatch) => {
   } catch (error) {
     dispatch({
       type: "allProductShopFail",
-      payload: error.response.data.error.message
+      payload: error?.response?.data?.error?.message,
     });
   }
 }
@@ -79,7 +79,7 @@ export const getProductDetails = (id) => async(dispatch) => {
       type: "productDetailsRequest",
     });
 
-    const {data} = await axios.get(`/get-product-details/${id}`)
+    const {data} = await axios.get(`/api/v2/get-product-details/${id}`)
     dispatch({
       type: "productDetailtsSuccess",
       payload: data.product,
@@ -88,7 +88,7 @@ export const getProductDetails = (id) => async(dispatch) => {
   } catch (error) {
     dispatch({
       type: "productDetailsFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 }
@@ -100,7 +100,7 @@ export const getSameProducts = (name) => async(dispatch) => {
       type: "getSameProductsRequest",
     });
 
-    const {data} = await axios.get(`/get-same-products/${name}`, );
+    const {data} = await axios.get(`/api/v2/get-same-products/${name}`, );
     dispatch({
       type: "getSameProductsSuccess",
       payload: data.products

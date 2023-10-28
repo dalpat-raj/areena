@@ -6,7 +6,7 @@ export const loadSeller = () => async (dispatch) => {
     dispatch({
       type: "LoadSellerRequest",
     });
-    const { data } = await axios.get(`/getseller`, {
+    const { data } = await axios.get(`/api/v2/getseller`, {
       withCredentials: true,
     });
     dispatch({
@@ -16,7 +16,7 @@ export const loadSeller = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LoadSellerFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -27,7 +27,7 @@ export const LoginSeller = (user) => async (dispatch) => {
     dispatch({
       type: "LoginSellerRequest",
     });
-    const { data } = await axios.post(`/shop-login`, user, {
+    const { data } = await axios.post(`/api/v2/shop-login`, user, {
       withCredentials: true,
     });
     dispatch({
@@ -37,7 +37,7 @@ export const LoginSeller = (user) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LoginSellerFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -45,7 +45,7 @@ export const LoginSeller = (user) => async (dispatch) => {
 // logout seller
 export const LogoutSeller = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/shop-logout`, {
+    const { data } = await axios.get(`/api/v2/shop-logout`, {
       withCredentials: true,
     });
     dispatch({
@@ -55,7 +55,7 @@ export const LogoutSeller = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "LogoutSellerFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -66,7 +66,7 @@ export const updateSellerInfo = (seller) => async (dispatch) => {
     dispatch({
       type: "updateShopInfoRequest",
     });
-    const { data } = await axios.put(`/update-shop`, seller, {
+    const { data } = await axios.put(`/api/v2/update-shop`, seller, {
       withCredentials: true,
     });
     dispatch({
@@ -76,7 +76,7 @@ export const updateSellerInfo = (seller) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "updateShopInfoFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -87,7 +87,7 @@ export const getAllSellerForAdmin = () => async (dispatch) => {
     dispatch({
       type: "getAllSellerForAdminRequest",
     });
-    const {data} = await axios.get(`/admin-get-all-seller`, {withCredentials: true});
+    const {data} = await axios.get(`/api/v2/admin-get-all-seller`, {withCredentials: true});
     dispatch({
       type: "getAllSellerForAdminSuccess",
       payload: data.sellers,
@@ -95,7 +95,7 @@ export const getAllSellerForAdmin = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "getAllSellerForAdminFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
@@ -106,7 +106,7 @@ export const deleteSellerByAdmin = (id) => async (dispatch) => {
     dispatch({
       type: "deleteSellerByAdminRequest",
     });
-    const {data} = await axios.delete(`/delete-seller-by-admin/${id}`, {withCredentials: true});
+    const {data} = await axios.delete(`/api/v2/delete-seller-by-admin/${id}`, {withCredentials: true});
     dispatch({
       type: "deleteSellerByAdminSuccess",
       payload: data.message,
@@ -114,7 +114,7 @@ export const deleteSellerByAdmin = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteSellerByAdminFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };

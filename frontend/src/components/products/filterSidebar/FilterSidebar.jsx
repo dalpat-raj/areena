@@ -27,7 +27,7 @@ const FilterSidebar = () => {
 
   useEffect(() => {
     axios
-      .get(`/products?fields=category`)
+      .get(`/api/v2/products?fields=category`)
       .then((res) => {
         const result = new Set(res.data.product.map((item) => item.category));
         setCategoryData(Array.from(result));
@@ -39,7 +39,7 @@ const FilterSidebar = () => {
 
   useEffect(() => {
     axios
-      .get(`/products?fields=color`)
+      .get(`/api/v2/products?fields=color`)
       .then((res) => {
         const result = new Set(res.data.product.map((item) => item.color));
         setColorData(Array.from(result));
@@ -57,7 +57,7 @@ const FilterSidebar = () => {
     } else {
       dispatch(getProduct(limit, page, "", "", minPrice, maxPrice));
     }
-  }, [limit, page, category, sortBy, minPrice, maxPrice]);
+  }, [limit, page, category, sortBy, minPrice, maxPrice, dispatch]);
 
   return (
     <div className="filter__main__box">

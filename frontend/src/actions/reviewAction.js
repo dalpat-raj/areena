@@ -7,7 +7,7 @@ export const createNewReview = ({user, rating, comment, productId, orderId}) => 
     });
 
     const { data } = await axios.put(
-      `/create-new-review`,
+      `/api/v2/create-new-review`,
       { user, rating, comment, productId, orderId },
       { withCredentials: true }
     );

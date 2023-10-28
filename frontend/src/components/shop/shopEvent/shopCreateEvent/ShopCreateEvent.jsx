@@ -77,7 +77,7 @@ const ShopCreateEvent = () => {
       withCredentials: true,
     };
     await axios
-      .post(`/event-create`, newForm, config)
+      .post(`/api/v2/event-create`, newForm, config)
       .then((res) => {
         if (res.data.success === true) {
           toast.success(res.data.message);
