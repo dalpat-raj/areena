@@ -27,10 +27,10 @@ const Cart = ({ setCartComponent }) => {
     navigate("/cart");
   };
 
-  const viewCheckoutHandler=()=>{
-    setCartComponent(false)
-    navigate("/checkout")
-  }
+  const viewCheckoutHandler = () => {
+    setCartComponent(false);
+    navigate("/checkout");
+  };
 
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.qty * item.sellingPrice,
@@ -188,10 +188,16 @@ const Cart = ({ setCartComponent }) => {
           </div>
           <p>Taxes and shipping calculated at checkout</p>
           <div className="btn_group">
-            <button className="btn-main" onClick={viewCheckoutHandler}>PROCESS TO CHECKOUT</button>
-            <button onClick={() => ViewCartPage()} className="btn-sec">
-              VIEW CART
-            </button>
+            {cart?.length !== 0 && (
+              <>
+                <button className="btn-main" onClick={viewCheckoutHandler}>
+                  PROCESS TO CHECKOUT
+                </button>
+                <button onClick={() => ViewCartPage()} className="btn-sec">
+                  VIEW CART
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -10,16 +10,24 @@ import Rating from "../../layout/rating/Rating";
 
 const ProdDesc = ({ data }) => {
   const { products } = useSelector((state) => state.products);
- 
+
+  const [details, setDetails] = useState("");
+
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get("isEvent");
 
   useEffect(() => {
-    if(eventData !== true){
+    if (eventData !== true) {
       dispatch(getAllProductsShop(data?.shop?._id));
     }
   }, [dispatch, data, eventData]);
+
+  useEffect(() => {
+    if (data?.details) {
+      setDetails(data?.details);
+    }
+  }, [data]);
 
   const descriptionTab = useRef(null);
   const shippingTab = useRef(null);
@@ -137,12 +145,17 @@ const ProdDesc = ({ data }) => {
     products &&
     products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-    const totalRatings = products && products.reduce((acc, product)=>acc + product.reviews.reduce((sum, review)=>sum + review.rating, 0),0)
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
 
-    const averageRating = totalRatings / totalReviewsLength || 0;
+  const averageRating = totalRatings / totalReviewsLength || 0;
 
   return (
-    
     <div className="product__desc">
       {/* mobile  */}
       <div className="prod__desc__box mobile__navigation">
@@ -168,7 +181,70 @@ const ProdDesc = ({ data }) => {
                   ? "description__container active"
                   : "description__container"
               }
-            ></div>
+            >
+              <div className="description__box">
+                {data?.brand && (
+                  <p>
+                    Brand: <span>{data?.brand}</span>
+                  </p>
+                )}
+                {details?.display && (
+                  <p>
+                    Display: <span>{details?.display}</span>
+                  </p>
+                )}
+                {details?.camera && (
+                  <p>
+                    Camera: <span>{details?.camera}</span>
+                  </p>
+                )}
+                {details?.ram && (
+                  <p>
+                    Ram: <span>{details?.ram}</span>
+                  </p>
+                )}
+                {details?.storage && (
+                  <p>
+                    Storage: <span>{details?.storage}</span>
+                  </p>
+                )}
+                {details?.guarantee && (
+                  <p>
+                    Guarantee: <span>{details?.guarantee}</span>
+                  </p>
+                )}
+                {details?.warranty && (
+                  <p>
+                    Warranty: <span>{details?.warranty}</span>
+                  </p>
+                )}
+                {details?.manufacturer && (
+                  <p>
+                    Manufacturer: <span>{details?.manufacturer}</span>
+                  </p>
+                )}
+                {details?.weight && (
+                  <p>
+                    Weight: <span>{details?.weight}</span>
+                  </p>
+                )}
+                {details?.modelno && (
+                  <p>
+                    Item Model No: <span>{details?.modelno}</span>
+                  </p>
+                )}
+                {details?.origin && (
+                  <p>
+                    Country Of Origin: <span>{details?.origin}</span>
+                  </p>
+                )}
+                {details?.dimensions && (
+                  <p>
+                    Item Dimensions: <span>{details?.dimensions}</span>
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="section__box">
@@ -186,8 +262,63 @@ const ProdDesc = ({ data }) => {
                 )}
               </div>
             </div>
-            <div className={ship ? "shipping active" : "shipping"}>
-              <p>Shipping & Return Lorem amet.</p>
+            <div className={ship ? "description__container active" : "description__container"}>
+              <h4>General Returns Policy </h4>
+              <p>
+                Applicable products are returnable within
+                the applicable return window if you've received them in a
+                condition that is physically damaged, 
+                has missing parts or accessories, 
+                defective or different from their description on
+                the product detail page on Amazon.in. If you report an issue
+                with your Smartphone, Tablet, Laptop, Television, Air
+                Conditioner, Refrigerator, Washing Machine, Microwave, we may
+                facilitate scheduling a technician visit to your location. 
+                This visit is scheduled by placing an order with Amazon through
+                Amazon.in Home Services. 
+                Subject to Amazon.in Home Services Terms and Conditions, a resolution will be provided based on the
+                technician's evaluation report. Return will be processed only
+                if: it is determined that the product was not damaged while in
+                your possession; 
+                the product is not different from what was shipped to you; the product is returned in original condition
+                (with brand’s/manufacturer's box, MRP tag intact, user manual,
+                warranty card and all the accessories therein). If you wish to
+                return an electronic device that stores any personal
+                information, please ensure that you have removed all such
+                personal information from the device prior to returning. Amazon
+                shall not be liable in any manner for any misuse or usage of
+                such information. Products may not be eligible for return in
+                some cases, including cases of buyer's remorse such as incorrect
+                model or color of product ordered or incorrect product ordered.
+                Products marked as "non-returnable" on the product detail page
+                cannot be returned. However, in an unlikely event of damaged,
+                defective or wrong item delivered to you, we will provide a full
+                refund or replacement, as applicable. We may contact you to
+                ascertain the damage or defect in the product prior to issuing
+                refund/replacement. We reserve the right to pick up the product
+                to ascertain the damage or defect in the product prior to
+                issuing refund/replacement. No additional information is
+                required to return an eligible order unless otherwise noted in
+                the category specific policy. Products may be eligible for
+                replacement only if the same seller has the exact same item in
+                stock. If the replacement request is placed and the seller does
+                not have the exact same product in stock, a refund would be
+                issued to you. Products purchased by international customers are
+                not eligible for returns. However, orders made by international
+                customers are eligible for refunds and customers will have to
+                contact customer service within 5 business days from delivery
+                date or estimated delivery date to claim refunds. To know about
+                the Return window for Amazon Business orders, please visit here.
+                In the event customers are found to misuse the return policy by
+                excessively returning, or cancelling or not accepting the orders
+                placed, Amazon reserves the right to warn and/or suspend and/or
+                block and/or terminate such customer accounts, as necessary.
+                Note: If you've received a non-returnable product in a
+                damaged/defective condition, you can contact us within 10 days
+                from the delivery of the product. Note: All product categories
+                are non-returnable for International Customers for Export
+                Orders.
+              </p>
             </div>
           </div>
 
@@ -271,8 +402,8 @@ const ProdDesc = ({ data }) => {
                         </Link>
                       </span>
                       <p>
-                        <Rating rating={data?.ratings} /> ({averageRating.toFixed(1)}/5)
-                        ratings
+                        <Rating rating={data?.ratings} /> (
+                        {averageRating.toFixed(1)}/5) ratings
                       </p>
                     </div>
                   </div>
@@ -362,12 +493,111 @@ const ProdDesc = ({ data }) => {
         <div className="container__box">
           <div ref={descriptionTab} className="description__container">
             <div className="description__box">
-              <p>{data?.description}</p>
+              {data?.brand && (
+                <p>
+                  Brand: <span>{data?.brand}</span>
+                </p>
+              )}
+              {details?.display && (
+                <p>
+                  Display: <span>{details?.display}</span>
+                </p>
+              )}
+              {details?.camera && (
+                <p>
+                  Camera: <span>{details?.camera}</span>
+                </p>
+              )}
+              {details?.ram && (
+                <p>
+                  Ram: <span>{details?.ram}</span>
+                </p>
+              )}
+              {details?.storage && (
+                <p>
+                  Storage: <span>{details?.storage}</span>
+                </p>
+              )}
+              {details?.guarantee && (
+                <p>
+                  Guarantee: <span>{details?.guarantee}</span>
+                </p>
+              )}
+              {details?.warranty && (
+                <p>
+                  Warranty: <span>{details?.warranty}</span>
+                </p>
+              )}
+              {details?.manufacturer && (
+                <p>
+                  Manufacturer: <span>{details?.manufacturer}</span>
+                </p>
+              )}
+              {details?.weight && (
+                <p>
+                  Weight: <span>{details?.weight}</span>
+                </p>
+              )}
             </div>
           </div>
 
           <div ref={shippingTab} className="shipping shiftToLeft">
-            <p>Shipping & Return Lorem ipsum dolor sit amet.</p>
+          <h2 className="container__heading">General Returns Policy </h2>
+              <p>
+                Applicable products are returnable within
+                the applicable return window if you've received them in a
+                condition that is physically damaged, 
+                has missing parts or accessories, 
+                defective or different from their description on
+                the product detail page on Amazon.in. If you report an issue
+                with your Smartphone, Tablet, Laptop, Television, Air
+                Conditioner, Refrigerator, Washing Machine, Microwave, we may
+                facilitate scheduling a technician visit to your location. 
+                This visit is scheduled by placing an order with Amazon through
+                Amazon.in Home Services. 
+                Subject to Amazon.in Home Services Terms and Conditions, a resolution will be provided based on the
+                technician's evaluation report. Return will be processed only
+                if: it is determined that the product was not damaged while in
+                your possession; 
+                the product is not different from what was shipped to you; the product is returned in original condition
+                (with brand’s/manufacturer's box, MRP tag intact, user manual,
+                warranty card and all the accessories therein). If you wish to
+                return an electronic device that stores any personal
+                information, please ensure that you have removed all such
+                personal information from the device prior to returning. Amazon
+                shall not be liable in any manner for any misuse or usage of
+                such information. Products may not be eligible for return in
+                some cases, including cases of buyer's remorse such as incorrect
+                model or color of product ordered or incorrect product ordered.
+                Products marked as "non-returnable" on the product detail page
+                cannot be returned. However, in an unlikely event of damaged,
+                defective or wrong item delivered to you, we will provide a full
+                refund or replacement, as applicable. We may contact you to
+                ascertain the damage or defect in the product prior to issuing
+                refund/replacement. We reserve the right to pick up the product
+                to ascertain the damage or defect in the product prior to
+                issuing refund/replacement. No additional information is
+                required to return an eligible order unless otherwise noted in
+                the category specific policy. Products may be eligible for
+                replacement only if the same seller has the exact same item in
+                stock. If the replacement request is placed and the seller does
+                not have the exact same product in stock, a refund would be
+                issued to you. Products purchased by international customers are
+                not eligible for returns. However, orders made by international
+                customers are eligible for refunds and customers will have to
+                contact customer service within 5 business days from delivery
+                date or estimated delivery date to claim refunds. To know about
+                the Return window for Amazon Business orders, please visit here.
+                In the event customers are found to misuse the return policy by
+                excessively returning, or cancelling or not accepting the orders
+                placed, Amazon reserves the right to warn and/or suspend and/or
+                block and/or terminate such customer accounts, as necessary.
+                Note: If you've received a non-returnable product in a
+                damaged/defective condition, you can contact us within 10 days
+                from the delivery of the product. Note: All product categories
+                are non-returnable for International Customers for Export
+                Orders.
+              </p>
           </div>
 
           <div ref={reviewTab} className="review shiftToLeft">
@@ -420,7 +650,8 @@ const ProdDesc = ({ data }) => {
                     </span>
                     <p className="rating">
                       {" "}
-                      <Rating rating={data?.ratings} /> ({averageRating.toFixed(1)}/5) ratings
+                      <Rating rating={data?.ratings} /> (
+                      {averageRating.toFixed(1)}/5) ratings
                     </p>
                   </div>
                 </div>

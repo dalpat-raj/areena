@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Get All Products
 export const getProduct =
-  (limit = 8, page = 1, category, sortBy ,minPrice = 0, maxPrice = 3000) =>
+  (limit = 8, page = 1, category, sortBy ,minPrice = 0, maxPrice = 80000) =>
   async (dispatch) => {
     try {
       dispatch({ type: "ProductRequest" });

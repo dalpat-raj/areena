@@ -52,7 +52,18 @@
             }
             
             .description__container{
-                
+                padding: 1rem 0;
+                .description__box{
+                    p{
+                        padding: 5px;
+                        padding-top: 10px;
+                        border-bottom: 1px solid #eee;
+                        span{
+                            padding-left: 10px;
+                            font-size: $fs-8;
+                        }
+                    }
+                }
                 .container__heading{
                     margin-top: 2.5rem;
                     h4{
@@ -218,8 +229,12 @@
                     list-style-type: disc;
                 }
                 
-                .description__container{
+                .description__box{
                     width: 100%;
+                    p{
+                        padding: 5px 0 !important;
+                    }
+                    
                     .container__heading{
                         margin-top: 2rem;
                         h4{
@@ -314,7 +329,6 @@
             }
                 
             .description__container{
-                margin-top: 2rem;
                 width: 100%;
                 .container__heading{
                     margin-top: 1.5rem;

@@ -37,7 +37,6 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { server } from "./Server";
 import axios from "axios";
-import OrderSuccess from "./components/checkout/orderSuccess/OrderSuccess";
 import OrderDetails from "./components/user/ordres/orderDetails/OrderDetails";
 import TrackOrderDetails from "./components/user/ordres/trackOrderDetails/TrackOrderDetails";
 import ShopAllRefunds from "./components/shop/shopRefunds/ShopAllRefunds";
@@ -53,6 +52,11 @@ import AdminAllSellers from "./components/admin/adminAllSellers/AdminAllSellers"
 import AdminAllUsers from "./components/admin/adminAllUsers/AdminAllUsers";
 import AdminAllEvents from "./components/admin/adminAllEvents/AdminAllEvents";
 import AdminWithdrawReques from "./components/admin/adminWithdrawRequest/AdminWithdrawReques";
+import OrderSuccess from "./components/checkout/orderSuccess/OrderSuccess";
+import CoustomerService from "./pages/coustomerService/CoustomerService";
+import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy";
+
+
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState();
@@ -95,6 +99,8 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />
+          <Route path="/coustomer-services" element={<CoustomerService />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
           {/* protected route     */}
           <Route

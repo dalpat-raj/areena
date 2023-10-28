@@ -12,7 +12,7 @@ const ShopHomePage = () => {
           <div className="col__2">
             <ShopInfo isOwner={true}/>
           </div>
-          <div className="col__2">
+          <div className="col__2 shop_profile_data">
             <ShopProfileData isOwner={true}/>
           </div>
         </div>

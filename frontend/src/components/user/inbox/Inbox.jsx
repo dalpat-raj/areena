@@ -43,16 +43,19 @@ const Inbox = () => {
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
-    axios
+    const getConversation = async () => {
+      try {
+      const response = await axios
       .get(`${server}/get-all-conversation-user/${user?._id}`, {
         withCredentials: true,
       })
-      .then((res) => {
-        setConversation(res.data.conversation);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+      setConversation(response.data.conversation);
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    getConversation();
   }, [user, messages]);
 
   useEffect(() => {
@@ -74,13 +77,17 @@ const Inbox = () => {
 
   // get Message
   useEffect(() => {
-        axios.get(
+    const getMessage = async () => {
+      try {
+        const response = await axios.get(
           `${server}/get-all-messages/${currentChat?._id}`
-        ).then((res)=>{
-          setMessages(res.data.messages);
-        }).catch ((error)=>{
-        console.log(error);
-      })
+        )
+        setMessages(response.data.messages);
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    getMessage();
   }, [currentChat]);
 
   // create new message
@@ -92,7 +99,7 @@ const Inbox = () => {
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
-      (member) => member.id !== user?._id
+      (member) => member !== user?._id
     );
 
     socketId.emit("sendMessage", {
@@ -110,30 +117,30 @@ const Inbox = () => {
             updateLastMessage();
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
           });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
-  const updateLastMessage = () => {
+  const updateLastMessage = async () => {
     socketId.emit("updateLastMessage", {
       lastMessage: newMessage,
       lastMessageId: user?._id,
     });
 
-    axios
+    await axios
       .put(`${server}/update-last-message/${currentChat?._id}`, {
         lastMessage: newMessage,
-        lastMessageId: user._id,
+        lastMessageId: user?._id,
       })
       .then((res) => {
         setNewMessage("");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -173,7 +180,7 @@ const Inbox = () => {
           console.log(error);
         });
     } catch (error) {
-      console.log(error.response.data.error);
+      console.log(error?.response?.data?.error);
     }
   };
 
@@ -181,7 +188,7 @@ const Inbox = () => {
   const updateLastMessageForImage = async () => {
     await axios.put(`${server}/update-last-message/${currentChat._id}`, {
       lastMessage: "Photo",
-      lastMessageId: user._id,
+      lastMessageId: user?._id,
     });
   };
 
@@ -250,7 +257,7 @@ const Message = ({
   activeStatus,
   setActiveStatus,
 }) => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const [user, setUser] = useState([]);
 
   const navigate = useNavigate();
@@ -272,7 +279,7 @@ const Message = ({
       }
     };
     getUser();
-  }, [me, data, setUserData, online, setActiveStatus]);
+  }, [me, data]);
 
   return (
     <div

@@ -1,30 +1,35 @@
 @import "../../../sass/variable";
 
 .dashboard_create_product{
-    height: 75vh;
+    height: 80vh;
     overflow-y: scroll;
  
     &::-webkit-scrollbar { 
         width: 0px !important; 
       }
 
-    width: 50%;
-    margin: 0 auto;
+    width: 100%;
     h2{
         display: block;
         text-align: center;
     }
     form{
+        width: 100%;
         margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         .input__box{
             position: relative;
+            width: 48%;
             label{
                 font-size: $fs-7;
                 font-weight: 500;
             }
             input, textarea, select{
+                display: block;
+                width: 100% !important;
                 margin: auto;
-                width: 98% !important;
                 padding: 10px;
                 margin-top: 5px;
                 margin-bottom: 15px;
@@ -35,15 +40,18 @@
                 font-size: 13px;
                 line-height: 20px;
                 &:focus{
-                    outline: 1px solid $black-main;
+                 outline: unset;
+                 border-style: inset;
+                 border: 1px solid #333;
                 }
             }
             #upload{
-                visibility: hidden;
+                // visibility: hidden;
+                height: 100%;
             }
             .label{
                 position: absolute;
-                top: 40%;
+                top: 25%;
                 left: 0;
                 width: 100%;
                 background-color: #E8F0FE;
@@ -55,19 +63,27 @@
                 gap: 1rem;
                 color: #333;
             }
-        }
-        .img__box{
-            img{
-                width: 50px !important;
-                height: 50px !important;
-                object-fit: contain;
+            .img__box{
+                img{
+                    width: 50px !important;
+                    height: 50px !important;
+                    object-fit: contain;
+                }
             }
         }
+        .description_full{
+            flex-basis: 100%;
+            // display: block !important;
+            // width: 100% !important;
+        }
+        
         .btn__box{
-            display: block;
-            margin-top: 1rem;
+            width: 100%;
+            margin: 1rem 0;
             button{
-                width: 100%;
+                display: block;
+                width: 50%;
+                margin: auto;
             }
         }
     }
@@ -75,7 +91,62 @@
 
 @media only screen and (max-width: 768px){
     .dashboard_create_product{
+        height: 75vh;
+        overflow-y: scroll;
+     
+        &::-webkit-scrollbar { 
+            width: 0px !important; 
+          }
+    
         width: 100%;
+        h2{
+            display: block;
+            text-align: center;
+        }
+        form{
+            width: 100%;
+            margin-top: 1rem;
+            display: block;
+            .input__box{
+                position: relative;
+                width: 100% !important;
+                label{
+                    font-size: $fs-7;
+                    font-weight: 500;
+                }
+                input, textarea, select{
+                    display: block;
+                }
+                .img__box{
+                    img{
+                        width: 50px !important;
+                        height: 50px !important;
+                        object-fit: contain;
+                    }
+                }
+            }
+            .image__shoes{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0rem;
+                input{
+                    margin-top: 4rem;
+                }
+            }
+            .img__box{
+                img{
+                    width: 45px !important;
+                    height: 45px;
+                }
+            }
+            .btn__box{
+                width: 100%;
+                button{
+                    width: 100%;
+                }
+            }
+        }
     }
     
 }

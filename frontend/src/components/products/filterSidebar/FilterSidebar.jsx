@@ -15,9 +15,9 @@ const FilterSidebar = () => {
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState();
   const [sortBy, setSortBy] = useState();
-  const [price, setPrice] = useState([0, 3000]);
+  const [price, setPrice] = useState([0, 100000]);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(3000);
+  const [maxPrice, setMaxPrice] = useState(100000);
 
   const dispatch = useDispatch();
 
@@ -109,7 +109,7 @@ const FilterSidebar = () => {
             </div>
           </div>
           <div className="slider">
-            <RangeSlider max={3000} onInput={setPrice} />
+            <RangeSlider max={100000} onInput={setPrice} />
           </div>
         </ul>
       </div>

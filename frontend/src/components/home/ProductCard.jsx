@@ -130,7 +130,7 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
           ))}
       </div>
 
-      {isSeller === true || user?.role === "Admin" ? (
+      { seller?._id === data?.shopId || user?.role === "Admin" ? (
         <>
           <ul className="delete__icon">
             <li className="del__icon" onClick={()=>setConfirmDelete(true)}>

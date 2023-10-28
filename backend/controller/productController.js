@@ -9,8 +9,6 @@ const fs = require("fs");
 exports.getSearchProducts = catchAsyncErrors(async (req, res, next) => {
   try {
     // seraching
-      
-
       const keyword = req.query.searchKeyword
       ? {
           name: {
@@ -102,6 +100,8 @@ exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
 // Create Product
 exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
   try {
+    req.body.details = JSON.parse(req.body.details)
+  
     const shopId = req.body.shopId;
     const shop = await Shop.findById(shopId);
     if (!shop) {

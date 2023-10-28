@@ -35,7 +35,7 @@ const ShopCreateProduct = () => {
     setImages((prevImages) => [...prevImages, ...files]);
   };
 
-  const mobile = {
+  const [mobileTablet, setMobileTablet] = useState({
     display: "",
     ram: "",
     storage: "",
@@ -43,10 +43,15 @@ const ShopCreateProduct = () => {
     manufacturer: "",
     weight: "",
     warranty: "",
-    guarantee: ""
-  }
+    guarantee: "",
+    dimensions: "",
+    modelno: "",
+    origin: "",
+  });
 
-  console.log(mobile);
+  if (mobileTablet) {
+    console.log(mobileTablet.length);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +74,7 @@ const ShopCreateProduct = () => {
     newForm.append("stock", stock);
     newForm.append("description", description);
     newForm.append("shopId", seller?._id);
+    newForm.append("details", JSON.stringify(mobileTablet));
 
     await axios
       .post(`${server}/create-product`, newForm, config)
@@ -79,7 +85,7 @@ const ShopCreateProduct = () => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.error.message);
+        toast.error(error?.response?.data?.error?.message);
       });
   };
 
@@ -182,10 +188,13 @@ const ShopCreateProduct = () => {
                       <option value="HeadPhone">HeadPhone</option>
                     </select>
                   </div>
-                  {subCategory === "Mobile" || subCategory === "Tablet" ? (
-                    <MobileAccessories
+                  {subCategory === "Mobile" ||
+                  subCategory === "Tablet" ||
+                  subCategory === "HeadPhone" ? (
+                    <MobileTablet
                       subCategory={subCategory}
-                      mobile={mobile}
+                      mobileTablet={mobileTablet}
+                      setMobileTablet={setMobileTablet}
                     />
                   ) : null}
                 </>
@@ -259,8 +268,136 @@ const ShopCreateProduct = () => {
                   onChange={(e) => setStock(e.target.value)}
                 />
               </div>
+              <div className="input__box">
+                <label htmlFor="display">Item model number</label>
+                <input
+                  type="text"
+                  id="Item model number"
+                  name="Item model number"
+                  value={mobileTablet?.modelno}
+                  placeholder="Enter Product Guarantee"
+                  onChange={(e) =>
+                    setMobileTablet({
+                      ...mobileTablet,
+                      modelno: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Guarantee</label>
+                <input
+                  type="text"
+                  id="guarantee"
+                  name="guarantee"
+                  value={mobileTablet?.guarantee}
+                  placeholder="Enter Product Guarantee"
+                  onChange={(e) =>
+                    setMobileTablet({
+                      ...mobileTablet,
+                      guarantee: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Warranty</label>
+                <input
+                  type="text"
+                  id="warranty"
+                  name="warranty"
+                  value={mobileTablet?.warranty}
+                  placeholder="Enter warranty"
+                  onChange={(e) =>
+                    setMobileTablet({
+                      ...mobileTablet,
+                      warranty: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Weight</label>
+                <input
+                  type="text"
+                  id="Weight"
+                  name="Weight"
+                  value={mobileTablet?.weight}
+                  placeholder="Enter Product Weight"
+                  onChange={(e) =>
+                    setMobileTablet({ ...mobileTablet, weight: e.target.value })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Manufacturer</label>
+                <input
+                  type="text"
+                  id="Weight"
+                  name="Weight"
+                  value={mobileTablet?.manufacturer}
+                  placeholder="Enter Product Manufacturer"
+                  onChange={(e) =>
+                    setMobileTablet({
+                      ...mobileTablet,
+                      manufacturer: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Product Dimensions</label>
+                <input
+                  type="text"
+                  id="Weight"
+                  name="Weight"
+                  value={mobileTablet?.dimensions}
+                  placeholder="Enter Product Dimensions"
+                  onChange={(e) =>
+                    setMobileTablet({
+                      ...mobileTablet,
+                      dimensions: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">Country of Origin</label>
+                <input
+                  type="text"
+                  id="Weight"
+                  name="Weight"
+                  value={mobileTablet?.origin}
+                  placeholder="Enter Country of Origin"
+                  onChange={(e) =>
+                    setMobileTablet({ ...mobileTablet, origin: e.target.value })
+                  }
+                />
+              </div>
 
               <div className="input__box">
+                <label>Uploads Images</label>
+                <div className="box_ab">
+                <input
+                  type="file"
+                  id="upload"
+                  multiple={true}
+                  onChange={handleImageChange}
+                />
+                <label className="label" htmlFor="upload">
+                  <AiOutlinePlusCircle size={30} color="#555" />
+                  Choose Images
+                </label>
+                </div>
+                <div className="img__box">
+                {images &&
+                  images.map((i) => (
+                      <img src={URL.createObjectURL(i)} key={i} alt="" />
+                      ))}
+                </div>
+              </div>
+
+              <div className="input__box description_full">
                 <label htmlFor="description">Description</label>
                 <textarea
                   rows={8}
@@ -272,27 +409,6 @@ const ShopCreateProduct = () => {
                   placeholder="Enter Product Descriptions"
                   onChange={(e) => setDescription(e.target.value)}
                 />
-              </div>
-
-              <div className="input__box">
-                <label>Uploads Images</label>
-                <input
-                  type="file"
-                  id="upload"
-                  multiple={true}
-                  onChange={handleImageChange}
-                />
-                <label className="label" htmlFor="upload">
-                  <AiOutlinePlusCircle size={30} color="#555" />
-                  Choose Images
-                </label>
-              </div>
-
-              <div className="img__box">
-                {images &&
-                  images.map((i) => (
-                    <img src={URL.createObjectURL(i)} key={i} alt="" />
-                  ))}
               </div>
 
               <div className="btn__box">
@@ -308,13 +424,82 @@ const ShopCreateProduct = () => {
   );
 };
 
-
-const MobileAccessories = () => {
+const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
   return (
     <>
-    
+      {subCategory === "Mobile" || subCategory === "Tablet" ? (
+        <>
+          <div className="input__box">
+            <label htmlFor="display">Display</label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={mobileTablet?.display}
+              placeholder="Enter Product Descriptions"
+              onChange={(e) =>
+                setMobileTablet({ ...mobileTablet, display: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">Camera</label>
+            <input
+              type="text"
+              id="camera"
+              name="camera"
+              value={mobileTablet?.camera}
+              placeholder="Enter Product camera"
+              onChange={(e) =>
+                setMobileTablet({ ...mobileTablet, camera: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">Ram</label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={mobileTablet?.ram}
+              placeholder="Enter ram"
+              onChange={(e) =>
+                setMobileTablet({ ...mobileTablet, ram: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">Storage</label>
+            <input
+              type="text"
+              id="storage"
+              name="storage"
+              value={mobileTablet?.storage}
+              placeholder="Enter Product storage"
+              onChange={(e) =>
+                setMobileTablet({ ...mobileTablet, storage: e.target.value })
+              }
+            />
+          </div>
+        </>
+      ) : null}
+      {subCategory === "HeadPhone" ? (
+        <div className="input__box">
+          <label htmlFor="display">access</label>
+          <input
+            type="text"
+            id="display"
+            name="display"
+            value={mobileTablet?.display}
+            placeholder="Enter Product Descriptions"
+            onChange={(e) =>
+              setMobileTablet({ ...mobileTablet, display: e.target.value })
+            }
+          />
+        </div>
+      ) : null}
     </>
-  )
-}
+  );
+};
 
 export default ShopCreateProduct;

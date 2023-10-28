@@ -73,6 +73,9 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  details: {
+    type: Object,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

@@ -4,6 +4,7 @@ const ErrorHandler = require("./middleware/error")
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors")
+const path = require("path")
 
 
 app.use(express.json());
@@ -14,7 +15,6 @@ app.use(cors({
 }))
 app.use("/", express.static("uploads"));
 app.use(bodyParser.urlencoded({extended: true, limit: "50mb"}));
-
 
 // Route Import 
 const user = require("./routes/userRoutes");
@@ -41,6 +41,13 @@ app.use("/api/v2", conversation);
 app.use("/api/v2", message);
 app.use("/api/v2", withdraw);
 app.use("/api/v2", color);
+
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+});
 
 // Middleware for error
 app.use(ErrorHandler);

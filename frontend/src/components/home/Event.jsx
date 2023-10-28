@@ -55,7 +55,8 @@ const Event = () => {
   }, [dispatch]);
 
   return (
-    <div className="event__main">
+    event?.length !== 0 ? (
+      <div className="event__main">
       <div className="container">
         <div className="row">
           <div className="img__box col">
@@ -117,6 +118,7 @@ const Event = () => {
         </div>
       </div>
     </div>
+    ) : null
   );
 };
 

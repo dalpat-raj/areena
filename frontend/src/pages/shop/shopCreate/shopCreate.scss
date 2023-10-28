@@ -37,6 +37,8 @@
                         top: 50%;
                         left: 2%;
                         transform: translate(0, -50%);
+
+                        
                     }
                     .Pass__icon{
                         position: absolute;
@@ -44,6 +46,19 @@
                         right: 10px;
                         transform: translate(0, -50%);
                         // cursor: pointer;
+                    }
+                }
+
+                .img__shoose{
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    img{
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 50%;
+                        object-fit: cover;
                     }
                 }
                 

@@ -45,17 +45,20 @@ const ShopInbox = () => {
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
-    axios
+    const getConversation = async () => {
+      try {
+     const response = await axios
       .get(`${server}/get-all-conversation-seller/${seller?._id}`, {
         withCredentials: true,
       })
-      .then((res) => {
-        setConversation(res.data.conversation);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [seller]);
+  
+      setConversation(response.data.conversation);
+    }catch(error){
+      // console.log(error);
+    }
+  }
+  getConversation()
+  }, [seller, messages]);
 
   useEffect(() => {
     if (seller) {
@@ -76,13 +79,17 @@ const ShopInbox = () => {
 
   // get Message
   useEffect(() => {
-    axios.get(
-      `${server}/get-all-messages/${currentChat?._id}`
-    ).then((res)=>{
-      setMessages(res.data.messages);
-    }).catch ((error)=>{
-    console.log(error);
-  })
+    const getMessage = async () => {
+    try {
+      const response = await axios.get(
+        `${server}/get-all-messages/${currentChat?._id}`
+      )
+      setMessages(response.data.messages)
+    } catch (error) {
+      // console.log(error);
+    }
+  }
+  getMessage();
   }, [currentChat]);
 
   // create new message
@@ -104,7 +111,7 @@ const ShopInbox = () => {
     });
 
     try {
-      if (!newMessage !== "") {
+      if (newMessage !== "") {
         await axios
           .post(`${server}/create-new-message`, message)
           .then((res) => {
@@ -120,16 +127,16 @@ const ShopInbox = () => {
     }
   };
 
-  const updateLastMessage = () => {
+  const updateLastMessage = async () => {
     socketId.emit("updateLastMessage", {
       lastMessage: newMessage,
       lastMessageId: seller?._id,
     });
 
-    axios
+    await axios
       .put(`${server}/update-last-message/${currentChat?._id}`, {
         lastMessage: newMessage,
-        lastMessageId: seller._id,
+        lastMessageId: seller?._id,
       })
       .then((res) => {
         setNewMessage("");
@@ -158,7 +165,7 @@ const ShopInbox = () => {
     );
 
     socketId.emit("sendMessage", {
-      senderId: seller._id,
+      senderId: seller?._id,
       receiverId,
       images: e,
     });
@@ -183,7 +190,7 @@ const ShopInbox = () => {
   const updateLastMessageForImage = async () => {
     await axios.put(`${server}/update-last-message/${currentChat._id}`, {
       lastMessage: "Photo",
-      lastMessageId: seller._id,
+      lastMessageId: seller?._id,
     });
   };
 
@@ -258,14 +265,14 @@ const Message = ({
   setActiveStatus,
   isLoading,
 }) => {
-  const [active, setActive] = useState(1);
   const [user, setUser] = useState([]);
   const navigate = useNavigate();
   const handleClick = (id) => {
     navigate(`/shop-dashboard-messages/?${id}`);
     setOpen(true);
   };
-
+  const [active, setActive] = useState(0);
+  
   useEffect(() => {
     setActiveStatus(online);
     const userId = data.members.find((user) => user !== me);
@@ -279,7 +286,7 @@ const Message = ({
       }
     };
     getUser();
-  }, [me, data, setUserData, online, setActiveStatus]);
+  }, [me, data]);
 
   return (
     <div
@@ -294,7 +301,7 @@ const Message = ({
     >
       <div
         className={`${
-          active === index ? "message__row active" : "message__row"
+          active === index ? "message__row" : "message__row"
         }`}
       >
         <div className="imgBox">

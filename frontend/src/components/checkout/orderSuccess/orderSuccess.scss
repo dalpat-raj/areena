@@ -1,0 +1,14 @@
+@import "../../../sass//variable";
+
+.order_success{
+    .text{
+        text-align: center;
+        font-size: 18px;
+        font-family: $font-domine;
+    }
+    button{
+        display: block;
+        margin: auto;
+        margin-top: 2rem;
+    }
+}

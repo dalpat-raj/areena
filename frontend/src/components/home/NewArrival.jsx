@@ -15,19 +15,16 @@ const NewArrival = () => {
   }, [dispatch]);
 
   return (
-    <div className="arrival__main">
+    products?.length !== 0 ? (
+      <div className="arrival__main">
       <div className="container__heading">
         <h2>New Arrivals</h2>
         <p>We have your occasion covered</p>
       </div>
       <div className="product__container">
         <div className="products__row">
-          {products && products.length !== 0 ? (
+          {products && products.length !== 0 && (
             products.map((item, i) => <ProductCard products={item} key={i} />)
-          ) : (
-            <div className="container__heading">
-              <h2>No Products Please Add Products</h2>
-            </div>
           )}
         </div>
       </div>
@@ -38,6 +35,7 @@ const NewArrival = () => {
         </button>
       </div>
     </div>
+    ) : null
   );
 };
 

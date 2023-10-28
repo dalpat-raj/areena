@@ -222,22 +222,14 @@ const ShopCreateEvent = () => {
                 />
               </div>
 
-              <div className="input__box">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  rows={8}
-                  cols={30}
-                  type="text"
-                  id="description"
-                  name="description"
-                  value={description}
-                  placeholder="Enter Event Product Descriptions"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-
-              <div className="input__box">
+              <div className="input__box image__shoes">
                 <label>Uploads Images</label>
+                <div className="img__box">
+                  {images &&
+                    images.map((i) => (
+                      <img src={URL.createObjectURL(i)} key={i} alt="" />
+                    ))}
+                </div>
                 <input
                   type="file"
                   id="upload"
@@ -250,11 +242,18 @@ const ShopCreateEvent = () => {
                 </label>
               </div>
 
-              <div className="img__box">
-                {images &&
-                  images.map((i) => (
-                    <img src={URL.createObjectURL(i)} key={i} alt="" />
-                  ))}
+              <div className="input__box">
+                <label htmlFor="description">Description</label>
+                <textarea
+                  rows={8}
+                  cols={30}
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={description}
+                  placeholder="Enter Event Product Descriptions"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
               </div>
 
               <div className="btn__box">

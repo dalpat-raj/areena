@@ -36,7 +36,7 @@ const Products = () => {
                 <span>Filter</span>
               </div>
               <div className="total__items">
-                <span>39 items</span>
+                <span>{products && products.length} items</span>
               </div>
               <div className="top__right__filter">
                 <div className="grid__icon">

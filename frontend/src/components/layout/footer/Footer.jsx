@@ -51,7 +51,7 @@ const Footer = () => {
                         <li>latest news</li>
                         <li><Link to={"/shop-login"}>login seller</Link></li>
                         <li>career</li>
-                        <li>my account</li>
+                        <li><Link to={"/account"}>my account</Link></li>
                         <li>My cart</li>
                         <li>Orders and returns</li>
                         <li>Contact Us</li>
@@ -66,12 +66,12 @@ const Footer = () => {
                         </div>
                     </button>
                     <ul className={footerCtgg ? "category-list-show" : "category-list"}>
-                        <li>privacy policy</li>
+                        <li><Link to={"/privacy-policy"}>privacy policy</Link></li>
                         <li>Terms & conditions</li>
                         <li>shipping & Returns</li>
                         <li>help & FAQs</li>
                         <li>refund policy</li>
-                        <li>customer service</li>
+                        <li><Link to={"/coustomer-services"}>customer service</Link></li>
                     </ul>
                 </div>
                 <div className="box">

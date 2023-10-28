@@ -1,0 +1,26 @@
+@import "../../sass/variable";
+
+.privacy{
+    h2{
+        margin: 1rem 0;
+        font-size: 20px;
+        color: #333;
+    }
+    p{
+        font-size: $fs-7;
+        font-weight: $weight-500;
+        margin: 1rem 0;
+    }
+    span{
+        font-size: $fs-7;
+        color: #333;
+        margin: 1rem 0;
+    }
+    li{
+        list-style-type: circle;
+        p{
+            display: inline-block;
+            
+        }
+    }
+}
