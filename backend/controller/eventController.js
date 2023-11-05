@@ -33,6 +33,7 @@ exports.createEvent = catchAsyncErrors(async (req, res, next)=>{
 
 // Get all events for seller
 exports.getAllEvents = catchAsyncErrors(async (req, res, next)=>{
+    console.log(req.params.id);
     try {
         const events = await Event.find({shopId: req.params.id}).sort({createdAt: -1});
         res.status(201).json({

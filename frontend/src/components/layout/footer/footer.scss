@@ -195,13 +195,19 @@
             gap: 1.5rem;
             .box{
                 gap: 0.8rem;
+                h4{
+                    font-size: $fs-8;
+                }
                 .logo{
-                    h2{
-                        font-size: 2rem;
+                    img{
+                        width: 50px !important;
+                        height: 50px !important;
+                        object-fit: contain;
                     }
                 }
                 .description, li{
                     font-size: $fs-8;
+                    color: #333;
                 }
                 ul{
                     li{
@@ -210,6 +216,7 @@
                 }
                 
             }
+        
         }
     }
 }

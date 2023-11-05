@@ -1,8 +1,64 @@
 @import "../../../sass/variable";
 
 .shop__all__products {
+  height: 80vh;
+    overflow-y: scroll;
+ 
+    &::-webkit-scrollbar { 
+        width: 0px !important; 
+      }
+ 
+  .products__row{
+    grid-template-columns: auto auto auto;
+    gap: 1rem;
+  }
+}
+
+.not_products{
+  width: 100%;
+  height: 70vh;
   display: flex;
-  justify-content: first baseline;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 1rem;
-  flex-wrap: wrap;
+  p{
+    font-size: $fs-7;
+    font-family: $font-domine;
+
+  }
+
+  // display: flex;
+}
+
+@media only screen and (max-width: 1024px){
+  .shop__all__products {
+ 
+    .products__row{
+      grid-template-columns: auto auto !important;
+      gap: 10px;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px){
+  .shop__all__products {
+    height: 91vh;
+    .products__row{
+      grid-template-columns: auto auto auto !important;
+      gap: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px){
+  .shop__all__products {
+ 
+    .products__row{
+      grid-template-columns: auto auto !important;
+      gap: 10px;
+    }
+  }
 }

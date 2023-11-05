@@ -7,6 +7,7 @@ import "./shopAllEvent.scss";
 import { backend__url } from '../../../../Server';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { RxCross2 } from 'react-icons/rx';
+import { MdOutlineRemoveShoppingCart } from 'react-icons/md';
 
 const ShopAllEvent = () => {
 
@@ -39,50 +40,57 @@ const ShopAllEvent = () => {
         {isLoading ? (
            <Loader />
         ) : (
-          <div className="col__2">
+          <div className="col__2 shop__all__event">
             {
-              event && event?.map((item,i)=>(
-                <>
-                <div className="shop__event__row" key={i}>
-                  <div className="img__details">
-                  <div className="img__box">
-                    <img src={`${backend__url}/${item?.images[0]}`} alt={item?.name} />
+              event?.length !== 0 ? (
+                event && event?.map((item,i)=>(
+                  <>
+                  <div className="shop__event__row" key={i}>
+                    <div className="img__details">
+                    <div className="img__box">
+                      <img src={`${backend__url}/${item?.images[0]}`} alt={item?.name} />
+                    </div>
+                    <div className="details">
+                    <p>Name: <span>{item?.name?.length >= 75 ? item?.name?.slice(0, 75) + "..." : item?.name}</span></p>
+                      <p>Category: <span>{item?.category}</span></p>
+                      <p>brand: <span>{item?.brand}</span></p>
+                      <p>riginal price: <span>₹{item?.originalPrice}</span></p>
+                      <p>selling price: <span>₹{item?.sellingPrice}</span></p>
+                      <p>stock: <span>{item?.stock}</span></p>
+                      <p>sold: <span>{item?.sold_out}</span></p>
+                      <p>start date: <span>{item?.start_date?.slice(0,10)}</span></p>
+                      <p>end date: <span>{item?.end_date?.slice(0,10)}</span></p>
+                    </div>
+                    </div>
+                    <div className="delete__icon">
+                      <AiOutlineDelete onClick={()=>setConfirmDelete(true)}/>
+                    </div>
                   </div>
-                  <div className="details">
-                  <p>Name: <span>{item?.name?.length >= 75 ? item?.name?.slice(0, 75) + "..." : item?.name}</span></p>
-                    <p>Category: <span>{item?.category}</span></p>
-                    <p>brand: <span>{item?.brand}</span></p>
-                    <p>riginal price: <span>₹{item?.originalPrice}</span></p>
-                    <p>selling price: <span>₹{item?.sellingPrice}</span></p>
-                    <p>stock: <span>{item?.stock}</span></p>
-                    <p>sold: <span>{item?.sold_out}</span></p>
-                    <p>start date: <span>{item?.start_date?.slice(0,10)}</span></p>
-                    <p>end date: <span>{item?.end_date?.slice(0,10)}</span></p>
-                  </div>
-                  </div>
-                  <div className="delete__icon">
-                    <AiOutlineDelete onClick={()=>setConfirmDelete(true)}/>
-                  </div>
+                  {
+                      confirmDelete && (
+                        <>
+                        <div className="confirm__delete">
+                          <p>Are you sure to confirm delete ?</p>
+                          <div className="btn_box">
+                            <button className='btn-sec' onClick={()=>setConfirmDelete(false)}>Cancle</button>
+                            <button className='btn-sec' onClick={()=>handleDelete(item?._id)}>Delete</button>
+                          </div>
+                          <div className="false_icon">
+                            <RxCross2 onClick={()=>setConfirmDelete(false)} />
+                          </div>
+                        </div>
+                        <p className='overlay' onClick={()=>setConfirmDelete(false)}></p>
+                        </>
+                      )
+                    }
+                  </>
+                ))
+              ) : (
+                <div className="no_events">
+                  <MdOutlineRemoveShoppingCart size={30} />
+                  <p>no event !</p>
                 </div>
-                {
-                    confirmDelete && (
-                      <>
-                      <div className="confirm__delete">
-                        <p>Are you sure to confirm delete ?</p>
-                        <div className="btn_box">
-                          <button className='btn-sec' onClick={()=>setConfirmDelete(false)}>Cancle</button>
-                          <button className='btn-sec' onClick={()=>handleDelete(item?._id)}>Delete</button>
-                        </div>
-                        <div className="false_icon">
-                          <RxCross2 onClick={()=>setConfirmDelete(false)} />
-                        </div>
-                      </div>
-                      <p className='overlay' onClick={()=>setConfirmDelete(false)}></p>
-                      </>
-                    )
-                  }
-                </>
-              ))
+              )
             }
           </div>
         )}

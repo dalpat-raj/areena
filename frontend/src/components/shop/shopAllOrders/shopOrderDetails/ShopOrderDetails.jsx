@@ -13,33 +13,27 @@ import Loader from "../../../layout/loader/Loader";
 import "./shopOrderDetails.scss";
 
 const ShopOrderDetails = () => {
-  const { order, isLoading, error } = useSelector((state) => state.order);
+  const { order, isLoading } = useSelector((state) => state.order);
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log(isLoading);
-
   const updateOrderStatusHandler = () => {
     dispatch(updateOrderStatus(id, status));
   };
-
-  const refundUpdateOrderHandler=()=>{
-    console.log("Refund success");
-    if(status === ""){
-      dispatch(updateRefundOrderStatus(id, "Processing Refund"))
-    }else{
-      dispatch(updateRefundOrderStatus(id, status))
+  console.log(order);
+  const refundUpdateOrderHandler = () => {
+    if (status === "") {
+      dispatch(updateRefundOrderStatus(id, "Processing Refund"));
+    } else {
+      dispatch(updateRefundOrderStatus(id, status));
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(getSelectedOrderShop(id));
-    if (error) {
-      dispatch({ type: "clearErrors()" });
-    }
-  }, [dispatch, id, error]);
+  }, [dispatch, id]);
 
   return isLoading ? (
     <Loader />
@@ -88,8 +82,11 @@ const ShopOrderDetails = () => {
                     alt="product details"
                   />
                   <div className="product_text">
-                    <h5>{item?.name.slice(0, 10)}...</h5>
+                    <h5>{item?.name.slice(0, 15)}...</h5>
                     <h5>₹ {item?.sellingPrice}</h5>
+                    {item?.qty && <h5>Quantity: {item?.qty}</h5>}
+                    {item?.color && <h5>Color: {item?.color}</h5>}
+                    {item?.size && <h5>Size: {item?.size}</h5>}
                   </div>
                 </div>
               ))}
@@ -107,73 +104,98 @@ const ShopOrderDetails = () => {
 
           <div className="update_stauts">
             <h4>Order Status</h4>
-            {
-              order?.status !== "Delivered" && order?.status !== "Refund Success" ? (
-                <>
-                {order?.status !== "Processing Refund" && order?.status !== "Refund Success" ? (
-              <select
-              value={status}
-                className="btn-sel"
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                {[
-                  "Processing",
-                  "Transferred to delivery partner",
-                  "Shipping",
-                  "Received",
-                  "On the way",
-                  "Delivered",
-                ]
-                  .slice(
-                    [
+            {order?.status !== "Delivered" &&
+            order?.status !== "Refund Success" ? (
+              <>
+                {order?.status !== "Processing Refund" &&
+                order?.status !== "Refund Success" ? (
+                  <select
+                    value={status}
+                    className="btn-sel"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    {[
                       "Processing",
                       "Transferred to delivery partner",
                       "Shipping",
                       "Received",
                       "On the way",
                       "Delivered",
-                    ].indexOf(order?.status)
-                  )
-                  .map((option, i) => (
-                    <option value={option} key={i}>
-                      {option}
-                    </option>
-                  ))}
-              </select>
+                    ]
+                      .slice(
+                        [
+                          "Processing",
+                          "Transferred to delivery partner",
+                          "Shipping",
+                          "Received",
+                          "On the way",
+                          "Delivered",
+                        ].indexOf(order?.status)
+                      )
+                      .map((option, i) => (
+                        <option value={option} key={i}>
+                          {option}
+                        </option>
+                      ))}
+                  </select>
+                ) : (
+                  <select
+                    value={status}
+                    className="btn-sel"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    {["Processing Refund", "Refund Success"]
+                      .slice(
+                        ["Processing Refund", "Refund Success"].indexOf(
+                          order?.status
+                        )
+                      )
+                      .map((option, i) => (
+                        <option value={option} key={i}>
+                          {option}
+                        </option>
+                      ))}
+                  </select>
+                )}
+
+                <button
+                  className="btn-main"
+                  onClick={
+                    order?.status !== "Processing Refund" &&
+                    order?.status !== "Refund Success"
+                      ? updateOrderStatusHandler
+                      : refundUpdateOrderHandler
+                  }
+                >
+                  Update Status
+                </button>
+              </>
             ) : (
-              <select value={status} className="btn-sel" onChange={(e) => setStatus(e.target.value)}>
-                 {[
-                  "Processing Refund",
-                  "Refund Success",
-                ].slice(
-                    [
-                      "Processing Refund",
-                      "Refund Success",
-                    ].indexOf(order?.status)
-                  ).map((option, i) => (
-                    <option value={option} key={i}>
-                      {option}
-                    </option>
-                  ))}
-              </select>
+              <span>{order?.status}</span>
             )}
-
-            <button
-              className="btn-main"
-              onClick={order?.status !== "Processing Refund" && order?.status !== "Refund Success" ? updateOrderStatusHandler : refundUpdateOrderHandler}
-            >
-              Update Status
-            </button>
-                </>
-              ) : (
-                <span>{order?.status}</span>
-              )
-            }
-
           </div>
         </div>
 
         <div className="order__info">
+          <div className="shipping__info">
+            <h4>Client Information</h4>
+            {order?.user?.name && (
+              <p>
+                Name: <span>{order?.user?.name}</span>
+              </p>
+            )}
+            {order?.user?.email && (
+              <p>
+                Email: <span>{order?.user?.email}</span>
+              </p>
+            )}
+            {order?.user?.phoneNumber && (
+              <p>
+                Phone: <span>{order?.user?.phoneNumber}</span>
+              </p>
+            )}
+          </div>
+
           <div className="shipping__info">
             <h4>Shipping Address</h4>
             <p>

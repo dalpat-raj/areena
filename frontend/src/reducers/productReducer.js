@@ -56,7 +56,8 @@ export const productReducer = createReducer(initialState, {
   },
   ProductSuccess: (state, action) => {
     state.isLoading = false;
-    state.products = action.payload;
+    state.products = action.payload.product;
+    state.productsCount = action.payload.productsCount
   },
   ProductFail: (state, action) => {
     state.isLoading = false;

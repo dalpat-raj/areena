@@ -3,26 +3,21 @@ import axios from "axios";
 
 // Get All Products
 export const getProduct =
-  (limit = 8, page = 1, category, sortBy ,minPrice = 0, maxPrice = 80000) =>
+  (limit = 8, page = 1, minPrice = 0, maxPrice = 80000, sortBy="", category="", brand="", color="") =>
   async (dispatch) => {
+    category = category?.split(" ").join("+")
+    category = category?.split("&").join("-");
+    
     try {
       dispatch({ type: "ProductRequest" });
 
-      let link = `/api/v2/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}`
-
-      if(category){
-        link = `/api/v2/products?limit=${limit}&page=${page}${category && `&category=${category}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
-      }
-
-      if(sortBy){
-        link = `/api/v2/products?limit=${limit}&page=${page}${sortBy && `&sort=${sortBy}`}&sellingPrice[lte]=${minPrice}&sellingPrice[gte]=${maxPrice}`
-      }
+      let link = `/api/v2/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}${sortBy && `&sort=${sortBy}`}${category && `&category=${category}`}${brand && `&brand=${brand}`}${color && `&color=${color}`}`
 
       const { data } = await axios.get(link);
 
       dispatch({
         type: "ProductSuccess",
-        payload: data.product,
+        payload: data,
       });
     } catch (error) {
       dispatch({

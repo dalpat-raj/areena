@@ -18,5 +18,6 @@ router.delete("/delete-shop-event/:id", isSeller, deleteShopEvent);
 
 // user 
 router.get("/get-all-events-user", getAllEventsUser);
+router.delete("/delete-event/:id", deleteShopEvent);
 
 module.exports = router;

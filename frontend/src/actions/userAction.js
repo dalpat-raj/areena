@@ -33,7 +33,6 @@ export const CreateUser = (userData) => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "createUserFail",
       payload: error?.response?.data?.error?.message,

@@ -5,12 +5,11 @@ import { lockClosedOutline, mailOutline } from "ionicons/icons";
 import "./login.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../../actions/userAction";
-import { toast } from "react-toastify";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Footer from "../../layout/footer/Footer";
 
 const Login = () => {
-  const { isAuthenticated, error } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -27,14 +26,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated === true) {
+    window.scrollTo(0, 0);
+    if (isAuthenticated) {
       navigate(-1);
     }
-    if (error) {
-      toast.error(error);
-      dispatch({ type: "clearErrors" });
-    }
-  }, [isAuthenticated, navigate, dispatch, error]);
+  }, [isAuthenticated, navigate ]);
 
   return (
     <>

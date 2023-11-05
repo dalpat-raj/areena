@@ -1,12 +1,11 @@
 import React from "react";
 import "./profileSidebar.scss";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { MdTrackChanges } from "react-icons/md";
 import { LiaAddressBookSolid } from "react-icons/lia";
+import { FiMap } from "react-icons/fi";
 import { GrUserAdmin } from "react-icons/gr";
 import { BsBag, BsPerson } from "react-icons/bs";
 import { LogoutUser } from "../../../actions/userAction";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
@@ -20,12 +19,26 @@ const ProfileSidebar = ({ active, setActive }) => {
 
   const logoutUserHandler = () => {
     dispatch(LogoutUser());
-    toast.success("logout success");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <div className="profileSidebar__main">
+      {user && user?.role === "Admin" && (
+        <div
+          className={
+            active === 9 ? "profileSidebar__row active" : "profileSidebar__row"
+          }
+          onClick={() => setActive(9) || navigate("/admin-dashboard")}
+        >
+          <div className="sidebar__header">
+            <span>
+              <GrUserAdmin />
+            </span>
+            <span>Admin Pennel</span>
+          </div>
+        </div>
+      )}
       <div
         className={
           active === 1 ? "profileSidebar__row active" : "profileSidebar__row"
@@ -33,10 +46,10 @@ const ProfileSidebar = ({ active, setActive }) => {
         onClick={() => setActive(1)}
       >
         <div className="sidebar__header">
-          <span>
+          <span className="icon">
             <BsPerson />
           </span>
-          <span>Profile</span>
+          <span className="text">Profile</span>
         </div>
       </div>
 
@@ -90,7 +103,7 @@ const ProfileSidebar = ({ active, setActive }) => {
       >
         <div className="sidebar__header">
           <span>
-            <MdTrackChanges />
+            <FiMap />
           </span>
           <span>Track Orders</span>
         </div>
@@ -137,22 +150,6 @@ const ProfileSidebar = ({ active, setActive }) => {
           <span>Logout</span>
         </div>
       </div>
-
-      {user && user?.role === "Admin" && (
-        <div
-          className={
-            active === 9 ? "profileSidebar__row active" : "profileSidebar__row"
-          }
-          onClick={() => setActive(9) || navigate("/admin-dashboard")}
-        >
-          <div className="sidebar__header">
-            <span>
-              <GrUserAdmin />
-            </span>
-            <span>Admin Pennel</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

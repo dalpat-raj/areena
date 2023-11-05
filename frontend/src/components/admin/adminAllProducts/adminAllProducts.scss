@@ -8,6 +8,12 @@
 
     .admin__products {
       margin-top: 2rem;
+      height: 79vh;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        width: 0px !important;
+      }
       .dashboard_heading {
         font-size: $fs-7;
         color: #333;
@@ -23,6 +29,15 @@
           gap: 10px;
         }
       }
+      .nowithdraw{
+        height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: $fs-4;
+        font-family: $font-domine;
+        text-align: center;
+    }
     }
   }
 }
@@ -34,6 +49,9 @@
       gap: 1.5rem;
       .dashboard__sidebar {
         background: $white;
+      }
+      .admin__products{
+        height: 90vh;
       }
       
     }

@@ -1,6 +1,12 @@
 @import "../../../sass/variable";
 
 .shop_all_orders{
+    height: 80vh;
+    overflow-y: scroll;
+ 
+    &::-webkit-scrollbar { 
+        width: 0px !important; 
+      }
     .order__main{
         .box{
             .row{
@@ -58,6 +64,7 @@
 
 @media only screen and (max-width: 768px){
     .shop_all_orders{
+        height: 90vh;
         .order__main{
             .box{
                 .row{
@@ -91,6 +98,7 @@
 
 @media only screen and (max-width: 480px){
     .shop_all_orders{
+     
         .order__main{
             .box{
                 .row{

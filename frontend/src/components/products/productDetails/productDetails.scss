@@ -26,9 +26,8 @@
                 img{
                     width: 87px;
                     height: 100px;
-                    object-fit: contain;
+                    object-fit: cover;
                     margin-bottom: 10px;
-                    background-color: $footer-back;
                     cursor: pointer;
                 }
             }
@@ -69,17 +68,38 @@
                     font-size: 1.5rem;
                     font-weight: 500;
                     padding: 1.5rem 0;
+                    display: inline-block !important;
+                }
+                :nth-child(2){
+                    padding-left: 1rem !important;
+                    text-decoration: line-through;
+                    color: #b6b6b6;
                 }
             }
 
             .product__stock{
                 .inStock{
                     align-items: center;
+                    position: relative;
                     .color__type{
-                        width: 10px;
-                        height: 10px;
-                        border-radius: 50%;
+                        content: "";
+                        position: absolute;
+                        top: 3px;
+                        left: 0;
+                        width: 10px !important;
+                        height: 10px !important;
+                        border-radius: 50% !important;
                         background-color: rgb(98, 218, 98);
+                    }
+                    .color__red{
+                        content: "";
+                        position: absolute;
+                        top: 3px;
+                        left: 0;
+                        width: 10px !important;
+                        height: 10px !important;
+                        border-radius: 50% !important;
+                        background-color: red !important;
                     }
                     p{
                         padding-left: 1rem;
@@ -113,42 +133,62 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                .cartInput{
+                .product__qty__size{
                     display: flex;
+                    gap: 1rem;
                     align-items: center;
-                    input, .inc__item, .dec__item{
-                        font-size: 13px;
-                        line-height: 19px;
-                        width: 42px;
-                        height: 38px;
-                        padding: 4px 0 !important;
-                        outline: none;
-                        border: 0;
-                        border-top: 1px;
-                        border-bottom: 1px;
-                        border-style: solid;
-                        border-color: #eee;
-                        text-align: center ;            
-                    }
-                    
-                    .inc__item, .dec__item{
-                        border-left: 1px;
-                        border-right: 1px;
-                        border-style: solid;
-                        border-color: #eee;
-                        font-size: 12px !important;
+                    .cartInput{
                         display: flex;
-                        justify-content: center;
                         align-items: center;
+                        input, .inc__item, .dec__item{
+                            font-size: 13px;
+                            line-height: 19px;
+                            width: 42px;
+                            height: 38px;
+                            padding: 4px 0 !important;
+                            outline: none;
+                            border: 0;
+                            border-top: 1px;
+                            border-bottom: 1px;
+                            border-style: solid;
+                            border-color: #eee;
+                            text-align: center ;            
+                        }
+                        
+                        .inc__item, .dec__item{
+                            border-left: 1px;
+                            border-right: 1px;
+                            border-style: solid;
+                            border-color: #eee;
+                            font-size: 12px !important;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                        .inc__item{
+                            border-radius: 0 5px 5px 0;
+                        }
+                        .dec__item{
+                            border-radius: 5px 0 0 5px;
+                        }
+                        .delete__item{
+                            padding-left: 1rem;
+                        }
                     }
-                    .inc__item{
-                        border-radius: 0 5px 5px 0;
-                    }
-                    .dec__item{
-                        border-radius: 5px 0 0 5px;
-                    }
-                    .delete__item{
-                        padding-left: 1rem;
+                    .product__size{
+                        select{
+                            font-size: 13px;
+                            line-height: 19px;
+                            height: 38px;
+                            padding: 4px 5px !important;
+                            outline: none;
+                            border: 1px;
+                            border-style: solid;
+                            border-color: #eee;
+                            &:focus{
+                                outline: 0;
+                            }
+                        }
                     }
                 }
                 .wishlist__options{
@@ -203,9 +243,6 @@
 
             .payment__img{
                 width: 100%;
-                position: absolute;
-                bottom: 0;
-                left: 0;
                 img{
                     width: 100%;
                 }
@@ -274,7 +311,7 @@
         .product__stock{
             .inStock{
                 display: block !important;
-                .color__type{
+                .color__type, .color__red{
                     display: inline-block;
                 }
                 p{
@@ -367,8 +404,12 @@
                 .img_group{
                     gap: 0.3rem;
                     overflow-x: scroll;
+                    &::-webkit-scrollbar { 
+                        width: 0px !important; 
+                      }
+                   
                     img{
-                        width: 75px !important;
+                        width: 65px !important;
                     }
                 }
             }

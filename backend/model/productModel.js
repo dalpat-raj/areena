@@ -9,9 +9,17 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please type product brand"],
   },
+  size: [
+    {
+      type: String,
+    }
+  ],
   category: {
     type: String,
     required: [true, "Please enter your product category"],
+  },
+  subCategory: {
+    type: String,
   },
   tags: {
     type: String,
@@ -31,6 +39,9 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [],
   },
+  shippingAndReturn: {
+    type: String,
+  },
   description: {
     type: String,
   },
@@ -40,7 +51,7 @@ const productSchema = new mongoose.Schema({
     },
   ],
   color: {
-    type: String,
+    type: Object,
   },
   reviews: [
     {

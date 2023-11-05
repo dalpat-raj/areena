@@ -3,7 +3,7 @@ import DashboardSidebar from "../dashboardSidebar/DashboardSidebar";
 import "./shopCreateProduct.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { getAllColor } from "../../../actions/ColorAction";
@@ -17,16 +17,21 @@ const ShopCreateProduct = () => {
 
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
+  const [size, setSize] = useState([]);
   const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [tags, setTags] = useState("");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState({
+    name: "",
+    hex: "",
+  });
   const [originalPrice, setOriginalPrice] = useState();
   const [sellingPrice, setSellingPrice] = useState();
   const [stock, setStock] = useState();
+  const [shippingAndReturn, setShippingAndReturn] = useState("");
   const [description, setDescription] = useState("");
+  const [active, setActive] = useState(false);
   const [images, setImages] = useState([]);
-
-  const [subCategory, setSubCategory] = useState("");
 
   const handleImageChange = (e) => {
     e.preventDefault();
@@ -34,7 +39,7 @@ const ShopCreateProduct = () => {
     setImages((prevImages) => [...prevImages, ...files]);
   };
 
-  const [mobileTablet, setMobileTablet] = useState({
+  const [otherDetails, setOtherDetails] = useState({
     display: "",
     ram: "",
     storage: "",
@@ -46,7 +51,23 @@ const ShopCreateProduct = () => {
     dimensions: "",
     modelno: "",
     origin: "",
+    salesPackage: "",
+    headPhoneType: "",
+    connectivity: "",
+    fabric: "",
+    sleeve: "",
+    pattern: "",
+    fit: "",
+    pocketType: "",
+    occasion: "",
+    material: "",
+    numberOfPockets: "",
+    withRainCover: "",
+    withTrolleySupport: "",
+    laptopSleeve: "",
   });
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,16 +82,18 @@ const ShopCreateProduct = () => {
     });
     newForm.append("name", name);
     newForm.append("brand", brand);
+    newForm.append("size", JSON.stringify(size));
     newForm.append("category", category);
+    newForm.append("subCategory", subCategory);
     newForm.append("tags", tags);
-    newForm.append("color", color);
+    newForm.append("color", JSON.stringify(color));
     newForm.append("originalPrice", originalPrice);
     newForm.append("sellingPrice", sellingPrice);
     newForm.append("stock", stock);
+    newForm.append("shippingAndReturn", shippingAndReturn);
     newForm.append("description", description);
     newForm.append("shopId", seller?._id);
-    newForm.append("details", JSON.stringify(mobileTablet));
-
+    newForm.append("details", JSON.stringify(otherDetails));
     await axios
       .post(`/api/v2/create-product`, newForm, config)
       .then((res) => {
@@ -85,10 +108,10 @@ const ShopCreateProduct = () => {
   };
 
   const categoriesData = [
-    { title: "Baby" },
+    { title: "Baby & Child" },
     { title: "Beauty" },
     { title: "Book" },
-    { title: "Bag & luggage" },
+    { title: "Bag & Luggage" },
     { title: "Clothing & Accessories" },
     { title: "Computer & Accessories" },
     { title: "Electronic" },
@@ -97,14 +120,67 @@ const ShopCreateProduct = () => {
     { title: "Home & Kitchen" },
     { title: "Jewellery" },
     { title: "Mobile & Accessories" },
-    { title: "Office Products" },
-    { title: "Shoes" },
+    { title: "Office Product" },
+    { title: "Shoes & Sandler" },
     { title: "Watches" },
   ];
+
+  const sizeData = [
+    {size: "S"},
+    {size: "L"},
+    {size: "M"},
+    {size: "XL"},
+    {size: "XXL"},
+    {size: "6"},
+    {size: "7"},
+    {size: "8"},
+    {size: "9"},
+    {size: "10"},
+    {size: "11"},
+    {size: "12"},
+    {size: "13"},
+    {size: "14"},
+    {size: "15"},
+    {size: "16"},
+    {size: "17"},
+    {size: "18"},
+    {size: "19"},
+    {size: "20"},
+    {size: "21"},
+    {size: "22"},
+    {size: "23"},
+    {size: "24"},
+    {size: "25"},
+    {size: "26"},
+    {size: "27"},
+    {size: "28"},
+    {size: "30"},
+    {size: "32"},
+    {size: "34"},
+    {size: "36"},
+    {size: "38"},
+    {size: "40"},
+    {size: "42"},
+    {size: "44"},
+    {size: "46"},
+    {size: "48"},
+    {size: "50"},
+  ];
+
+  const colorHandler = (e) => {
+    let raj = JSON.parse(e.target.value);
+    setColor({
+      ...color,
+      name: raj.name,
+      hex: raj.hex,
+    });
+  };
 
   useEffect(() => {
     dispatch(getAllColor());
   }, [dispatch]);
+
+
   return (
     <div className="dashboard__container">
       <div className="container">
@@ -113,7 +189,10 @@ const ShopCreateProduct = () => {
             <DashboardSidebar active={4} />
           </div>
           <div className="col__2 dashboard_create_product">
-            <h2>Create Product</h2>
+            <div className="heading">
+              <AiOutlineEdit size={25} />
+              <h2>Create Product</h2>
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="input__box">
                 <label htmlFor="name">Product Name</label>
@@ -140,6 +219,26 @@ const ShopCreateProduct = () => {
               </div>
 
               <div className="input__box">
+                <label htmlFor="color">Color</label>
+                <select
+                  id="color"
+                  value={color?.name}
+                  onChange={(e) => colorHandler(e)}
+                >
+                  <option value="Choose color">{color?.name}</option>
+                  {colors &&
+                    colors.map((item, i) => (
+                      <option
+                        value={JSON.stringify(item)}
+                        key={i}
+                      >
+                        {item?.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div className="input__box">
                 <label htmlFor="category">Category</label>
                 <select
                   id="category"
@@ -156,18 +255,54 @@ const ShopCreateProduct = () => {
                 </select>
               </div>
 
-              {category === "Baby" && <></>}
+              {category === "Baby & Child" && <></>}
               {category === "Beauty" && <></>}
               {category === "Book" && <></>}
-              {category === "Bag & luggage" && <></>}
-              {category === "Clothing & Accessories" && <></>}
+              {category === "Bag & Luggage" && (
+                <>
+                  <BagDetails
+                    otherDetails={otherDetails}
+                    setOtherDetails={setOtherDetails}
+                  />
+                </>
+              )}
+              {category === "Clothing & Accessories" && (
+                <>
+                  <div className="input__box">
+                    <label htmlFor="category">Choose Type</label>
+                    <select
+                      id="category"
+                      value={subCategory}
+                      onChange={(e) => setSubCategory(e.target.value)}
+                    >
+                      <option value="Choose a Type">Choose type</option>
+                      <option value="Men">Men</option>
+                      <option value="Women">Women</option>
+                      <option value="Child">Child</option>
+                    </select>
+                  </div>
+                  {subCategory === "Men" ||
+                  subCategory === "Women" ||
+                  subCategory === "Child" ? (
+                    <ClothingDetails
+                      subCategory={subCategory}
+                      otherDetails={otherDetails}
+                      setOtherDetails={setOtherDetails}
+                      size={size}
+                      setSize={setSize}
+                      sizeData={sizeData}
+                      active={active}
+                      setActive={setActive}
+                    />
+                  ) : null}
+                </>
+              )}
               {category === "Computer & Accessories" && <></>}
               {category === "Electronic" && <></>}
               {category === "Furniture" && <></>}
               {category === "Helth & Personal Care" && <></>}
               {category === "Home & Kitchen" && <></>}
               {category === "Jewellery" && <></>}
-
               {category === "Mobile & Accessories" && (
                 <>
                   <div className="input__box">
@@ -186,38 +321,32 @@ const ShopCreateProduct = () => {
                   {subCategory === "Mobile" ||
                   subCategory === "Tablet" ||
                   subCategory === "HeadPhone" ? (
-                    <MobileTablet
+                    <MobileDetails
                       subCategory={subCategory}
-                      mobileTablet={mobileTablet}
-                      setMobileTablet={setMobileTablet}
+                      otherDetails={otherDetails}
+                      setOtherDetails={setOtherDetails}
                     />
                   ) : null}
                 </>
               )}
-
-              {category === "Office Products" && <></>}
-              {category === "Shoes" && <></>}
+              {category === "Office Product" && <></>}
+              {category === "Shoes & Sandler" && (
+                <>
+                  <ShoesDetails
+                    size={size}
+                    setSize={setSize}
+                    sizeData={sizeData}
+                    active={active}
+                    setActive={setActive}
+                  />
+                </>
+              )}
               {category === "Watches" && <></>}
 
               <div className="input__box">
-                <label htmlFor="color">Color</label>
-                <select
-                  id="color"
-                  value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                >
-                  <option value="Choose color">Choose color</option>
-                  {colors &&
-                    colors.map((item, i) => (
-                      <option value={item.name} key={i}>
-                        {item.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              <div className="input__box">
-                <label htmlFor="tags">Tags</label>
+                <label htmlFor="tags">
+                  Tags <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="tags"
@@ -263,78 +392,87 @@ const ShopCreateProduct = () => {
                   onChange={(e) => setStock(e.target.value)}
                 />
               </div>
+
               <div className="input__box">
-                <label htmlFor="display">Item model number</label>
+                <label htmlFor="display">
+                  Item model number <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="Item model number"
                   name="Item model number"
-                  value={mobileTablet?.modelno}
+                  value={otherDetails?.modelno}
                   placeholder="Enter Product Guarantee"
                   onChange={(e) =>
-                    setMobileTablet({
-                      ...mobileTablet,
+                    setOtherDetails({
+                      ...otherDetails,
                       modelno: e.target.value,
                     })
                   }
                 />
               </div>
               <div className="input__box">
-                <label htmlFor="display">Guarantee</label>
+                <label htmlFor="display">
+                  Guarantee <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="guarantee"
                   name="guarantee"
-                  value={mobileTablet?.guarantee}
+                  value={otherDetails?.guarantee}
                   placeholder="Enter Product Guarantee"
                   onChange={(e) =>
-                    setMobileTablet({
-                      ...mobileTablet,
+                    setOtherDetails({
+                      ...otherDetails,
                       guarantee: e.target.value,
                     })
                   }
                 />
               </div>
               <div className="input__box">
-                <label htmlFor="display">Warranty</label>
+                <label htmlFor="display">
+                  Warranty <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="warranty"
                   name="warranty"
-                  value={mobileTablet?.warranty}
+                  value={otherDetails?.warranty}
                   placeholder="Enter warranty"
                   onChange={(e) =>
-                    setMobileTablet({
-                      ...mobileTablet,
+                    setOtherDetails({
+                      ...otherDetails,
                       warranty: e.target.value,
                     })
                   }
                 />
               </div>
               <div className="input__box">
-                <label htmlFor="display">Weight</label>
+                <label htmlFor="display">
+                  Weight <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="Weight"
                   name="Weight"
-                  value={mobileTablet?.weight}
+                  value={otherDetails?.weight}
                   placeholder="Enter Product Weight"
                   onChange={(e) =>
-                    setMobileTablet({ ...mobileTablet, weight: e.target.value })
+                    setOtherDetails({ ...otherDetails, weight: e.target.value })
                   }
                 />
               </div>
               <div className="input__box">
-                <label htmlFor="display">Manufacturer</label>
+                <label htmlFor="display">Manufacturer </label>
                 <input
                   type="text"
                   id="Weight"
                   name="Weight"
-                  value={mobileTablet?.manufacturer}
+                  value={otherDetails?.manufacturer}
                   placeholder="Enter Product Manufacturer"
                   onChange={(e) =>
-                    setMobileTablet({
-                      ...mobileTablet,
+                    setOtherDetails({
+                      ...otherDetails,
                       manufacturer: e.target.value,
                     })
                   }
@@ -346,52 +484,85 @@ const ShopCreateProduct = () => {
                   type="text"
                   id="Weight"
                   name="Weight"
-                  value={mobileTablet?.dimensions}
+                  value={otherDetails?.dimensions}
                   placeholder="Enter Product Dimensions"
                   onChange={(e) =>
-                    setMobileTablet({
-                      ...mobileTablet,
+                    setOtherDetails({
+                      ...otherDetails,
                       dimensions: e.target.value,
                     })
                   }
                 />
               </div>
               <div className="input__box">
-                <label htmlFor="display">Country of Origin</label>
+                <label htmlFor="display">
+                  Country of Origin <span className="optional">(optional)</span>
+                </label>
                 <input
                   type="text"
                   id="Weight"
                   name="Weight"
-                  value={mobileTablet?.origin}
+                  value={otherDetails?.origin}
                   placeholder="Enter Country of Origin"
                   onChange={(e) =>
-                    setMobileTablet({ ...mobileTablet, origin: e.target.value })
+                    setOtherDetails({ ...otherDetails, origin: e.target.value })
+                  }
+                />
+              </div>
+              <div className="input__box">
+                <label htmlFor="display">
+                  Sales Package <span className="optional">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  id="Weight"
+                  name="Weight"
+                  value={otherDetails?.salesPackage}
+                  placeholder="Enter Sales Package Box Item's"
+                  onChange={(e) =>
+                    setOtherDetails({
+                      ...otherDetails,
+                      salesPackage: e.target.value,
+                    })
                   }
                 />
               </div>
 
-              <div className="input__box">
-                <label>Uploads Images</label>
-                <div className="box_ab">
-                <input
-                  type="file"
-                  id="upload"
-                  multiple={true}
-                  onChange={handleImageChange}
-                />
-                <label className="label" htmlFor="upload">
-                  <AiOutlinePlusCircle size={30} color="#555" />
-                  Choose Images
-                </label>
+              <div className="INP_IMG">
+                <div className="input__box">
+                  <label>Uploads Images</label>
+                  <input
+                    type="file"
+                    id="upload"
+                    multiple={true}
+                    onChange={handleImageChange}
+                  />
+                  <label className="label" htmlFor="upload">
+                    <AiOutlinePlusCircle size={30} color="#555" />
+                    Choose Images
+                  </label>
                 </div>
                 <div className="img__box">
-                {images &&
-                  images.map((i) => (
+                  {images &&
+                    images.map((i) => (
                       <img src={URL.createObjectURL(i)} key={i} alt="" />
-                      ))}
+                    ))}
                 </div>
               </div>
 
+              <div className="input__box description_full">
+                <label htmlFor="description">Shipping And Return</label>
+                <textarea
+                  rows={8}
+                  cols={30}
+                  type="text"
+                  id="shipping"
+                  name="shipping"
+                  value={shippingAndReturn}
+                  placeholder="Enter Product Shipping And Return Policy"
+                  onChange={(e) => setShippingAndReturn(e.target.value)}
+                />
+              </div>
               <div className="input__box description_full">
                 <label htmlFor="description">Description</label>
                 <textarea
@@ -419,7 +590,95 @@ const ShopCreateProduct = () => {
   );
 };
 
-const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
+const BagDetails = ({ otherDetails, setOtherDetails }) => {
+  return (
+    <>
+      <div className="input__box">
+        <label htmlFor="display">
+          Material <span className="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="display"
+          name="display"
+          value={otherDetails?.material}
+          placeholder="bag material"
+          onChange={(e) =>
+            setOtherDetails({ ...otherDetails, material: e.target.value })
+          }
+        />
+      </div>
+      <div className="input__box">
+        <label htmlFor="display">
+          Number Of Pockets <span className="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="display"
+          name="display"
+          value={otherDetails?.numberOfPockets}
+          placeholder="enter number of pocket"
+          onChange={(e) =>
+            setOtherDetails({
+              ...otherDetails,
+              numberOfPockets: e.target.value,
+            })
+          }
+        />
+      </div>
+      <div className="input__box">
+        <label htmlFor="display">
+          With Rain Cover <span className="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="display"
+          name="display"
+          value={otherDetails?.withRainCover}
+          placeholder="with rain cover"
+          onChange={(e) =>
+            setOtherDetails({ ...otherDetails, withRainCover: e.target.value })
+          }
+        />
+      </div>
+      <div className="input__box">
+        <label htmlFor="display">
+          With Trolley Support <span className="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="display"
+          name="display"
+          value={otherDetails?.withTrolleySupport}
+          placeholder="with rain cover"
+          onChange={(e) =>
+            setOtherDetails({
+              ...otherDetails,
+              withTrolleySupport: e.target.value,
+            })
+          }
+        />
+      </div>
+      <div className="input__box">
+        <label htmlFor="display">
+          Laptop Sleeve <span className="optional">(optional)</span>
+        </label>
+        <input
+          type="text"
+          id="display"
+          name="display"
+          value={otherDetails?.laptopSleeve}
+          placeholder="laptop sleeve"
+          onChange={(e) =>
+            setOtherDetails({ ...otherDetails, laptopSleeve: e.target.value })
+          }
+        />
+      </div>
+    </>
+  );
+};
+
+const MobileDetails = ({ subCategory, otherDetails, setOtherDetails }) => {
   return (
     <>
       {subCategory === "Mobile" || subCategory === "Tablet" ? (
@@ -430,10 +689,10 @@ const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
               type="text"
               id="display"
               name="display"
-              value={mobileTablet?.display}
+              value={otherDetails?.display}
               placeholder="Enter Product Descriptions"
               onChange={(e) =>
-                setMobileTablet({ ...mobileTablet, display: e.target.value })
+                setOtherDetails({ ...otherDetails, display: e.target.value })
               }
             />
           </div>
@@ -443,10 +702,10 @@ const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
               type="text"
               id="camera"
               name="camera"
-              value={mobileTablet?.camera}
+              value={otherDetails?.camera}
               placeholder="Enter Product camera"
               onChange={(e) =>
-                setMobileTablet({ ...mobileTablet, camera: e.target.value })
+                setOtherDetails({ ...otherDetails, camera: e.target.value })
               }
             />
           </div>
@@ -456,10 +715,10 @@ const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
               type="text"
               id="display"
               name="display"
-              value={mobileTablet?.ram}
+              value={otherDetails?.ram}
               placeholder="Enter ram"
               onChange={(e) =>
-                setMobileTablet({ ...mobileTablet, ram: e.target.value })
+                setOtherDetails({ ...otherDetails, ram: e.target.value })
               }
             />
           </div>
@@ -469,30 +728,223 @@ const MobileTablet = ({ subCategory, mobileTablet, setMobileTablet }) => {
               type="text"
               id="storage"
               name="storage"
-              value={mobileTablet?.storage}
+              value={otherDetails?.storage}
               placeholder="Enter Product storage"
               onChange={(e) =>
-                setMobileTablet({ ...mobileTablet, storage: e.target.value })
+                setOtherDetails({ ...otherDetails, storage: e.target.value })
               }
             />
           </div>
         </>
       ) : null}
       {subCategory === "HeadPhone" ? (
-        <div className="input__box">
-          <label htmlFor="display">access</label>
-          <input
-            type="text"
-            id="display"
-            name="display"
-            value={mobileTablet?.display}
-            placeholder="Enter Product Descriptions"
-            onChange={(e) =>
-              setMobileTablet({ ...mobileTablet, display: e.target.value })
-            }
-          />
-        </div>
+        <>
+          <div className="input__box">
+            <label htmlFor="display">HeadPhone Type</label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.headPhoneType}
+              placeholder="Enter type"
+              onChange={(e) =>
+                setOtherDetails({
+                  ...otherDetails,
+                  headPhoneType: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">
+              Connectivity <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.connectivity}
+              placeholder="connectivity"
+              onChange={(e) =>
+                setOtherDetails({
+                  ...otherDetails,
+                  connectivity: e.target.value,
+                })
+              }
+            />
+          </div>
+        </>
       ) : null}
+    </>
+  );
+};
+
+const ClothingDetails = ({
+  subCategory,
+  otherDetails,
+  setOtherDetails,
+  size,
+  setSize,
+  sizeData,
+  active,
+  setActive,
+}) => {
+console.log(size);
+  return (
+    <>
+      <div className="input__box">
+        <label htmlFor="display">Size</label>
+        <div className="select__size" onClick={() => setActive(!active)}>
+          {size?.length !== 0 ? (
+            size?.map((item, i) => <span key={i}>{item}</span>)
+          ) : (
+            <span className="no__select">
+              Select size
+            </span>
+          )}
+        </div>
+        {active && (
+          <div className="size__row">
+            {sizeData &&
+              sizeData?.map((item, i) => (
+                <span
+                  onClick={(e) => setSize((prev)=>[...prev, item.size])}
+                  value={item?.size}
+                  key={i}
+                >
+                  {item.size}
+                </span>
+              ))}
+          </div>
+        )}
+      </div>
+      {subCategory === "Men" || subCategory === "Women" ? (
+        <>
+          <div className="input__box" onClick={()=>setActive(false)}>
+            <label htmlFor="display">
+              Fabric <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.fabric}
+              placeholder="shit fabric"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, fabric: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box" onClick={()=>setActive(false)}>
+            <label htmlFor="display">
+              Sleeve <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.sleeve}
+              placeholder="sleeve"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, sleeve: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">
+              Pattern <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.pattern}
+              placeholder="sleeve"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, pattern: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">
+              Fit <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.fit}
+              placeholder="sleeve"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, fit: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">
+              Pocket Type <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.pocketType}
+              placeholder="Pocket Type"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, pocketType: e.target.value })
+              }
+            />
+          </div>
+          <div className="input__box">
+            <label htmlFor="display">
+              Occasion <span className="optional">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="display"
+              name="display"
+              value={otherDetails?.occasion}
+              placeholder="enter occasion"
+              onChange={(e) =>
+                setOtherDetails({ ...otherDetails, occasion: e.target.value })
+              }
+            />
+          </div>
+        </>
+      ) : null}
+    </>
+  );
+};
+
+const ShoesDetails = ({ size, setSize, sizeData, active, setActive}) => {
+  return (
+    <>
+      {/* <div className="input__box">
+        <label htmlFor="display">Size</label>
+        <div className="select__size">
+          {size.length !== 0 ? (
+            size.map((item, i) => <span key={i}>{item}</span>)
+          ) : (
+            <span onClick={() => setActive(!active)} className="no__select">
+              Select size
+            </span>
+          )}
+        </div>
+        {active && (
+          <div className="size__row">
+            {sizeData &&
+              sizeData?.map((item, i) => (
+                <span
+                  onClick={(e) => setSize((prev) => [...prev, item])}
+                  value={item}
+                  key={i}
+                >
+                  {item}
+                </span>
+              ))}
+          </div>
+        )}
+      </div> */}
     </>
   );
 };

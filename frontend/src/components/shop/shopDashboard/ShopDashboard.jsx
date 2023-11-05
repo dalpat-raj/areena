@@ -8,6 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersShop } from "../../../actions/orderAction";
 import { getAllProductsShop } from "../../../actions/productAction";
 import { backend__url } from "../../../Server";
+import { Doughnut, Line } from "react-chartjs-2";
+import {
+  CategoryScale,
+  Chart,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+} from "chart.js";
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement
+);
 
 const ShopDashboard = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -22,6 +39,38 @@ const ShopDashboard = () => {
   }, [dispatch, seller?._id]);
 
   const availableBalance = seller?.availableBalance;
+
+  let outOfStock = 0;
+
+  products &&
+    products?.forEach((item) => {
+      if (item.stock === 0) {
+        outOfStock += 1;
+      }
+    });
+
+  const lineState = {
+    labels: ["Initial", "Earned"],
+    datasets: [
+      {
+        label: "TOTAL AMOUNT",
+        backgroundColor: ["#E13E50"],
+        hoverBackgroundColor: ["rgb(197, 72, 49)"],
+        data: [0, availableBalance],
+      },
+    ],
+  };
+
+  const doughnutState = {
+    labels: ["Out of Stock", "InStock"],
+    datasets: [
+      {
+        backgroundColor: ["#E13E50", "#333"],
+        hoverBackgroundColor: ["#35014F", "#4B5000"],
+        data: [outOfStock, products?.length - outOfStock],
+      },
+    ],
+  };
 
   return (
     <div className="dashboard__container">
@@ -72,44 +121,56 @@ const ShopDashboard = () => {
               </div>
             </div>
 
+            <div className="chart__container">
+              <div className="lineChart">
+                <Line data={lineState} />
+              </div>
+
+              <div className="doughnutChart">
+                <Doughnut data={doughnutState} />
+              </div>
+            </div>
+
             <div className="latest_orders">
               <div className="dashboard_heading">
                 <h2>Latest Orders</h2>
               </div>
-              <div className="order_container">
-                <div className="order__main">
-                  <div className="box">
-                    {orders &&
-                      orders?.map((item, i) => (
-                        <Link to={`/shop/order/${item?._id}`} key={i}>
-                          <div className="row" >
-                            <div className="img_name">
-                              {item?.cart?.map((item, i) => (
-                                <div className="img_name_row" key={i}>
-                                  <img
-                                    src={`${backend__url}/${item?.images[0]}`}
-                                    alt="raj"
-                                  />
-                                  <p>
-                                    {item?.name?.length >= 25
-                                      ? `${item?.name?.slice(0, 25)}...`
-                                      : item?.name}
-                                  </p>
-                                </div>
-                              ))}
+              {orders?.length !== 0 && (
+                <div className="order_container">
+                  <div className="order__main">
+                    <div className="box">
+                      {orders &&
+                        orders?.map((item, i) => (
+                          <Link to={`/shop/order/${item?._id}`} key={i}>
+                            <div className="row">
+                              <div className="img_name">
+                                {item?.cart?.map((item, i) => (
+                                  <div className="img_name_row" key={i}>
+                                    <img
+                                      src={`${backend__url}/${item?.images[0]}`}
+                                      alt="raj"
+                                    />
+                                    <p>
+                                      {item?.name?.length >= 25
+                                        ? `${item?.name?.slice(0, 25)}...`
+                                        : item?.name}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="price">
+                                <p>₹ {item?.totalPrice}</p>
+                              </div>
+                              <div className="status">
+                                <p>{item?.status}</p>
+                              </div>
                             </div>
-                            <div className="price">
-                              <p>₹ {item?.totalPrice}</p>
-                            </div>
-                            <div className="status">
-                              <p>{item?.status}</p>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
+                          </Link>
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

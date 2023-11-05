@@ -3,7 +3,7 @@ import "./checkout.scss";
 import { useSelector } from "react-redux";
 import {MdKeyboardArrowDown} from "react-icons/md"
 import { Country, State, City } from "country-state-city";
-import { backend__url, server } from "../../../Server";
+import { backend__url } from "../../../Server";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from 'axios'

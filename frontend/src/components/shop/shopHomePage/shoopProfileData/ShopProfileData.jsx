@@ -18,7 +18,7 @@ const ShopProfileData = ({ isOwner }) => {
 
   useEffect(() => {
     dispatch(getAllProductsShop(id));
-    dispatch(getAllEventShop(seller?._id));
+    dispatch(getAllEventShop(id));
   }, [seller, dispatch, id]);
 
   const allReviews = products && products?.map((item) => item.reviews).flat();

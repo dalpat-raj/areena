@@ -4,11 +4,17 @@
     .dashboard__row{
         display: grid;
         grid-template-columns: 250px auto;
-        gap: 4rem;
+        gap: 2rem;
         >:nth-child(2){
             margin-top: 2rem;
         }
         .profile__content{
+            height: 80vh;
+            overflow-y: scroll;
+         
+            &::-webkit-scrollbar { 
+                width: 0px !important; 
+              }
 
             .dashboard_heading{
                 font-size: $fs-7;
@@ -66,6 +72,28 @@
                     }
                 }
             }
+
+            .chart__container{
+                width: 100%;
+                display: flex;
+                gap: 10px;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 2rem;
+                .lineChart{ 
+                    width: 100%;
+                    canvas{
+                        // width: 100% !important;
+                        // height: 250px !important;
+                    }
+                }
+                .doughnutChart{
+                    width: 200px !important;
+                    height: 200px !important;
+
+                }
+            }
+
             .latest_orders{
                 margin-top: 2rem;
                 .order_container{
@@ -79,6 +107,39 @@
             }
         }
     }
+}
+
+
+@media only screen and (max-width: 1024px){
+    .dashboard__container{
+        .dashboard__row{
+            
+            .profile__content{
+                .chart__container{
+                    justify-content: flex baseline !important;
+                    flex-direction: column !important;
+                    align-items: first baseline;
+                    margin-top: 2rem;
+                    .lineChart{
+                        width: 100% !important;
+                        canvas{
+                            width: 100% !important;
+                            height: 100% !important;
+                        }
+                    }
+                    .doughnutChart{
+                        margin-top: 1rem;
+                        width: 200px !important;
+                    height: 200px !important;
+    
+                    }
+                }
+               
+                
+            }
+        }
+    }
+
 }
 
 
@@ -109,6 +170,21 @@
                         }
                     }
                 }
+                .chart__container{
+                    margin-top: 2rem;
+                    .lineChart{
+                        canvas{
+                            width: 100% !important;
+                            height: 100% !important;
+                        }
+                    }
+                    .doughnutChart{
+                        margin-top: 1rem;
+                        width: 200px !important;
+                        height: 200px !important;
+    
+                    }
+                }
                 
             }
         }
@@ -128,7 +204,7 @@
             }
 
             .profile__content{
-
+                height: 90vh;
                 .dashboard__content{
                     .dashboard__top__row{
                         grid-template-columns: repeat(1, auto);
@@ -137,6 +213,31 @@
                         .col{
                             gap: 10px;
                         }
+                    }
+                }
+
+                
+                
+            }
+        }
+    }
+
+}
+
+
+@media only screen and (max-width: 415px){
+    .dashboard__container{
+        .dashboard__row{
+            
+
+            .profile__content{
+
+                .chart__container{
+                    margin-top: 1rem;
+                    align-items: center;
+                    .doughnutChart{
+                        margin-top: 1rem;
+    
                     }
                 }
                 

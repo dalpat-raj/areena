@@ -1,152 +1,186 @@
 @import "../../../sass/variable";
 
-.dashboard_create_product{
-    height: 80vh;
-    overflow-y: scroll;
- 
-    &::-webkit-scrollbar { 
-        width: 0px !important; 
-      }
+.dashboard_create_product {
+  height: 80vh;
+  overflow-y: scroll;
 
+  &::-webkit-scrollbar {
+    width: 0px !important;
+  }
+
+  width: 100%;
+  .heading {
     width: 100%;
-    h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: $font-domine;
+    color: #333;
+    gap: 1rem;
+  }
+  form {
+    width: 100%;
+    margin-top: 1rem;
+    padding-bottom: 1rem !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .input__box {
+      position: relative;
+      width: 48%;
+      label {
+        font-size: $fs-7;
+        font-weight: 500;
+        .optional {
+          font-size: $fs-8;
+          color: $spanish-gray;
+        }
+      }
+      input,
+      textarea,
+      select {
         display: block;
-        text-align: center;
-    }
-    form{
+        width: 100% !important;
+        margin: auto;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+        background-color: #e8f0fe;
+        color: #000;
+        border-radius: 6px;
+        font-size: 13px;
+        line-height: 20px;
+        &:focus {
+          outline: unset;
+          border-style: inset;
+          border: 1px solid #333;
+        }
+      }
+      #upload {
+        // visibility: hidden;
+        height: 100%;
+      }
+      .label {
+        position: absolute;
+        top: 25%;
+        left: 0;
         width: 100%;
-        margin-top: 1rem;
+        background-color: #e8f0fe;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        .input__box{
-            position: relative;
-            width: 48%;
-            label{
-                font-size: $fs-7;
-                font-weight: 500;
-            }
-            input, textarea, select{
-                display: block;
-                width: 100% !important;
-                margin: auto;
-                padding: 10px;
-                margin-top: 5px;
-                margin-bottom: 15px;
-                border: 1px solid #eee;
-                background-color: #E8F0FE;
-                color: #000;
-                border-radius: 6px;
-                font-size: 13px;
-                line-height: 20px;
-                &:focus{
-                 outline: unset;
-                 border-style: inset;
-                 border: 1px solid #333;
-                }
-            }
-            #upload{
-                // visibility: hidden;
-                height: 100%;
-            }
-            .label{
-                position: absolute;
-                top: 25%;
-                left: 0;
-                width: 100%;
-                background-color: #E8F0FE;
-                padding: 5px;
-                border-radius: 5px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                color: #333;
-            }
-            .img__box{
-                img{
-                    width: 50px !important;
-                    height: 50px !important;
-                    object-fit: contain;
-                }
-            }
-        }
-        .description_full{
-            flex-basis: 100%;
-            // display: block !important;
-            // width: 100% !important;
-        }
-        
-        .btn__box{
-            width: 100%;
-            margin: 1rem 0;
-            button{
-                display: block;
-                width: 50%;
-                margin: auto;
-            }
-        }
+        align-items: center;
+        gap: 1rem;
+        color: #333;
+      }
     }
+    .select__size {
+      display: flex;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      padding: 10px;
+      border: 1px solid #eee;
+      background-color: #e8f0fe;
+      color: #000;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 20px;
+      cursor: pointer;
+      span{
+        padding-right: 5px;
+      }
+      .no__select{
+        display: block;
+        width: 100%;
+      }
+    }
+    .size__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      span {
+        border: 1px solid #8f8f8f;
+        font-size: $fs-9;
+        padding: 2px 3px;
+        cursor: pointer;
+      }
+      span.active {
+        background-color: aquamarine;
+      }
+    }
+    .INP_IMG {
+      width: 48%;
+      .input__box {
+        width: 100% !important;
+      }
+    }
+    .img__box {
+      img {
+        width: 50px !important;
+        height: 50px !important;
+        object-fit: contain;
+      }
+    }
+    .description_full {
+      flex-basis: 100%;
+      // display: block !important;
+      // width: 100% !important;
+    }
+
+    .btn__box {
+      width: 100%;
+      margin: 1rem 0;
+      button {
+        display: block;
+        width: 50%;
+        margin: auto;
+      }
+    }
+  }
 }
 
-@media only screen and (max-width: 768px){
-    .dashboard_create_product{
-        height: 75vh;
-        overflow-y: scroll;
-     
-        &::-webkit-scrollbar { 
-            width: 0px !important; 
-          }
-    
+@media only screen and (max-width: 768px) {
+  .dashboard_create_product {
+    height: 92vh !important;
+
+    width: 100%;
+    form {
+      width: 100%;
+      margin-top: 1rem;
+      display: block;
+      .input__box {
+        position: relative;
+        width: 100% !important;
+        label {
+          font-size: $fs-7;
+          font-weight: 500;
+        }
+        input,
+        textarea,
+        select {
+          display: block;
+        }
+      }
+
+      .INP_IMG {
         width: 100%;
-        h2{
-            display: block;
-            text-align: center;
+      }
+      .img__box {
+        img {
+          width: 50px !important;
+          height: 50px !important;
+          object-fit: contain;
         }
-        form{
-            width: 100%;
-            margin-top: 1rem;
-            display: block;
-            .input__box{
-                position: relative;
-                width: 100% !important;
-                label{
-                    font-size: $fs-7;
-                    font-weight: 500;
-                }
-                input, textarea, select{
-                    display: block;
-                }
-                .img__box{
-                    img{
-                        width: 50px !important;
-                        height: 50px !important;
-                        object-fit: contain;
-                    }
-                }
-            }
-            .image__shoes{
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 0rem;
-                input{
-                    margin-top: 4rem;
-                }
-            }
-            .img__box{
-                img{
-                    width: 45px !important;
-                    height: 45px;
-                }
-            }
-            .btn__box{
-                width: 100%;
-                button{
-                    width: 100%;
-                }
-            }
+      }
+      .btn__box {
+        width: 100%;
+        button {
+          width: 100%;
         }
+      }
     }
-    
+  }
 }

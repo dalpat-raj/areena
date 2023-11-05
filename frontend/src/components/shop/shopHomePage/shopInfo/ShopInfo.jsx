@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { backend__url, server } from "../../../../Server";
+import { backend__url } from "../../../../Server";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./shopInfo.scss";

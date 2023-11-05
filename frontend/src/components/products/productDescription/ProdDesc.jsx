@@ -16,12 +16,13 @@ const ProdDesc = ({ data }) => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get("isEvent");
-
+  
   useEffect(() => {
-    if (eventData !== true) {
+    if(eventData === true) {
       dispatch(getAllProductsShop(data?.shop?._id));
     }
   }, [dispatch, data, eventData]);
+
 
   useEffect(() => {
     if (data?.details) {
@@ -233,14 +234,84 @@ const ProdDesc = ({ data }) => {
                     Item Model No: <span>{details?.modelno}</span>
                   </p>
                 )}
-                {details?.origin && (
-                  <p>
-                    Country Of Origin: <span>{details?.origin}</span>
-                  </p>
-                )}
                 {details?.dimensions && (
                   <p>
                     Item Dimensions: <span>{details?.dimensions}</span>
+                  </p>
+                )}
+                {details?.headPhoneType && (
+                <p>
+                  Headphone Type: <span>{details?.headPhoneType}</span>
+                </p>
+              )}
+              {details?.connectivity && (
+                <p>
+                  Connectivity: <span>{details?.connectivity}</span>
+                </p>
+              )}
+              {details?.material && (
+                <p>
+                  Material: <span>{details?.material}</span>
+                </p>
+              )}
+              {details?.fabric && (
+                <p>
+                  Fabric: <span>{details?.fabric}</span>
+                </p>
+              )}
+              {details?.sleeve && (
+                <p>
+                  Sleeve: <span>{details?.sleeve}</span>
+                </p>
+              )}
+              {details?.fit && (
+                <p>
+                  Fit: <span>{details?.fit}</span>
+                </p>
+              )}
+              {details?.pattern && (
+                <p>
+                  Pattern: <span>{details?.pattern}</span>
+                </p>
+              )}
+              {details?.pocketType && (
+                <p>
+                  Pocket Type: <span>{details?.pocketType}</span>
+                </p>
+              )}
+              {details?.occasion && (
+                <p>
+                  Occasion: <span>{details?.occasion}</span>
+                </p>
+              )}
+              {details?.numberOfPockets && (
+                <p>
+                  Number Of Pockets: <span>{details?.numberOfPockets}</span>
+                </p>
+              )}
+              {details?.withRainCover && (
+                <p>
+                  With Rain Cover: <span>{details?.withRainCover}</span>
+                </p>
+              )}
+              {details?.withTrolleySupport && (
+                <p>
+                  With Trolley Support: <span>{details?.withTrolleySupport}</span>
+                </p>
+              )}
+              {details?.laptopSleeve && (
+                <p>
+                  Laptop Sleeve: <span>{details?.laptopSleeve}</span>
+                </p>
+              )}
+              {details?.salesPackage && (
+                <p>
+                  Sales Package: <span>{details?.salesPackage}</span>
+                </p>
+              )}
+              {details?.origin && (
+                  <p>
+                    Country Of Origin: <span>{details?.origin}</span>
                   </p>
                 )}
               </div>
@@ -263,61 +334,8 @@ const ProdDesc = ({ data }) => {
               </div>
             </div>
             <div className={ship ? "description__container active" : "description__container"}>
-              <h4>General Returns Policy </h4>
               <p>
-                Applicable products are returnable within
-                the applicable return window if you've received them in a
-                condition that is physically damaged, 
-                has missing parts or accessories, 
-                defective or different from their description on
-                the product detail page on Amazon.in. If you report an issue
-                with your Smartphone, Tablet, Laptop, Television, Air
-                Conditioner, Refrigerator, Washing Machine, Microwave, we may
-                facilitate scheduling a technician visit to your location. 
-                This visit is scheduled by placing an order with Amazon through
-                Amazon.in Home Services. 
-                Subject to Amazon.in Home Services Terms and Conditions, a resolution will be provided based on the
-                technician's evaluation report. Return will be processed only
-                if: it is determined that the product was not damaged while in
-                your possession; 
-                the product is not different from what was shipped to you; the product is returned in original condition
-                (with brand’s/manufacturer's box, MRP tag intact, user manual,
-                warranty card and all the accessories therein). If you wish to
-                return an electronic device that stores any personal
-                information, please ensure that you have removed all such
-                personal information from the device prior to returning. Amazon
-                shall not be liable in any manner for any misuse or usage of
-                such information. Products may not be eligible for return in
-                some cases, including cases of buyer's remorse such as incorrect
-                model or color of product ordered or incorrect product ordered.
-                Products marked as "non-returnable" on the product detail page
-                cannot be returned. However, in an unlikely event of damaged,
-                defective or wrong item delivered to you, we will provide a full
-                refund or replacement, as applicable. We may contact you to
-                ascertain the damage or defect in the product prior to issuing
-                refund/replacement. We reserve the right to pick up the product
-                to ascertain the damage or defect in the product prior to
-                issuing refund/replacement. No additional information is
-                required to return an eligible order unless otherwise noted in
-                the category specific policy. Products may be eligible for
-                replacement only if the same seller has the exact same item in
-                stock. If the replacement request is placed and the seller does
-                not have the exact same product in stock, a refund would be
-                issued to you. Products purchased by international customers are
-                not eligible for returns. However, orders made by international
-                customers are eligible for refunds and customers will have to
-                contact customer service within 5 business days from delivery
-                date or estimated delivery date to claim refunds. To know about
-                the Return window for Amazon Business orders, please visit here.
-                In the event customers are found to misuse the return policy by
-                excessively returning, or cancelling or not accepting the orders
-                placed, Amazon reserves the right to warn and/or suspend and/or
-                block and/or terminate such customer accounts, as necessary.
-                Note: If you've received a non-returnable product in a
-                damaged/defective condition, you can contact us within 10 days
-                from the delivery of the product. Note: All product categories
-                are non-returnable for International Customers for Export
-                Orders.
+               {data?.shippingAndReturn}
               </p>
             </div>
           </div>
@@ -528,6 +546,11 @@ const ProdDesc = ({ data }) => {
                   Warranty: <span>{details?.warranty}</span>
                 </p>
               )}
+              {details?.dimensions && (
+                <p>
+                  Dimensions: <span>{details?.dimensions}</span>
+                </p>
+              )}
               {details?.manufacturer && (
                 <p>
                   Manufacturer: <span>{details?.manufacturer}</span>
@@ -538,65 +561,92 @@ const ProdDesc = ({ data }) => {
                   Weight: <span>{details?.weight}</span>
                 </p>
               )}
+              {details?.modelno && (
+                <p>
+                  Model number: <span>{details?.modelno}</span>
+                </p>
+              )}
+              {details?.headPhoneType && (
+                <p>
+                  Headphone Type: <span>{details?.headPhoneType}</span>
+                </p>
+              )}
+              {details?.connectivity && (
+                <p>
+                  Connectivity: <span>{details?.connectivity}</span>
+                </p>
+              )}
+              {details?.material && (
+                <p>
+                  Material: <span>{details?.material}</span>
+                </p>
+              )}
+              {details?.fabric && (
+                <p>
+                  Fabric: <span>{details?.fabric}</span>
+                </p>
+              )}
+              {details?.sleeve && (
+                <p>
+                  Sleeve: <span>{details?.sleeve}</span>
+                </p>
+              )}
+              {details?.fit && (
+                <p>
+                  Fit: <span>{details?.fit}</span>
+                </p>
+              )}
+              {details?.pattern && (
+                <p>
+                  Pattern: <span>{details?.pattern}</span>
+                </p>
+              )}
+              {details?.pocketType && (
+                <p>
+                  Pocket Type: <span>{details?.pocketType}</span>
+                </p>
+              )}
+              {details?.occasion && (
+                <p>
+                  Occasion: <span>{details?.occasion}</span>
+                </p>
+              )}
+              {details?.numberOfPockets && (
+                <p>
+                  Number Of Pockets: <span>{details?.numberOfPockets}</span>
+                </p>
+              )}
+              {details?.withRainCover && (
+                <p>
+                  With Rain Cover: <span>{details?.withRainCover}</span>
+                </p>
+              )}
+              {details?.withTrolleySupport && (
+                <p>
+                  With Trolley Support: <span>{details?.withTrolleySupport}</span>
+                </p>
+              )}
+              {details?.laptopSleeve && (
+                <p>
+                  Laptop Sleeve: <span>{details?.laptopSleeve}</span>
+                </p>
+              )}
+              {details?.origin && (
+                <p>
+                  Country Of Origin: <span>{details?.origin}</span>
+                </p>
+              )}
+              {details?.salesPackage && (
+                <p>
+                  Sales Package: <span>{details?.salesPackage}</span>
+                </p>
+              )}
             </div>
           </div>
 
           <div ref={shippingTab} className="shipping shiftToLeft">
-          <h2 className="container__heading">General Returns Policy </h2>
-              <p>
-                Applicable products are returnable within
-                the applicable return window if you've received them in a
-                condition that is physically damaged, 
-                has missing parts or accessories, 
-                defective or different from their description on
-                the product detail page on Amazon.in. If you report an issue
-                with your Smartphone, Tablet, Laptop, Television, Air
-                Conditioner, Refrigerator, Washing Machine, Microwave, we may
-                facilitate scheduling a technician visit to your location. 
-                This visit is scheduled by placing an order with Amazon through
-                Amazon.in Home Services. 
-                Subject to Amazon.in Home Services Terms and Conditions, a resolution will be provided based on the
-                technician's evaluation report. Return will be processed only
-                if: it is determined that the product was not damaged while in
-                your possession; 
-                the product is not different from what was shipped to you; the product is returned in original condition
-                (with brand’s/manufacturer's box, MRP tag intact, user manual,
-                warranty card and all the accessories therein). If you wish to
-                return an electronic device that stores any personal
-                information, please ensure that you have removed all such
-                personal information from the device prior to returning. Amazon
-                shall not be liable in any manner for any misuse or usage of
-                such information. Products may not be eligible for return in
-                some cases, including cases of buyer's remorse such as incorrect
-                model or color of product ordered or incorrect product ordered.
-                Products marked as "non-returnable" on the product detail page
-                cannot be returned. However, in an unlikely event of damaged,
-                defective or wrong item delivered to you, we will provide a full
-                refund or replacement, as applicable. We may contact you to
-                ascertain the damage or defect in the product prior to issuing
-                refund/replacement. We reserve the right to pick up the product
-                to ascertain the damage or defect in the product prior to
-                issuing refund/replacement. No additional information is
-                required to return an eligible order unless otherwise noted in
-                the category specific policy. Products may be eligible for
-                replacement only if the same seller has the exact same item in
-                stock. If the replacement request is placed and the seller does
-                not have the exact same product in stock, a refund would be
-                issued to you. Products purchased by international customers are
-                not eligible for returns. However, orders made by international
-                customers are eligible for refunds and customers will have to
-                contact customer service within 5 business days from delivery
-                date or estimated delivery date to claim refunds. To know about
-                the Return window for Amazon Business orders, please visit here.
-                In the event customers are found to misuse the return policy by
-                excessively returning, or cancelling or not accepting the orders
-                placed, Amazon reserves the right to warn and/or suspend and/or
-                block and/or terminate such customer accounts, as necessary.
-                Note: If you've received a non-returnable product in a
-                damaged/defective condition, you can contact us within 10 days
-                from the delivery of the product. Note: All product categories
-                are non-returnable for International Customers for Export
-                Orders.
+             <p>
+              {data?.shippingAndReturn} 
               </p>
           </div>
 
@@ -611,7 +661,7 @@ const ProdDesc = ({ data }) => {
                   </span>
                 </div>
                 <div className="col col_2">
-                  <span>Write A Review</span>
+                  <span></span>
                 </div>
               </div>
               {data &&

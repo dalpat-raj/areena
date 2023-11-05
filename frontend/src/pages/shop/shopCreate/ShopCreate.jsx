@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import {
   callOutline,
@@ -11,10 +11,13 @@ import {
   mailOutline,
   personOutline,
 } from "ionicons/icons";
+import {BsShopWindow} from "react-icons/bs"
 import axios from "axios";
 import "./shopCreate.scss";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import Footer from "../../../components/layout/footer/Footer"
+import Loader from "../../../components/layout/loader/Loader"
+
 
 const ShopCreate = () => {
   const [name, setName] = useState();
@@ -27,6 +30,7 @@ const ShopCreate = () => {
   const [password, setPassword] = useState();
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(true);
+  const [wait, setWait] = useState(false);
 
   const navigate = useNavigate();
 
@@ -37,6 +41,7 @@ const ShopCreate = () => {
 
   const CreateShop = (e) => {
     e.preventDefault();
+    setWait(true)
 
     const shopData = {
       name: name,
@@ -50,21 +55,34 @@ const ShopCreate = () => {
       description: description,
     };
 
+
     axios
       .post(`/api/v2/shop-create`, shopData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
       .then((res) => {
-        toast.success(res.data.message);
-        navigate("/shop-dashboard");
+        setWait(false)
+        alert(res.data.message);
+        navigate("/");
       })
       .catch((err) => {
-        toast.error(err.response.data.error.message);
+        alert(err.response.data.error.message);
+        setWait(false)
       });
   };
 
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
+
   return (
+    <>
+    {
+      wait ? (
+        <Loader/>
+      ) : (
+        <>
     <div className="shopcreate__main">
       <div className="container">
         <div className="container__heading">
@@ -185,7 +203,7 @@ const ShopCreate = () => {
               </span>
                     )
                 }
-              <div className="input__box">
+              <div className="input__boxx">
                 <input
                   type="file"
                   name="avatar"
@@ -193,6 +211,10 @@ const ShopCreate = () => {
                   onChange={(e) => handleFileInputChange(e)}
                   className="sr-only"
                 />
+                <div className="text">
+                  <BsShopWindow size={18}/>
+                  <p>Shop Picture</p>
+                </div>
               </div>
             </div>
 
@@ -214,6 +236,11 @@ const ShopCreate = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
+      )
+    }
+    </>
   );
 };
 

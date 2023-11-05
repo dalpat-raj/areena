@@ -2,8 +2,11 @@ import React from 'react'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./exploreTopCategories.scss";
+import {useNavigate} from "react-router-dom"
 
 const ExploreTopCategories = () => {
+
+    const navigate = useNavigate()
 
     const responsive = {
         desktop: {
@@ -24,14 +27,17 @@ const ExploreTopCategories = () => {
         {
             name: "Spring forward!",
             img: "./etc1.webp",
+            category: "Women"
         },
         {
             name: "Bold Moves",
             img: "./etc2.webp",
+            category: "Shoes"
         },
         {
             name: "Online Exclusive",
             img: "./etc3.webp",
+            category: "Men"
         }
     ]
 
@@ -44,7 +50,7 @@ const ExploreTopCategories = () => {
             <Carousel responsive={responsive} containerClass="carousel-container" removeArrowOnDeviceType={["tablet", "mobile"]} autoPlay={"mobile" ? true : false} infinite={true} >
                 {
                     data && data.map((item,i)=>(
-                        <div className="box" key={i}>
+                        <div className="box" key={i} onClick={()=>navigate(`/products?category=${item.category}`)}>
                         <img src={item.img} alt="explore more" />
                         <div className="box__text">
                             <p>{item.name}</p>

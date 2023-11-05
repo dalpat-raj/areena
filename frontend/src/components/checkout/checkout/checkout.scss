@@ -43,7 +43,11 @@
                     font-size: 13px;
                     line-height: 20px;
                     &:focus{
-                        outline: 1px solid $black-main;
+                        &:focus{
+                            outline: unset;
+                            border-style: inset;
+                            border: 1px solid #333;
+                           }
                     }
                 }
                 .input__row{

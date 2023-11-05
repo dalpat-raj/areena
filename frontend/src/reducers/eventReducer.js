@@ -19,14 +19,27 @@ export const eventReducer = createReducer(initialState, {
     },
 
     // delete shop event
-    deleteShopeventRequest: (state) => {
+    deleteShopEventRequest: (state) => {
         state.isLoading = true;
     },
-    deleteShopeventSuccess: (state, action) => {
+    deleteShopEventSuccess: (state, action) => {
         state.isLoading = false;
         state.message = action.payload;
     },
-    deleteShopeventFail: (state, action) => {
+    deleteShopEventFail: (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+    },
+
+    // delete event event
+    deleteEventRequest: (state) => {
+        state.isLoading = true;
+    },
+    deleteEventSuccess: (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload;
+    },
+    deleteEventFail: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
     },

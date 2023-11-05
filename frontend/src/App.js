@@ -35,7 +35,6 @@ import Checkout from "./components/checkout/checkout/Checkout";
 import Payment from "./components/checkout/payment/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { server } from "./Server";
 import axios from "axios";
 import OrderDetails from "./components/user/ordres/orderDetails/OrderDetails";
 import TrackOrderDetails from "./components/user/ordres/trackOrderDetails/TrackOrderDetails";
@@ -55,6 +54,8 @@ import AdminWithdrawReques from "./components/admin/adminWithdrawRequest/AdminWi
 import OrderSuccess from "./components/checkout/orderSuccess/OrderSuccess";
 import CoustomerService from "./pages/coustomerService/CoustomerService";
 import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy";
+import ForgatePassword from "./pages/shop/forgatePassword/ForgatePassword";
+import NotFound from "./components/layout/notFound/NotFound";
 
 
 
@@ -101,6 +102,7 @@ function App() {
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/coustomer-services" element={<CoustomerService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<NotFound />} />
 
           {/* protected route     */}
           <Route
@@ -135,6 +137,7 @@ function App() {
           />
           <Route path="/shop-create" element={<ShopCreate />} />
           <Route path="/shop-login" element={<ShopLogin />} />
+          <Route path="/shop-forgate-password" element={<ForgatePassword />} />
           <Route
             path="/shop-dashboard"
             element={

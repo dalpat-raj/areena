@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DashboardSidebar from "../dashboardSidebar/DashboardSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { BsCameraFill } from "react-icons/bs";
-import { backend__url, server } from "../../../Server";
+import { backend__url } from "../../../Server";
 import axios from "axios";
 import { loadSeller, updateSellerInfo } from "../../../actions/sellerAction";
 

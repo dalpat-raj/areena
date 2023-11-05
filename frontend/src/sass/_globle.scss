@@ -134,3 +134,19 @@ input {
     }
     
   }
+
+
+  @media only screen and (max-width: 768px){
+    .btn-main{
+      &:hover{
+          background-color: $black-main;
+        }
+      }
+      
+      .btn-sec{
+        &:hover{
+        background-color: $white !important;
+        color: #333333 !important;
+      }
+    }
+  }

@@ -35,13 +35,16 @@ exports.getSearchProducts = catchAsyncErrors(async (req, res, next) => {
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   try {
     // Filtering
-    const queryObj = { ...req.query };
+    let queryObj = { ...req.query };
+    queryObj.category ? queryObj.category = queryObj?.category?.split("-").join("&") : null;
     const excludeFields = ["page", "sort", "limit", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
     let queryStr = JSON.stringify(queryObj);
+    
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
+    
     let query = Product.find(JSON.parse(queryStr));
+
 
 
     // Sorting
@@ -58,21 +61,27 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
       query = query.select(fields);
     } else {
       query = query.select("-__v");
-    }
+    } 
 
     // pagination
     const page = req.query.page;
     const limit = req.query.limit;
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(limit);
-    if (req.query.page) {
-      const productCount = await Product.countDocuments();
-      if (skip >= productCount) throw new Error("This Page does not exists");
+    const productsCount = await Product.countDocuments();
+    // if (req.query.page) {
+    //   if (skip >= productCount) throw new Error("This Page does not exists");
+    // }
+  
+    if(req.query.color){
+      query._conditions = {"color.name": req.query.color}
     }
-    const product = await query;
+
+    
+    let product = await query;
 
     res.status(201).json({
-      success: true, product
+      success: true, product, productsCount
     });
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
@@ -101,7 +110,9 @@ exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
 exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
   try {
     req.body.details = JSON.parse(req.body.details)
-  
+    req.body.color = JSON.parse(req.body.color)
+    req.body.size = JSON.parse(req.body.size)
+    
     const shopId = req.body.shopId;
     const shop = await Shop.findById(shopId);
     if (!shop) {

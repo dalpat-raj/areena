@@ -42,6 +42,26 @@ export const deleteShopEvent = (id) => async(dispatch) => {
   }
 }
 
+// // delete  Event 
+export const deleteEvent = (id) => async(dispatch) => {
+  try {
+    dispatch({
+      type: "deleteEventRequest"
+    });
+
+    const {data} = await axios.delete(`/api/v2/delete-event/${id}`)
+    dispatch({
+      type: "deleteEventSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteEventFail",
+      payload: error.response.data.error.message
+    });
+  }
+}
+
 
 
 // get all events user
@@ -59,7 +79,7 @@ export const getAllEventUser = () => async(dispatch) => {
   } catch (error) {
     dispatch({
       type: "allEventUserFail",
-      // payload: error.response.data.error.message
+      payload: error?.response?.data?.error?.message
     });
   }
 }

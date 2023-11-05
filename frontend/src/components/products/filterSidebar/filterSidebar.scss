@@ -127,7 +127,7 @@
     }
 }
 
-.size__filter, .product__type__filter, .availability__filter{
+.size__filter, .product__brand__filter, .availability__filter{
     .filter__type{
         display: grid;
         // justify-content: flex-start !important;
@@ -150,6 +150,15 @@
                 
             }
         }
+
         
+    }
+    .brand_filter{
+        margin-bottom: 1rem;
+        li{
+            padding: 3px;
+            font-size: $fs-8;
+            cursor: pointer;
+        }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllEventUser } from "../../actions/eventAction";
+import { deleteEvent, getAllEventUser } from "../../actions/eventAction";
 import { backend__url } from "../../Server";
 import "./event.scss";
 import { toast } from "react-toastify";
@@ -9,24 +9,13 @@ import { addTocart } from "../../actions/cart";
 
 const Event = () => {
   const { event } = useSelector((state) => state.events);
+  const { cart } = useSelector((state) => state.cart);
 
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  useEffect(() => {
-    const getTime = () => {
-      const time = Date.parse(event && event[0]?.end_date) - Date.now();
-      setDays(Math.floor(time > 0 ? (time / (1000 * 60 * 60 * 24)) : 0));
-      setHours(Math.floor( time > 0 ? ((time / (1000 * 60 * 60)) % 24) : 0 ));
-      setMinutes(Math.floor(time > 0 ? ((time / 1000 / 60) % 60) : 0));
-      setSeconds(Math.floor(time > 0 ? ((time / 1000) % 60) : 0));
-    };
-
-    const interval = setInterval(() => getTime(), 1000);
-    return () => clearInterval(interval);
-  }, [event]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +25,7 @@ const Event = () => {
   };
 
   const addToCartHandler = (data) => {
-    const isItemExists = event && event.find((i) => i._id === data._id);
+    const isItemExists = cart && cart.find((i) => i._id === data._id);
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
@@ -49,6 +38,27 @@ const Event = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const getTime = () => {
+      const time = Date.parse(event && event[0]?.end_date) - Date.now();
+      setDays(Math.floor(time > 0 ? (time / (1000 * 60 * 60 * 24)) : 0));
+      setHours(Math.floor( time > 0 ? ((time / (1000 * 60 * 60)) % 24) : 0 ));
+      setMinutes(Math.floor(time > 0 ? ((time / 1000 / 60) % 60) : 0));
+      setSeconds(Math.floor(time > 0 ? ((time / 1000) % 60) : 0));
+    };
+    
+    const interval = setInterval(() => getTime(), 1000);
+    return () => clearInterval(interval);
+  }, [event]);
+
+  useEffect(()=>{
+    const time = Date.parse(event && event[0]?.end_date) - Date.now();
+    if(time <= 0){
+      dispatch(deleteEvent(event && event[0]?._id));
+      dispatch(getAllEventUser());
+    }
+  },[event, dispatch])
 
   useEffect(() => {
     dispatch(getAllEventUser());

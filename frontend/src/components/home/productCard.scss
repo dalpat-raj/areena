@@ -4,6 +4,24 @@
   position: relative !important;
   width: 300px;
 
+  overflow: hidden;
+  .topSeller{
+    width: 120px;
+    height: 20px;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    position: absolute;
+    top: 4%;
+    left: -10%;
+    z-index: 5;
+    transform: rotate(-45deg);
+    color: #fff;
+    text-align: center;
+    font-size: $fs-9;
+    font-family: $font-domine;
+    padding: 2px 0;
+    border-radius: 45%;
+  }
+
 
   .image {
     width: 100%;
@@ -52,7 +70,7 @@
     right: 0;
     padding: 5px;
     background-color: #cecece;
-    z-index: 100;
+    z-index: 3;
     .del__icon{
       font-size: $fs-1;
       color: #333;
@@ -60,11 +78,10 @@
     }
   }
   .confirm__delete{
-    position: relative;
     background-color: #fff;
     padding: 2rem;
     z-index: 8;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -100%);
@@ -204,11 +221,9 @@
   
   @media only screen and (max-width: 836px) {
     .product__box {
-        pointer-events: none !important;
       width: 240px;
   
       .image {
-        pointer-events: all !important;
         height: 290px;
       }
       .hover__icon {
@@ -220,6 +235,9 @@
   @media only screen and (max-width: 774px) {
     .product__box {
       width: 220px;
+      .topSeller{
+        left: -15%;
+      }
   
       .image {
         height: 270px;
@@ -229,7 +247,7 @@
 
 @media only screen and (max-width: 708px) {
   .product__box {
-    pointer-events: none;
+    // pointer-events: none;
     width: 200px;
 
     .image {
@@ -261,6 +279,11 @@
 @media only screen and (max-width: 647px) {
     .product__box {
       width: 180px;
+
+      .topSeller{
+        left: -18%;
+      }
+
   
       .image {
         height: 250px;
@@ -281,6 +304,10 @@
   @media only screen and (max-width: 525px) {
     .product__box {
       width: 140px;
+      .topSeller{
+        top: 5%;
+        left: -22%;
+      }
   
       .image {
         height: 200px;
@@ -290,10 +317,15 @@
 
 @media only screen and (max-width: 480px) {
   .product__box {
-    pointer-events: none;
+    // pointer-events: none;
     width: 210px;
+
+    .topSeller{
+      top: 4%;
+      left: -15%;
+    }
     .image {
-      pointer-events: all !important;
+      // pointer-events: all !important;
       height: 270px;
     }
     .hover__icon {
@@ -302,14 +334,15 @@
 
     .product__card__text {
       .product__name {
-        font-size: $fs-7;
+        font-size: $fs-8;
+        color: #333;
       }
       .product__price {
         font-size: $fs-10;
         margin: 0.2rem 0;
       }
       .product__rating {
-        font-size: $fs-8;
+        font-size: $fs-7;
       }
     }
   }
@@ -328,6 +361,11 @@
 @media only screen and (max-width: 458px) {
   .product__box {
     width: 200px;
+
+    .topSeller{
+      top: 5%;
+      // left: -20%;
+    }
 
     .image {
       height: 240px;
@@ -349,7 +387,10 @@
 @media only screen and (max-width: 420px) {
     .product__box {
       width: 180px;
-  
+      .topSeller{
+        top: 5%;
+        left: -19%;
+      }
       .image {
         height: 220px;
       }

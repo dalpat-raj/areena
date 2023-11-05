@@ -20,9 +20,9 @@ import { getAllProductsShop, getProduct, getProductDetails } from "../../actions
 import Rating from "../layout/rating/Rating";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
-import { backend__url, server } from "../../Server";
+import { backend__url } from "../../Server";
 
-const ProductCard = ({ products, isWishlist, isEvent }) => {
+const ProductCard = ({ products, isWishlist, isEvent, list }) => {
   const {seller} = useSelector((state)=>state.seller)
   const {user} = useSelector((state)=>state.user)
   const [click, setClick] = useState(false);
@@ -107,6 +107,13 @@ const ProductCard = ({ products, isWishlist, isEvent }) => {
 
   return (
     <div className="product__box">
+      {
+        data.sold_out >= 20 && (
+          <p className="topSeller">
+            Top Seller
+          </p>
+        )
+      }
       <div className="image">
         {data &&
           data?.images?.map((item, i) => (

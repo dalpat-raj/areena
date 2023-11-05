@@ -9,7 +9,7 @@ import { backend__url } from "../../../Server";
 import axios from "axios";
 import "./shopInbox.scss";
 import socketIO from "socket.io-client";
-import { format } from "timeago.js";
+// import { format } from "timeago.js";
 const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"]});
 
@@ -286,7 +286,7 @@ const Message = ({
       }
     };
     getUser();
-  }, [me, data]);
+  }, [me, data, online, setActiveStatus]);
 
   return (
     <div
@@ -373,7 +373,7 @@ const SellerInbox = ({
                 </div>
 
                 <div className="time__ago">
-                  <p>{format(item.createdAt)}</p>
+                  {/* <p>{format(item.createdAt)}</p> */}
                    
 
                 </div>

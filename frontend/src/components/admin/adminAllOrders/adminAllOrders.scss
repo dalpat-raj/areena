@@ -8,6 +8,12 @@
 
         .admin__orders{
             margin-top: 2rem;
+            height: 79vh;
+            overflow-y: scroll;
+      
+            &::-webkit-scrollbar {
+              width: 0px !important;
+            }
             .dashboard_heading{
                 font-size: $fs-7;
                 color: #333;
@@ -30,6 +36,9 @@
             .dashboard__sidebar{
                 background: $white;
                
+            }
+            .admin__orders{
+                height: 90vh;
             }
         }
     }

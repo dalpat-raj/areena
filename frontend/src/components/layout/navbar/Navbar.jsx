@@ -2,37 +2,14 @@ import React, {useState} from 'react';
 import {IonIcon} from '@ionic/react'
 import {bagHandleOutline, caretBackOutline, chevronDownOutline, chevronForwardOutline, closeOutline, gridOutline, heartOutline, homeOutline, logoFacebook, menuOutline, logoTwitter, logoInstagram, logoLinkedin} from "ionicons/icons"
 import "../headerTop/headerTop.scss";
-import {NavLink} from "react-router-dom"
+import {NavLink, useNavigate} from "react-router-dom"
 
-const Navbar = () => {
+const Navbar = ({setCartComponent, wishlist, cart}) => {
     const [mobileView, setMobileView] = useState(false);
     const [categories, setCategories] = useState(false);
 
-    const accordionBtn = document.querySelectorAll('[data-accordion-btn]');
-    const accordion = document.querySelectorAll('[data-accordion]');
+    const navigate = useNavigate()
 
-    for (let i = 0; i < accordionBtn.length; i++) {
-
-    accordionBtn[i].addEventListener('click', function () {
-
-        const clickedBtn = this.nextElementSibling.classList.contains('active');
-
-        for (let i = 0; i < accordion.length; i++) {
-        if (clickedBtn) break;
-        if (accordion[i].classList.contains('active')) {
-            accordion[i].classList.remove('active');
-            accordionBtn[i].classList.remove('active');
-        }
-        }
-
-        this.nextElementSibling.classList.toggle('active');
-        this.classList.toggle('active');
-
-    });
-
-    }
-
-  
   return (
     <>
     <nav className="desktop-navigation-menu">
@@ -295,18 +272,18 @@ const Navbar = () => {
          <IonIcon onClick={()=>setMobileView(!mobileView)} icon={menuOutline}></IonIcon>
       </button>
 
-      <button className="action-btn">
+      <button className="action-btn" onClick={()=>setCartComponent(true)}>
          <IonIcon icon={bagHandleOutline}></IonIcon>
-        <span className="count">0</span>
+        <span className="count">{cart?.length}</span>
       </button>
 
-      <button className="action-btn">
+      <button className="action-btn" onClick={()=>navigate("/")}>
          <IonIcon icon={homeOutline}></IonIcon>
       </button>
 
-      <button className="action-btn">
+      <button className="action-btn" onClick={()=>navigate("/pages/wishlist")}>
          <IonIcon icon={heartOutline}></IonIcon>
-        <span className="count">0</span>
+        <span className="count">{wishlist?.length}</span>
       </button>
 
       <button className="action-btn remove" >
@@ -328,190 +305,65 @@ const Navbar = () => {
         </button>
       </div>
 
-      <ul className="mobile-menu-category-list">
+      <ul className="mobile-menu-category-list" onClick={()=>setMobileView(false)} >
 
         <li className="menu-category">
           <p className="menu-title"><NavLink to="/">Home</NavLink></p>
         </li>
 
         <li className="menu-category">
-
-          <button className="accordion-menu" data-accordion-btn>
-            <p className="menu-title">Men's</p>
-
-            <div>
-                <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
-                <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
-            </div>
-          </button>
-
-          <ul className="submenu-category-list" data-accordion>
-
-            <li className="submenu-category">
-              <NavLink to="/shirt" className="submenu-title">Shirt</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Jeans" className="submenu-title">Shorts & Jeans</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Shoes" className="submenu-title">Safety Shoes</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Wallet" className="submenu-title">Wallet</NavLink>
-            </li>
-
-          </ul>
-
+            <p className="menu-title"><NavLink to="/products?category=Men">Men's</NavLink></p>
         </li>
 
         <li className="menu-category">
-
-          <button className="accordion-menu" data-accordion-btn>
-            <p className="menu-title">Women's</p>
-
-            <div>
-            <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
-                <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
-            </div>
-          </button>
-
-          <ul className="submenu-category-list" data-accordion>
-
-            <li className="submenu-category">
-              <NavLink to="/Frock" className="submenu-title">Dress & Frock</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Earrings" className="submenu-title">Earrings</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Necklace" className="submenu-title">Necklace</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Makeup" className="submenu-title">Makeup Kit</NavLink>
-            </li>
-
-          </ul>
-
+            <p className="menu-title"><NavLink to="/products?category=Women">Women's</NavLink></p>
         </li>
 
         <li className="menu-category">
-
-          <button className="accordion-menu" data-accordion-btn>
-            <p className="menu-title">Jewelry</p>
-
-            <div>
-            <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
-            <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
-            </div>
-          </button>
-
-          <ul className="submenu-category-list" data-accordion>
-
-            <li className="submenu-category">
-              <NavLink to="/Earrings" className="submenu-title">Earrings</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Rings" className="submenu-title">Couple Rings</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Necklace" className="submenu-title">Necklace</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Bracelets" className="submenu-title">Bracelets</NavLink>
-            </li>
-
-          </ul>
-
+            <p className="menu-title"><NavLink to="/products?category=Jewelry">Jewelry</NavLink></p>
         </li>
 
         <li className="menu-category">
-
-          <button className="accordion-menu" data-accordion-btn>
-            <p className="menu-title">Perfume</p>
-
-            <div>
-            <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
-            <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
-            </div>
-          </button>
-
-          <ul className="submenu-category-list" data-accordion>
-
-            <li className="submenu-category">
-              <NavLink to="/Perfume" className="submenu-title">Clothes Perfume</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Deodorant" className="submenu-title">Deodorant</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Flower-Fragrance" className="submenu-title">Flower Fragrance</NavLink>
-            </li>
-
-            <li className="submenu-category">
-              <NavLink to="/Air-Freshener" className="submenu-title">Air Freshener</NavLink>
-            </li>
-
-          </ul>
-
+            <p className="menu-title"><NavLink to="/products?category=Perfume">Perfume</NavLink></p>
         </li>
 
         <li className="menu-category">
-          <p className="menu-title">Blog</p>
+          <p className="menu-title"><NavLink to="/blog">Blog</NavLink></p>
         </li>
 
         <li className="menu-category">
-          <p className="menu-title">Hot Offers</p>
+          <p className="menu-title"><NavLink to="/offer">Hot Offer</NavLink></p>
         </li>
 
       </ul>
 
       <div className="menu-bottom">
-
         <ul className="menu-category-list">
-
           <li className="menu-category">
-
-            <button className="accordion-menu" data-accordion-btn>
+            <button className="accordion-menu">
               <p className="menu-title">Language</p>
               <IonIcon className="caret-back" icon={caretBackOutline}></IonIcon>
             </button>
-
-            <ul className="submenu-category-list" data-accordion>
-
+            <ul className="submenu-category-list">
               <li className="submenu-category">
                 <NavLink to="/" className="submenu-title">English</NavLink>
               </li>
-
               <li className="submenu-category">
                 <NavLink to="/" className="submenu-title">Espa&ntilde;ol</NavLink>
               </li>
-
               <li className="submenu-category">
                 <NavLink to="/" className="submenu-title">Fren&ccedil;h</NavLink>
               </li>
-
             </ul>
-
           </li>
 
           <li className="menu-category">
-            <button className="accordion-menu" data-accordion-btn>
+            <button className="accordion-menu">
               <p className="menu-title">Currency</p>
               <IonIcon className="caret-back" icon={caretBackOutline}></IonIcon>
             </button>
 
-            <ul className="submenu-category-list" data-accordion>
+            <ul className="submenu-category-list">
               <li className="submenu-category">
                 <NavLink to="/" className="submenu-title">USD $</NavLink>
               </li>
@@ -526,7 +378,6 @@ const Navbar = () => {
 
         {/* social icon  */}
         <ul className="menu-social-container">
-
           <li>
             <NavLink to="/" className="social-link">
               <IonIcon icon={logoFacebook}></IonIcon>
@@ -563,7 +414,6 @@ const Navbar = () => {
     {/* mobile categories  */}
     <>
     <nav className={categories ? "show-mobile-categories active" : "hide-mobile-categories" }>
-        
     <div className='backback'>
       <div className="menu-top">
         <h2 className="menu-title">Categories</h2>
@@ -581,17 +431,15 @@ const Navbar = () => {
 
         <li className="menu-category">
 
-          <button className="accordion-menu" data-accordion-btn>
+          <div className="accordion-menu">
             <p className="menu-title">Men's</p>
-
             <div>
                 <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
                 <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
             </div>
-          </button>
+          </div>
 
-          <ul className="submenu-category-list" data-accordion>
-
+          <ul className="submenu-category-list">
             <li className="submenu-category">
               <NavLink to="/shirt" className="submenu-title">Shirt</NavLink>
             </li>
@@ -607,23 +455,22 @@ const Navbar = () => {
             <li className="submenu-category">
               <NavLink to="/Wallet" className="submenu-title">Wallet</NavLink>
             </li>
-
           </ul>
 
         </li>
 
         <li className="menu-category">
 
-          <button className="accordion-menu" data-accordion-btn>
+          <div className="accordion-menu" >
             <p className="menu-title">Women's</p>
 
             <div>
             <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
             <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
             </div>
-          </button>
+          </div>
 
-          <ul className="submenu-category-list" data-accordion>
+          <ul className="submenu-category-list">
 
             <li className="submenu-category">
               <NavLink to="/Frock" className="submenu-title">Dress & Frock</NavLink>
@@ -647,17 +494,15 @@ const Navbar = () => {
 
         <li className="menu-category">
 
-          <button className="accordion-menu" data-accordion-btn>
+          <div className="accordion-menu">
             <p className="menu-title">Jewelry</p>
-
             <div>
             <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
             <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
             </div>
-          </button>
+          </div>
 
-          <ul className="submenu-category-list" data-accordion>
-
+          <ul className="submenu-category-list">
             <li className="submenu-category">
               <NavLink to="/Earrings" className="submenu-title">Earrings</NavLink>
             </li>
@@ -673,24 +518,22 @@ const Navbar = () => {
             <li className="submenu-category">
               <NavLink to="/Bracelets" className="submenu-title">Bracelets</NavLink>
             </li>
-
           </ul>
 
         </li>
 
         <li className="menu-category">
 
-          <button className="accordion-menu" data-accordion-btn>
+          <div className="accordion-menu">
             <p className="menu-title">Perfume</p>
 
             <div>
             <IonIcon className='add-icon' icon={chevronForwardOutline}></IonIcon>
             <IonIcon className='remove-icon' icon={chevronDownOutline}></IonIcon>
             </div>
-          </button>
+          </div>
 
-          <ul className="submenu-category-list" data-accordion>
-
+          <ul className="submenu-category-list">
             <li className="submenu-category">
               <NavLink to="/Perfume" className="submenu-title">Clothes Perfume</NavLink>
             </li>
@@ -706,7 +549,6 @@ const Navbar = () => {
             <li className="submenu-category">
               <NavLink to="/Air-Freshener" className="submenu-title">Air Freshener</NavLink>
             </li>
-
           </ul>
 
         </li>

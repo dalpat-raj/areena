@@ -9,11 +9,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllOrdersAdmin } from '../../../actions/orderAction';
 import { backend__url } from '../../../Server';
 import { getProduct } from '../../../actions/productAction';
+import { Line } from "react-chartjs-2";
 
 const AdminDashboard = () => {
 
     const {orders, isLoading} = useSelector((state)=>state.order)
-    const {products} = useSelector((state)=>state.products)
+    const {products} = useSelector((state)=>state.products) 
+    const { allSellers } = useSelector((state) => state.seller
+    );
 
     const [active, setActive] = useState(1)
     const dispatch = useDispatch();
@@ -25,6 +28,18 @@ const AdminDashboard = () => {
 
     const adminEarning = orders && orders.reduce((acc, item)=>acc + item.totalPrice * .10, 0);
     const adminBalance = adminEarning?.toFixed(2)
+
+    const lineState = {
+      labels: ["Initial", "Earned"],
+      datasets: [
+        {
+          label: "TOTAL AMOUNT",
+          backgroundColor: ["#E13E50"],
+          hoverBackgroundColor: ["rgb(197, 72, 49)"],
+          data: [0, adminBalance],
+        },
+      ],
+    };
 
   return (
     <>
@@ -59,7 +74,7 @@ const AdminDashboard = () => {
                         <MdBorderClear size={20} />
                         <h3>All Sellers</h3>
                       </div>
-                      <h5>45</h5>
+                      <h5>{allSellers?.length}</h5>
                       <Link to={`/admin-all-sellers`}>
                         <h5>View Sellers</h5>
                       </Link>
@@ -75,6 +90,10 @@ const AdminDashboard = () => {
                       </Link>
                     </div>
                   </div>
+                </div>
+
+                <div className="line__chart">
+                <Line data={lineState} />
                 </div>
     
                 <div className="latest_orders">

@@ -63,6 +63,14 @@
             margin-top: 10px !important;
         }
     }
+    .nowithdraw{
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: $fs-4;
+        font-family: $font-domine;
+    }
 }
 
 

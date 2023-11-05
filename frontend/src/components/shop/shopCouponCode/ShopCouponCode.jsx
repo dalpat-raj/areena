@@ -73,7 +73,7 @@ const ShopCouponCode = () => {
             <div className="col__2 dashboard__sidebar">
               <DashboardSidebar active={9} />
             </div>
-            <div className="col__2">
+            <div className="col__2 coupon__code__h">
               <div className="btn-box">
                 <button onClick={() => setOpen(!open)} className="btn-main">
                   Create Coupon

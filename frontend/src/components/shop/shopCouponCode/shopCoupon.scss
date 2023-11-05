@@ -1,6 +1,14 @@
 @import "../../../sass/variable";
 
 .coupon{
+    .coupon__code__h{
+        height: 80vh;
+        overflow-y: scroll;
+     
+        &::-webkit-scrollbar { 
+            width: 0px !important; 
+          }
+    }
     .btn-box{
         display: flex;
         justify-content: flex-end;
@@ -122,6 +130,17 @@
             button{
                 width: 100%;
             }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .coupon{
+        .coupon__code__h{
+            height: 92vh;
+         
+          
         }
     }
 }

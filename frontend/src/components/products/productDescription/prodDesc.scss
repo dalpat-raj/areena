@@ -55,9 +55,8 @@
                 padding: 1rem 0;
                 .description__box{
                     p{
-                        padding: 5px;
+                        padding: 5px 0;
                         padding-top: 10px;
-                        border-bottom: 1px solid #eee;
                         span{
                             padding-left: 10px;
                             font-size: $fs-8;
@@ -268,6 +267,33 @@
                 .section__box{
                     position: relative !important;
                     cursor: pointer;
+
+                    .description__container{
+                        padding: 0rem 0;
+                        .description__box{
+                            p{
+                                padding: 0;
+                                padding-top: 0px;
+                                padding-bottom: 5px;
+                                span{
+                                    padding-left: 10px;
+                                    font-size: $fs-8;
+                                }
+                            }
+                        }
+                        .container__heading{
+                            margin-top: 2.5rem;
+                            h4{
+                                text-align: left;
+                                font-size: 18px;
+                                font-weight: 500;
+                                line-height: 1.6;
+                                letter-spacing: .01em;
+                                color: #333;
+                            }
+                        }
+                    }
+
                     .general__main{
                         border: 1px solid #eee;
                         padding: 10px;
@@ -279,11 +305,22 @@
                                     border-radius: 50%;
                                 }
                             }
+                            .seller__info{
+                                p{
+                                    padding: 0.3rem;
+                                }
+                            }
                         }
                     }
+
+
                     .review_container{
                         border: 1px solid #eee;
                         padding: 0 10px;
+                        h5{
+                            padding: 10px ;
+                            text-align: center;
+                        }
                         .row{
                             border-bottom: 1px solid #eee;
                             padding: 10px 0 !important;
@@ -413,6 +450,7 @@
                             }
                         }
                     }
+
                 }
                 
                 .box{
@@ -428,7 +466,7 @@
             }
                 
             .description__container{
-                margin-top: 2rem;
+                margin-top: 0rem;
                 width: 100%;
                 .container__heading{
                     margin-top: 1.5rem;

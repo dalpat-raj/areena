@@ -3,14 +3,17 @@
 .dashboardSidebar__main{
     width: 100%;
     box-shadow: 5px 0 5px -5px #888;
-    padding-top: 10px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px 0;
     .dashboardSidebar__row{
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        // border-bottom: 1px solid #eeeeee;
         padding: 10px 0;
         transition: 0.5s;
 
@@ -52,6 +55,7 @@
 
 @media only screen and (max-width: 768px){
     .dashboardSidebar__main{
+        height: 92vh;
         width: auto;
         .dashboardSidebar__row{
             display: block;
@@ -94,6 +98,7 @@
 @media only screen and (max-width: 480px){
     .dashboardSidebar__main{
         width: 30px;
+        height: 92vh;
         .dashboardSidebar__row{
             display: block;
             border: 0;

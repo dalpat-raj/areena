@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminSidebar from "../adminSidebar/AdminSidebar";
-// import "./adminAllProducts.scss";
+import "../adminAllProducts/adminAllProducts.scss";
 import { useDispatch, useSelector } from "react-redux"
 
 import ProductCard from '../../home/ProductCard';
@@ -33,6 +33,13 @@ const AdminAllEvents = () => {
                 ))
             }
             </div>
+            {
+              event?.length === 0 && (
+                <div className="nowithdraw">
+                <p>This time no event running by any sellres</p>
+              </div>
+              )
+            }
            
         </div>
 

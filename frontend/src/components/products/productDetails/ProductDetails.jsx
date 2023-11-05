@@ -25,10 +25,11 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Rating from "../../layout/rating/Rating";
 import axios from "axios";
 import { getSameProducts } from "../../../actions/productAction";
+import Loader from "../../layout/loader/Loader"
 
 const ProductDetails = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { productDetails } = useSelector((state) => state.products);
+  const { productDetails, isLoading } = useSelector((state) => state.products);
   const { sameProducts } = useSelector((state) => state.products);
   const { event } = useSelector((state) => state.events);
   const { cart } = useSelector((state) => state.cart);
@@ -37,9 +38,9 @@ const ProductDetails = () => {
 
   const [data, setData] = useState(null);
   const [qty, setQty] = useState(1);
+  const [size, setSize] = useState("M")
   const [click, setClick] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -68,7 +69,8 @@ const ProductDetails = () => {
       if (data?.stock < qty) {
         toast.error("Product stock limited!");
       } else {
-        const cartData = { ...data, qty: qty };
+        const cartData = { ...data, qty: qty, size: size };
+        cartData.color = cartData?.color?.name
         dispatch(addTocart(cartData));
         toast.success("Item added to cart successfully!");
       }
@@ -101,13 +103,12 @@ const ProductDetails = () => {
           console.log(err);
         });
     } else {
-      alert("please login");
+      navigate("/login")
     }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
     if (eventData !== null) {
       const data = event && event.find((item) => item._id === id);
       setData(data);
@@ -117,19 +118,27 @@ const ProductDetails = () => {
       setData(data);
       setImageUrl(productDetails && productDetails?.images[0]);
     }
+  }, [ productDetails, id, event, eventData]);
 
+  // wishlist
+  useEffect(()=>{
     if (wishlist?.find((i) => i?._id === productDetails?._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [dispatch, wishlist, productDetails, id, event, eventData]);
+  },[wishlist, productDetails])
 
   useEffect(() => {
     dispatch(getSameProducts(productDetails?.name));
   }, [dispatch, productDetails]);
-
+ 
   return (
+    <>
+    {
+      isLoading ? (
+        <Loader/>
+      ) : (
     <>
     <div className="product__details" id="#">
       <div className="container">
@@ -178,23 +187,24 @@ const ProductDetails = () => {
             </div>
 
             <div className="product__price">
-              <h1>₹ {data && data?.sellingPrice}</h1>
+              <h1>₹ {data && data?.sellingPrice}</h1> 
+              <h1>₹ {data && data?.originalPrice}</h1> 
             </div>
 
             <div className="product__stock">
               <div className="inStock">
-                <span className="color__type"></span>
+                <span className={(data?.stock >= 1) ? "color__type" : "color__red"}></span>
                 <p>
                   {data?.stock}
                   {data && data?.stock >= 1
-                    ? "in stock - Ready to ship"
-                    : "Stock Out"}
+                    ? " in stock - Ready to ship"
+                    : " Stock Out"}
                 </p>
               </div>
             </div>
 
             <div className="product__color">
-              <p>Color: {data?.color}</p>
+              <p>Color: {data?.color?.name}</p>
               <div className="product__image__color">
               {sameProducts &&
                 sameProducts?.map((item, i) => (
@@ -204,6 +214,7 @@ const ProductDetails = () => {
             </div>
 
             <div className="product__qty">
+              <div className="product__qty__size">
               <div className="cartInput">
                 <button className="dec__item" onClick={decrementCount}>
                   <IonIcon icon={removeOutline} />
@@ -216,6 +227,21 @@ const ProductDetails = () => {
                   <IonIcon icon={addOutline} />
                 </button>
               </div>
+              <div className="product__size">
+                <select 
+                id="size"
+                onChange={(e)=>setSize(e.target.value)}
+                >
+                  <option>size</option>
+                {
+                  data?.size?.map((item,i)=>(
+                    <option value={item} key={i}>{item}</option>
+                  ))
+                }
+                </select>
+              </div>
+              </div>
+
               <div className="wishlist__options">
                 {click ? (
                   <AiFillHeart
@@ -284,6 +310,9 @@ const ProductDetails = () => {
       )}
     </div>
       <Footer />
+    </>
+      )
+    }
     </>
   );
 };

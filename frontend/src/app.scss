@@ -81,6 +81,9 @@ html {
         grid-template-columns: repeat(3, auto) !important;
         grid-template-rows: auto auto auto;
     }
+    *{
+      cursor: default !important;
+    }
   }
 
   @media only screen and (max-width: 480px){
@@ -88,6 +91,7 @@ html {
         grid-template-columns: auto auto !important;
         grid-template-rows: auto auto auto auto ;
     }
+    
   }
 
   @media only screen and (max-width: 300px){

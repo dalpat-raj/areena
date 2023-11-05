@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./inbox.scss";
 import { useSelector } from "react-redux";
 import socketIO from "socket.io-client";
-import { format } from "timeago.js";
+// import { format } from "timeago.js";
 import { backend__url } from "../../../Server";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -279,7 +279,7 @@ const Message = ({
       }
     };
     getUser();
-  }, [me, data]);
+  }, [me, data, online, setActiveStatus]);
 
   return (
     <div
@@ -364,7 +364,7 @@ const SellerInbox = ({
                   )}
                 </div>
                 <div className="time__ago">
-                <p>{format(item.createdAt)}</p>
+                {/* <p>{format(item.createdAt)}</p> */}
                 </div>
               </div>
             ))}

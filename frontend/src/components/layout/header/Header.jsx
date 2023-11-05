@@ -117,7 +117,7 @@ const Header = () => {
             </NavLink>
 
             <div>
-              <Navbar />
+              <Navbar setCartComponent={setCartComponent} wishlist={wishlist} cart={cart} />
             </div>
 
             <div className="header-user-actions">

@@ -2,7 +2,6 @@
 
 .profile__container{
     
-    margin-bottom: 2rem;
     .profile__row{
         display: grid;
         grid-template-columns: 250px auto;
@@ -21,7 +20,7 @@
     .profile__container{
         .profile__row{
             grid-template-columns: 40px auto;
-            gap: 1.5rem;
+            gap: 1rem;
             .profile__sidebar{
                 background: $white;
                 border-right: 1px solid #eee;
@@ -39,6 +38,7 @@
 @media only screen and (max-width: 480px){
     .profile__container{
         .profile__row{
+            grid-template-columns: 30px auto;
             gap: 10px;
 
             .profile__content{

@@ -52,9 +52,9 @@
             gap: 1rem;
             margin-bottom: 10px;
             img{
-                width: 60px !important;
-                height: 60px !important;
-                object-fit: cover;
+                width: 55px !important;
+                height: 80px !important;
+                object-fit: contain;
                 border-radius: 5px;
             }
             .product_text{
@@ -65,10 +65,10 @@
                     color: #000;
                     padding-bottom: 3px;
                 }
-                :nth-child(2){
+                h5{
                     font-size: $fs-8;
-                    font-family: $font-domine;
                     color: #333;
+                    font-weight: 500;
                 }
             }
         }

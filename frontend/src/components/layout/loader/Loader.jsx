@@ -1,17 +1,20 @@
 import React from 'react';
-import { Bars } from "react-loader-spinner";
+import { Oval } from "react-loader-spinner";
 import "./loader.scss";
 
 const Loader = () => {
     
   return (
     <div className="main__loader">
-        <Bars
+        <Oval
         height="80"
         width="80"
         color="#333"
-        ariaLabel="bars-loading"
+        ariaLabel="oval-loading"
+        secondaryColor="#eee"
         visible={true}
+        strokeWidth={4}
+        strokeWidthSecondary={4}
         />
     </div>
    

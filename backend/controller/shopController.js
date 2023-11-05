@@ -33,18 +33,18 @@ exports.shopCreate = async(req, res, next)=>{
     }
 
     const activationToken = createActivationToken(shop)
-    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    const activationUrl = `http://areenaa.in/shop-activation/${activationToken}`;
+    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    // const activationUrl = `http://areenaa.in/shop-activation/${activationToken}`;
 
     try {
         await sendMail({
           email: shop.email,
           subject: "Activate your Shop Account",
-          message: `Hello ${shop.name}, Please click on the link to activate your Shop account: ${activationUrl}`,
+          message: `Hello ${shop.name}, Please click on the link to activate your Shop account: ${activationUrl} This link valid for 5 minutes`,
         });
         res.status(201).json({
           success: true,
-          message: `Please check your email:- ${shop.email} to activate your shop!`,
+          message: `Please check your email`,
         });
       } catch (error) {
         return next(new ErrorHandler(error.message, 500));

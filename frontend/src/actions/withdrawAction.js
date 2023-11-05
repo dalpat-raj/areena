@@ -14,7 +14,7 @@ export const getAllWithdrawRequest = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "getAllWithdrawFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };

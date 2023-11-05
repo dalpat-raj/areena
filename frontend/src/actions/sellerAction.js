@@ -22,17 +22,14 @@ export const loadSeller = () => async (dispatch) => {
 };
 
 // Login Seller
-export const LoginSeller = (user) => async (dispatch) => {
+export const LoginSeller = (shop) => async (dispatch) => {
   try {
     dispatch({
       type: "LoginSellerRequest",
     });
-    const { data } = await axios.post(`/api/v2/shop-login`, user, {
-      withCredentials: true,
-    });
     dispatch({
       type: "LoginSellerSuccess",
-      payload: data.shop,
+      payload: shop,
     });
   } catch (error) {
     dispatch({

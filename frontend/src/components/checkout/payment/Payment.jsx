@@ -7,7 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import "./payment.scss";
-import { backend__url, server } from "../../../Server";
+import { backend__url } from "../../../Server";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import axios from "axios";

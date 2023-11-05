@@ -93,6 +93,9 @@ const OrderDetails = () => {
                   <div className="product_text">
                     <h5>{item?.name.slice(0, 15)}...</h5>
                     <h5>₹ {item?.sellingPrice}</h5>
+                    {item?.qty && <h5>Quantity: {item?.qty}</h5>}
+                    {item?.color && <h5>Color: {item?.color}</h5>}
+                    {item?.size && <h5>Size: {item?.size}</h5>}
                   </div>
                 </div>
 

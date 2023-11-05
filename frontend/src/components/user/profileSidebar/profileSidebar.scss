@@ -3,14 +3,18 @@
 .profileSidebar__main{
     width: 100%;
     box-shadow: 5px 0 5px -5px #888;
-    padding-top: 10px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px 0;
     .profileSidebar__row{
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        padding: 15px 0;
+        padding: 10px 0;
         transition: 0.5s;
 
         .icon__box{
@@ -48,7 +52,48 @@
 @media only screen and (max-width: 768px){
     .profileSidebar__main{
         width: auto;
+        height: 92vh;
         padding: 0 10px;
+        padding-bottom: 2rem;
+        .profileSidebar__row{
+            display: block;
+            border: 0;
+            cursor: pointer;
+    
+            .icon__box{
+                display: none;
+            }
+            
+            .sidebar__header{
+                :nth-child(1){
+                    font-size: $fs-4;
+                }
+                :nth-child(2){
+                    display: none;
+                }
+            }
+        }
+
+        .profileSidebar__row.active{
+            border-bottom: 0;
+            .icon__box{
+                color: #000;
+            }
+            .sidebar__header{
+                :nth-child(1){
+                    font-size: $fs-1;
+                }
+            }
+        }
+        
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .profileSidebar__main{
+        padding: 0 2px;
+        padding-bottom: 2rem;
         .profileSidebar__row{
             display: block;
             border: 0;

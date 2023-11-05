@@ -3,6 +3,7 @@
 @import "../../sass/variable.scss";
 
 .cart__main{
+    
     .free__shipping{
         display: flex;
         justify-content: flex-start;
@@ -127,6 +128,9 @@
 
 
 @media only screen and (max-width: 480px){
+    .cart__main{
+        padding-bottom: 2rem;
+    }
     .cart__service{
         .row{
             .box{

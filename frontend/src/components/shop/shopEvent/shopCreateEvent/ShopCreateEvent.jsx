@@ -221,14 +221,9 @@ const ShopCreateEvent = () => {
                 />
               </div>
 
-              <div className="input__box image__shoes">
+              <div className="inp_img">
+              <div className="input__box">
                 <label>Uploads Images</label>
-                <div className="img__box">
-                  {images &&
-                    images.map((i) => (
-                      <img src={URL.createObjectURL(i)} key={i} alt="" />
-                    ))}
-                </div>
                 <input
                   type="file"
                   id="upload"
@@ -239,6 +234,13 @@ const ShopCreateEvent = () => {
                   <AiOutlinePlusCircle size={30} color="#555" />
                   Choose Images
                 </label>
+              </div>
+                <div className="img__box">
+                  {images &&
+                    images.map((i) => (
+                      <img src={URL.createObjectURL(i)} key={i} alt="" />
+                    ))}
+                </div>
               </div>
 
               <div className="input__box">

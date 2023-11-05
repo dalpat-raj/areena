@@ -55,10 +55,40 @@
                     align-items: center;
                     gap: 10px;
                     img{
-                        width: 45px;
-                        height: 45px;
+                        width: 45px !important;
+                        height: 45px !important;
+                        background-position: top !important;
                         border-radius: 50%;
-                        object-fit: cover;
+                        // object-fit: contain;
+                    }
+                    .input__boxx{
+                        position: relative;
+                        width: 100% !important;
+                        padding: 10px ;
+                        margin-top: 5px;
+                        margin-bottom: 15px;
+                        border: 1px solid #eee;
+                        color: #000;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        input{
+                            width: 100%;
+                            opacity: 0;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            // z-index: 9;
+                        }
+                        .text{
+                            display: flex;
+                            gap: 1rem;
+                            align-items: center;
+                            p{
+                                font-size: 13px;
+                                line-height: 20px;
+                                color: #333;
+                            }
+                        }
                     }
                 }
                 
@@ -73,8 +103,14 @@
 }
 
 
+@media only screen and (max-width: 768px){
+    .shopcreate__main{
+        margin-top: 2rem !important;
+    }
+}
+
 @media only screen and (max-width: 480px){
     .shopcreate__main{
-        margin-top: 2rem;
+        margin-top: 2rem !important;
     }
 }

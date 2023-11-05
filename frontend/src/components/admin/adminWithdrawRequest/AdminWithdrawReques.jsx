@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import AdminSidebar from "../adminSidebar/AdminSidebar";
 import { useDispatch, useSelector } from "react-redux"
 import "./adminWithdrawRequest.scss";
-import { server } from "../../../Server";
 import axios from "axios";
 import { getAllWithdrawRequest } from "../../../actions/withdrawAction";
+import Loader from "../../layout/loader/Loader";
 
 const AdminWithdrawReques = () => {
 
-  const {withdraw} = useSelector((state)=>state.withdraw)
+  const {withdraw, isLoading} = useSelector((state)=>state.withdraw)
 
   const [active, setActive] = useState(7);
-  const [data, setData] = useState([]);
   const [withdrawId, setWithdrawId] = useState(null);
   const [shopId, setShopId] = useState(null);
   const [open, setOpen] = useState(false);
@@ -33,11 +32,15 @@ const AdminWithdrawReques = () => {
 
   useEffect(() => {
     dispatch(getAllWithdrawRequest());
-    setData(withdraw)
-  }, [dispatch, withdraw]);
+  }, [dispatch]);
 
   return (
-    <div className="admin__container">
+   <>
+   {
+    isLoading ? (
+      <Loader/>
+    ) : (
+      <div className="admin__container">
       <div className="container">
         <div className="dashboard__row">
           <div className="col__2 dashboard__sidebar">
@@ -45,7 +48,7 @@ const AdminWithdrawReques = () => {
           </div>
 
           <div className="col__2 admin__withdraw__requset">
-            {data?.map((item, i) => (
+            {withdraw?.map((item, i) => (
               <div className="withdraw__rows" key={i}>
                 <div className="cols">
                   <p>
@@ -107,10 +110,20 @@ const AdminWithdrawReques = () => {
                 <p className="overlay" onClick={() => setOpen(false)}></p>
               </>
             )}
+            {
+              withdraw?.length === 0 && (
+                <div className="nowithdraw">
+                  <p>No Withdraw Requste</p>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
     </div>
+    )
+   }
+   </>
   );
 };
 

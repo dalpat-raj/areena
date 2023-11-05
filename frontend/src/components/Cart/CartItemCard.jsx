@@ -30,7 +30,7 @@ const CartItemCard = ({item, quantityChangeHandler, removeFromCartHandler}) => {
 
   return (
     <div className="cart_item_card">
-        <img src={`${backend__url}/${item?.images[0]}`} alt="ok" />
+        <img src={`${backend__url}/${item?.images && item?.images[0]}`} alt="ok" />
         <div className="item__details">
            <p>{item.name}</p>
            <span>Color: {item.color}</span>

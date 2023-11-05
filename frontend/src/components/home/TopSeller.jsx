@@ -8,23 +8,28 @@ const TopSeller = () => {
   const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
-    const sortedProduct =
-      products && products.slice(0,4).sort((a, b) => b.sold_out - a.sold_out);
-      setData(sortedProduct);
+    const sortedProduct = products?.filter((a) => a?.sold_out >= 20).slice(0,4);
+    setData(sortedProduct);
   }, [products]);
 
   return (
-    <div className="topseller">
-      <div className="container__heading">
-        <h2>Top Seller</h2>
-      </div>
-      <div className="topseller__container">
-        <div className="products__row">
-          {data &&
-            data.map((item, i) =><ProductCard products={item} key={i} />)}
+    <>
+    {
+      data?.length !== 0 && (
+        <div className="topseller">
+          <div className="container__heading">
+            <h2>Top Seller</h2>
+          </div>
+          <div className="topseller__container">
+            <div className="products__row">
+              {data &&
+                data.map((item, i) =><ProductCard products={item} key={i} />)}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )
+    }
+    </>
   );
 };
 

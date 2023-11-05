@@ -1,7 +1,15 @@
 @import "../../../../sass/variable";
 
 .dashboard__container{
-    
+    .shop__all__event{
+        height: 80vh;
+        overflow-y: scroll;
+     
+        &::-webkit-scrollbar { 
+            width: 0px !important; 
+          }
+    }
+
     .shop__event__row{
         display: flex;
         justify-content: space-between;
@@ -37,6 +45,19 @@
             font-size: 24px;
             color: #333;
             cursor: pointer;
+        }
+    }
+    .no_events{
+        width: 100%;
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        p{
+            font-size: $fs-6;
+            font-family: $font-domine;
+            margin-top: 2rem;
         }
     }
     .confirm__delete{
@@ -75,6 +96,10 @@
 
 @media only screen and (max-width: 550px){
     .dashboard__container{
+        .shop__all__event{
+            height: 90vh;
+            
+        }
         .dashboard__row{
       
         .shop__event__row{

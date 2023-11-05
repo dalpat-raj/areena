@@ -1,63 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./filterSidebar.scss";
-import { NavLink } from "react-router-dom";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { getProduct } from "../../../actions/productAction";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
-const FilterSidebar = () => {
-  const [categoryData, setCategoryData] = useState([]);
-  const [colorData, setColorData] = useState([]);
-  const [limit, setLimit] = useState(8);
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState();
-  const [sortBy, setSortBy] = useState();
-  const [price, setPrice] = useState([0, 100000]);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100000);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setMinPrice(price[0]);
-    setMaxPrice(price[1]);
-  }, [price]);
-
-  useEffect(() => {
-    axios
-      .get(`/api/v2/products?fields=category`)
-      .then((res) => {
-        const result = new Set(res.data.product.map((item) => item.category));
-        setCategoryData(Array.from(result));
-      })
-      .catch((error) => {
-        alert(error?.response?.data?.error?.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`/api/v2/products?fields=color`)
-      .then((res) => {
-        const result = new Set(res.data.product.map((item) => item.color));
-        setColorData(Array.from(result));
-      })
-      .catch((error) => {
-        alert(error?.response?.data?.error?.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (category) {
-      dispatch(getProduct(limit, page, category, minPrice, maxPrice));
-    } else if (sortBy) {
-      dispatch(getProduct(limit, page, sortBy, minPrice, maxPrice));
-    } else {
-      dispatch(getProduct(limit, page, "", "", minPrice, maxPrice));
-    }
-  }, [limit, page, category, sortBy, minPrice, maxPrice, dispatch]);
+const FilterSidebar = ({
+  categoryData,
+  setCategory,
+  colorData,
+  brandData,
+  setColor,
+  minPrice,
+  maxPrice,
+  setPrice,
+  setBrand
+}) => {
 
   return (
     <div className="filter__main__box">
@@ -68,7 +24,7 @@ const FilterSidebar = () => {
         <ul className="filter__type">
           {categoryData &&
             categoryData.map((item, i) => (
-              <li onClick={() => setCategory(item)} key={i}>
+              <li onClick={() => setCategory(item) || setColor("")} key={i}>
                 {item}
               </li>
             ))}
@@ -81,12 +37,12 @@ const FilterSidebar = () => {
         </div>
         <ul className="filter__type">
           {colorData &&
-            colorData?.map((item) => (
+            colorData?.map((item,i) => (
               <li
-                style={{ backgroundColor: `${item}` }}
-                onClick={() => setSortBy("color")}
+              key={i}
+                style={{ backgroundColor: `${item?.hex}` }}
+                onClick={() => setColor(item?.name)}
               >
-                <NavLink></NavLink>
               </li>
             ))}
         </ul>
@@ -108,7 +64,7 @@ const FilterSidebar = () => {
             </div>
           </div>
           <div className="slider">
-            <RangeSlider max={100000} onInput={setPrice} />
+            <RangeSlider max={80000} onInput={setPrice} />
           </div>
         </ul>
       </div>
@@ -162,37 +118,20 @@ const FilterSidebar = () => {
         </ul>
       </div>
 
-      <div className="filter__box product__type__filter">
+      <div className="filter__box product__brand__filter">
         <div className="filter__heading">
-          <h4>PPRODUCT TYPE</h4>
+          <h4>Brand</h4>
         </div>
-        <ul className="filter__type">
-          <div className="alpabate__size">
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>Accessories</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>bAG</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>Shoes</span>
-            </div>
-          </div>
-
-          <div className="number__size">
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>Sunglasses</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>watch</span>
-            </div>
-          </div>
-        </ul>
+          {
+            <ul className="brand_filter">
+            {brandData &&
+              brandData.map((item, i) => (
+                <li onClick={() => setBrand(item)} key={i}>
+                  {item}
+                </li>
+              ))}
+          </ul>
+          }
       </div>
 
       <div className="filter__box availability__filter">

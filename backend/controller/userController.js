@@ -12,11 +12,16 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
-      return next(new ErrorHandler("user already exists", 400));
+      return next(new ErrorHandler("user already exists", 500));
     }
 
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+    let fileUrl = "";
+
+    if(req?.file?.filename){
+      const filename = req?.file?.filename;
+      fileUrl = path.join(filename);
+    }
+
     const user = await User.create({
       name: name,
       email: email,

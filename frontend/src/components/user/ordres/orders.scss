@@ -1,6 +1,12 @@
 @import "../../../sass/variable.scss";
 
 .order__main{
+    height: 80vh;
+    overflow-y: scroll;
+ 
+    &::-webkit-scrollbar { 
+        width: 0px !important; 
+      }
     .box{
         .row{
             display: flex;
