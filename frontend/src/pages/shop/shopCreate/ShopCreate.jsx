@@ -26,6 +26,7 @@ const ShopCreate = () => {
   const [phone, setPhone] = useState();
   const [address, setAddress] = useState();
   const [zipCode, setZipCode] = useState();
+  const [pinCode, setPinCode] = useState([]);
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState();
   const [description, setDescription] = useState("");
@@ -50,6 +51,7 @@ const ShopCreate = () => {
       phone: phone,
       address: address,
       zipCode: zipCode,
+      pinCode: pinCode,
       password: password,
       file: avatar,
       description: description,
@@ -75,6 +77,8 @@ const ShopCreate = () => {
   useEffect(()=>{
     window.scrollTo(0, 0);
   },[])
+
+  console.log(pinCode);
 
   return (
     <>
@@ -159,7 +163,7 @@ const ShopCreate = () => {
               <input
                 type="number"
                 id="zipcode"
-                placeholder="Enter Zip Code"
+                placeholder="Your Pin Code"
                 value={zipCode}
                 onChange={(e) => setZipCode(e.target.value)}
               />
@@ -225,6 +229,18 @@ const ShopCreate = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
+            </div>
+
+            <div className="input__box pincode">
+              <label htmlFor="pincode">Pin Code Where do you want delivery ?</label>
+              <input
+                type="text"
+                id="pincode"
+                placeholder="Pin Code Where do you want delivery ?"
+                value={pinCode}
+                onChange={(e) => setPinCode([e.target.value.split(" ").join(",")])}
+              />
+              <label htmlFor="pincode">Type Like:- 325485 2584 546258 452515</label>
             </div>
 
             <div className="button__container">

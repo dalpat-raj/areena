@@ -48,10 +48,11 @@ const ProductCard = ({ products, isWishlist, isEvent, list }) => {
     if (isItemExists) {
       toast.error("Item already in cart!");
     } else {
-      if (data.stock <= 1) {
+      if (data?.stock < 1) {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: 1 };
+        cartData.color = cartData?.color?.name;
         dispatch(addTocart(cartData));
         toast.success("Item added to cart successfully!");
       }

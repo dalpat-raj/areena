@@ -36,9 +36,6 @@ const Products = () => {
   // const categories = searchParams.get("categories")
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
     setData(products);
   }, [products]);
 
@@ -162,12 +159,20 @@ const Products = () => {
               <Loader />
             ) : (
               <div className="product__containers">
-                <div className="products__row">
+                {
+                  data.length === 0 ? (
+                    <div className="no__products">
+                      <p>No Products Available !</p>
+                    </div>
+                  ) : (
+                    <div className="products__row">
                   {data &&
                     data.map((item, i) => (
                       <ProductCard products={item} key={i} />
                     ))}
                 </div>
+                  ) 
+                }
               </div>
             )}
 

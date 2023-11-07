@@ -28,7 +28,6 @@ const ShopCreateProduct = () => {
   const [originalPrice, setOriginalPrice] = useState();
   const [sellingPrice, setSellingPrice] = useState();
   const [stock, setStock] = useState();
-  const [shippingAndReturn, setShippingAndReturn] = useState("");
   const [description, setDescription] = useState("");
   const [active, setActive] = useState(false);
   const [images, setImages] = useState([]);
@@ -90,7 +89,6 @@ const ShopCreateProduct = () => {
     newForm.append("originalPrice", originalPrice);
     newForm.append("sellingPrice", sellingPrice);
     newForm.append("stock", stock);
-    newForm.append("shippingAndReturn", shippingAndReturn);
     newForm.append("description", description);
     newForm.append("shopId", seller?._id);
     newForm.append("details", JSON.stringify(otherDetails));
@@ -551,19 +549,6 @@ const ShopCreateProduct = () => {
               </div>
 
               <div className="input__box description_full">
-                <label htmlFor="description">Shipping And Return</label>
-                <textarea
-                  rows={8}
-                  cols={30}
-                  type="text"
-                  id="shipping"
-                  name="shipping"
-                  value={shippingAndReturn}
-                  placeholder="Enter Product Shipping And Return Policy"
-                  onChange={(e) => setShippingAndReturn(e.target.value)}
-                />
-              </div>
-              <div className="input__box description_full">
                 <label htmlFor="description">Description</label>
                 <textarea
                   rows={8}
@@ -919,13 +904,13 @@ console.log(size);
 const ShoesDetails = ({ size, setSize, sizeData, active, setActive}) => {
   return (
     <>
-      {/* <div className="input__box">
+     <div className="input__box">
         <label htmlFor="display">Size</label>
-        <div className="select__size">
-          {size.length !== 0 ? (
-            size.map((item, i) => <span key={i}>{item}</span>)
+        <div className="select__size" onClick={() => setActive(!active)}>
+          {size?.length !== 0 ? (
+            size?.map((item, i) => <span key={i}>{item}</span>)
           ) : (
-            <span onClick={() => setActive(!active)} className="no__select">
+            <span className="no__select">
               Select size
             </span>
           )}
@@ -935,16 +920,16 @@ const ShoesDetails = ({ size, setSize, sizeData, active, setActive}) => {
             {sizeData &&
               sizeData?.map((item, i) => (
                 <span
-                  onClick={(e) => setSize((prev) => [...prev, item])}
-                  value={item}
+                  onClick={(e) => setSize((prev)=>[...prev, item.size])}
+                  value={item?.size}
                   key={i}
                 >
-                  {item}
+                  {item.size}
                 </span>
               ))}
           </div>
         )}
-      </div> */}
+      </div>
     </>
   );
 };

@@ -21,12 +21,18 @@
     .filter__type{
         margin-top: 15px;
         margin-bottom: 1.8rem;
-        li{
-            font-size: 13px;
-            cursor: pointer;
-            a{
-                color: $black;
+        .input__radio{
+            display: flex;
+            align-items: first center;
+            gap: 10px;
+            margin-bottom: 5px;
+            label{
+                font-size: 13px;
             }
+            input[type=radio] { 
+                width: max-content;
+                accent-color: #333; 
+            } 
         }
     }
 }
@@ -154,11 +160,38 @@
         
     }
     .brand_filter{
+        margin-top: 10px;
         margin-bottom: 1rem;
-        li{
-            padding: 3px;
-            font-size: $fs-8;
-            cursor: pointer;
+        .input__radio{
+            display: flex;
+            align-items: first center;
+            gap: 10px;
+            margin-bottom: 5px;
+            label{
+                font-size: 13px;
+            }
+            input[type=radio] { 
+                width: max-content;
+                accent-color: #333; 
+            } 
         }
     }
+}
+
+.range-slider__thumb[data-lower] {
+    background-color: #6e6e6e !important;
+    padding: 5px !important;
+}
+
+.range-slider__thumb[data-upper] {
+    background-color: #6e6e6e !important;
+}
+
+.range-slider__thumb[data-active]  {
+    background-color: #333 !important;
+}
+
+.range-slider__range {
+    background-color: #6e6e6e !important;
+
 }

@@ -14,30 +14,31 @@ const FilterSidebar = ({
   setPrice,
   setBrand
 }) => {
-
+  
   return (
     <div className="filter__main__box">
       <div className="filter__box categories__filter">
         <div className="filter__heading">
           <h4>CATEGORIES</h4>
         </div>
-        <ul className="filter__type">
+        <div className="filter__type">
           {categoryData &&
             categoryData.map((item, i) => (
-              <li onClick={() => setCategory(item) || setColor("")} key={i}>
-                {item}
-              </li>
+              <div className="input__radio" key={i}>
+                <input type="radio" name="category" value={item} onChange={(e)=>setCategory(e.target.value) || setColor("")} />
+                <label htmlFor="category">{item}</label>
+              </div>
             ))}
-        </ul>
+            
+        </div>
       </div>
-
       <div className="filter__box color__filter">
         <div className="filter__heading">
           <h4>COLOR</h4>
         </div>
         <ul className="filter__type">
           {colorData &&
-            colorData?.map((item,i) => (
+            colorData?.slice(0,12)?.map((item,i) => (
               <li
               key={i}
                 style={{ backgroundColor: `${item?.hex}` }}
@@ -64,12 +65,12 @@ const FilterSidebar = ({
             </div>
           </div>
           <div className="slider">
-            <RangeSlider max={80000} onInput={setPrice} />
+            <RangeSlider max={80000} onInput={setPrice}  />
           </div>
         </ul>
       </div>
 
-      <div className="filter__box size__filter">
+      {/* <div className="filter__box size__filter">
         <div className="filter__heading">
           <h4>SIZE</h4>
         </div>
@@ -116,21 +117,22 @@ const FilterSidebar = ({
             </div>
           </div>
         </ul>
-      </div>
+      </div> */}
 
       <div className="filter__box product__brand__filter">
         <div className="filter__heading">
           <h4>Brand</h4>
         </div>
           {
-            <ul className="brand_filter">
+            <div className="brand_filter">
             {brandData &&
               brandData.map((item, i) => (
-                <li onClick={() => setBrand(item)} key={i}>
-                  {item}
-                </li>
+                <div className="input__radio" key={i}>
+                <input type="radio" name="category" value={item} onChange={(e)=>setBrand(e.target.value)}  />
+                <label htmlFor="category">{item}</label>
+              </div>
               ))}
-          </ul>
+          </div>
           }
       </div>
 

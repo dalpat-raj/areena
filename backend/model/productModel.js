@@ -37,7 +37,7 @@ const productSchema = new mongoose.Schema({
   },
   stock: {
     type: Number,
-    required: [],
+    required: [true, "Please enter your Stock"],
   },
   shippingAndReturn: {
     type: String,

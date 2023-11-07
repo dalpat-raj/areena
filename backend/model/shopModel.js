@@ -27,6 +27,11 @@ const shopSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  pinCode: [
+    {
+      type: String,
+    }
+  ],
   password: {
     type: String,
     required: [true, "Please enter your password"],

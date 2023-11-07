@@ -25,7 +25,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Rating from "../../layout/rating/Rating";
 import axios from "axios";
 import { getSameProducts } from "../../../actions/productAction";
-import Loader from "../../layout/loader/Loader"
+import Loader from "../../layout/loader/Loader";
 
 const ProductDetails = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -38,7 +38,7 @@ const ProductDetails = () => {
 
   const [data, setData] = useState(null);
   const [qty, setQty] = useState(1);
-  const [size, setSize] = useState("M")
+  const [size, setSize] = useState("M");
   const [click, setClick] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ const ProductDetails = () => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: qty, size: size };
-        cartData.color = cartData?.color?.name
+        cartData.color = cartData?.color?.name;
         dispatch(addTocart(cartData));
         toast.success("Item added to cart successfully!");
       }
@@ -103,7 +103,7 @@ const ProductDetails = () => {
           console.log(err);
         });
     } else {
-      navigate("/login")
+      navigate("/login");
     }
   };
 
@@ -118,201 +118,218 @@ const ProductDetails = () => {
       setData(data);
       setImageUrl(productDetails && productDetails?.images[0]);
     }
-  }, [ productDetails, id, event, eventData]);
+  }, [productDetails, id, event, eventData]);
 
   // wishlist
-  useEffect(()=>{
+  useEffect(() => {
     if (wishlist?.find((i) => i?._id === productDetails?._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  },[wishlist, productDetails])
+  }, [wishlist, productDetails]);
 
   useEffect(() => {
     dispatch(getSameProducts(productDetails?.name));
   }, [dispatch, productDetails]);
- 
+
   return (
     <>
-    {
-      isLoading ? (
-        <Loader/>
+      {isLoading ? (
+        <Loader />
       ) : (
-    <>
-    <div className="product__details" id="#">
-      <div className="container">
-        <p className="line__bar">Home - {data && data?.name}</p>
-        <div className="row">
-          <div className="col__2 img__container">
-            <div className="img_group">
-              {data?.images?.map((item, i) => (
-                <img
-                  onClick={() => setImageUrl(item)}
-                  src={`${backend__url}/${item}`}
-                  alt={item}
-                  key={i}
-                />
-              ))}
-            </div>
-            <div className="main_img">
-              <ReactImageMagnify
-                enlargedImagePosition="over"
-                {...{
-                  smallImage: {
-                    alt: "Wristwatch by Ted Baker London",
-                    isFluidWidth: true,
-                    src: `${backend__url}/${imageUrl}`,
-                  },
-                  largeImage: {
-                    src: `${backend__url}/${imageUrl && imageUrl}`,
-                    width: 1400,
-                    height: 1800,
-                  },
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="col__2 product__detail">
-            <div className="product__name container__heading">
-              <h2>{data && data?.name}</h2>
-            </div>
-
-            <div className="product__rating">
-              <Rating rating={data?.ratings} />
-              <div className="total__review">
-                {data?.reviews?.length} Review
-              </div>
-            </div>
-
-            <div className="product__price">
-              <h1>₹ {data && data?.sellingPrice}</h1> 
-              <h1>₹ {data && data?.originalPrice}</h1> 
-            </div>
-
-            <div className="product__stock">
-              <div className="inStock">
-                <span className={(data?.stock >= 1) ? "color__type" : "color__red"}></span>
-                <p>
-                  {data?.stock}
-                  {data && data?.stock >= 1
-                    ? " in stock - Ready to ship"
-                    : " Stock Out"}
-                </p>
-              </div>
-            </div>
-
-            <div className="product__color">
-              <p>Color: {data?.color?.name}</p>
-              <div className="product__image__color">
-              {sameProducts &&
-                sameProducts?.map((item, i) => (
-                    <img src={`${backend__url}/${item?.images[0]}`} alt="dfsd" onClick={()=>setData(item) || setImageUrl(item?.images[0]) } key={i} />
+        <>
+          <div className="product__details" id="#">
+            <div className="container">
+              <p className="line__bar">Home - {data && data?.name}</p>
+              <div className="row">
+                <div className="col__2 img__container">
+                  <div className="img_group">
+                    {data?.images?.map((item, i) => (
+                      <img
+                        onClick={() => setImageUrl(item)}
+                        src={`${backend__url}/${item}`}
+                        alt={item}
+                        key={i}
+                      />
                     ))}
+                  </div>
+                  <div className="main_img">
+                    <ReactImageMagnify
+                      enlargedImagePosition="over"
+                      {...{
+                        smallImage: {
+                          alt: "Wristwatch by Ted Baker London",
+                          isFluidWidth: true,
+                          src: `${backend__url}/${imageUrl}`,
+                        },
+                        largeImage: {
+                          src: `${backend__url}/${imageUrl && imageUrl}`,
+                          width: 1400,
+                          height: 1800,
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col__2 product__detail">
+                  <div className="product__name container__heading">
+                    <h2>{data && data?.name}</h2>
+                  </div>
+
+                  <div className="product__rating">
+                    <Rating rating={data?.ratings} />
+                    <div className="total__review">
+                      {data?.reviews?.length} Review
+                    </div>
+                  </div>
+
+                  <div className="product__price">
+                    <h1>₹ {data && data?.sellingPrice}</h1>
+                    <h1>₹ {data && data?.originalPrice}</h1>
+                  </div>
+
+                  <div className="product__stock">
+                    <div className="inStock">
+                      <span
+                        className={
+                          data?.stock >= 1 ? "color__type" : "color__red"
+                        }
+                      ></span>
+                      <p>
+                        {data?.stock}
+                        {data && data?.stock >= 1
+                          ? " in stock - Ready to ship"
+                          : " Stock Out"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="product__color">
+                    <p>Color: {data?.color?.name}</p>
+                    <div className="product__image__color">
+                      {sameProducts &&
+                        sameProducts?.map((item, i) => (
+                          <img
+                            src={`${backend__url}/${item?.images[0]}`}
+                            alt="dfsd"
+                            onClick={() =>
+                              setData(item) || setImageUrl(item?.images[0])
+                            }
+                            key={i}
+                          />
+                        ))}
+                    </div>
+                  </div>
+
+                  <div className="product__qty">
+                    <div className="product__qty__size">
+                      <div className="cartInput">
+                        <button className="dec__item" onClick={decrementCount}>
+                          <IonIcon icon={removeOutline} />
+                        </button>
+                        <input type="number" value={qty} readOnly />
+                        <button
+                          className="inc__item"
+                          onClick={() => incrementCount(data)}
+                        >
+                          <IonIcon icon={addOutline} />
+                        </button>
+                      </div>
+
+                      {data?.size && (
+                        <div className="product__size">
+                          <select
+                            id="size"
+                            onChange={(e) => setSize(e.target.value)}
+                          >
+                            <option>size</option>
+                            {data?.size?.map((item, i) => (
+                              <option value={item} key={i}>
+                                {item}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="wishlist__options">
+                      {click ? (
+                        <AiFillHeart
+                          onClick={() => removeToWishlistHandler(data)}
+                          color={click ? "red" : "#333"}
+                          title="Remove from wishlist"
+                        />
+                      ) : (
+                        <AiOutlineHeart
+                          onClick={() => addToWishlistHandler(data)}
+                          color={click ? "red" : "#333"}
+                          title="Add to wishlist"
+                        />
+                      )}
+                      <p>Add to wishlist</p>
+                    </div>
+                  </div>
+
+                  <div className="product__addtocart__btn">
+                    <button
+                      className="btn-main"
+                      onClick={() => addToCartHandler(data?._id)}
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
+
+                  <div className="sold__intime">
+                    <IonIcon icon={flameOutline} />
+                    <span className="sold__text">
+                      {data && data?.sold_out} sold in last 18 hours
+                    </span>
+                  </div>
+
+                  <div className="order__eligible">
+                    <IonIcon icon={trainOutline} />
+                    <span className="order__text">
+                      Delivery Available Only This PinCode :- {
+                        data?.shop?.pinCode?.map((pin, i)=>(
+                          <span key={i}>{pin.split(",").join(", ")}</span>
+                        ))
+                      }
+
+                    </span>
+                  </div>
+
+                  <div className="delivery__time">
+                    <IonIcon icon={calendarOutline} />
+                    <span className="order__text">
+                      Estimated delivery between 4 to 5 days
+                    </span>
+                  </div>
+
+                  <div className="payment__img">
+                    <button onClick={handleMessage} className="btn-main">
+                      send message
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="product__qty">
-              <div className="product__qty__size">
-              <div className="cartInput">
-                <button className="dec__item" onClick={decrementCount}>
-                  <IonIcon icon={removeOutline} />
-                </button>
-                <input type="number" value={qty} readOnly />
-                <button
-                  className="inc__item"
-                  onClick={() => incrementCount(data)}
-                >
-                  <IonIcon icon={addOutline} />
-                </button>
+            <div className="container">
+              <ProdDesc data={data && data} />
+            </div>
+
+            {isSeller ? null : (
+              <div className="container">
+                <RecomendedProduct data={data && data} eventData={eventData} />
               </div>
-              <div className="product__size">
-                <select 
-                id="size"
-                onChange={(e)=>setSize(e.target.value)}
-                >
-                  <option>size</option>
-                {
-                  data?.size?.map((item,i)=>(
-                    <option value={item} key={i}>{item}</option>
-                  ))
-                }
-                </select>
-              </div>
-              </div>
-
-              <div className="wishlist__options">
-                {click ? (
-                  <AiFillHeart
-                    onClick={() => removeToWishlistHandler(data)}
-                    color={click ? "red" : "#333"}
-                    title="Remove from wishlist"
-                  />
-                ) : (
-                  <AiOutlineHeart
-                    onClick={() => addToWishlistHandler(data)}
-                    color={click ? "red" : "#333"}
-                    title="Add to wishlist"
-                  />
-                )}
-                <p>Add to wishlist</p>
-              </div>
-            </div>
-
-            <div className="product__addtocart__btn">
-              <button
-                className="btn-main"
-                onClick={() => addToCartHandler(data?._id)}
-              >
-                ADD TO CART
-              </button>
-            </div>
-
-            <div className="sold__intime">
-              <IonIcon icon={flameOutline} />
-              <span className="sold__text">
-                {data && data?.sold_out} sold in last 18 hours
-              </span>
-            </div>
-
-            <div className="order__eligible">
-              <IonIcon icon={trainOutline} />
-              <span className="order__text">
-                Your order is eligible for FREE Delivery
-              </span>
-            </div>
-
-            <div className="delivery__time">
-              <IonIcon icon={calendarOutline} />
-              <span className="order__text">
-                Estimated delivery between 4 to 5 days
-              </span>
-            </div>
-
-            <div className="payment__img">
-              <button onClick={handleMessage} className="btn-main">
-                send message
-              </button>
-            </div>
+            )}
           </div>
-        </div>
-      </div>
-
-      <div className="container">
-        <ProdDesc data={data && data} />
-      </div>
-
-      {isSeller ? null : (
-        <div className="container">
-          <RecomendedProduct data={data && data} eventData={eventData} />
-        </div>
+          <Footer />
+        </>
       )}
-    </div>
-      <Footer />
-    </>
-      )
-    }
     </>
   );
 };

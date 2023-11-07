@@ -11,7 +11,7 @@ const fs = require("fs");
 
 exports.shopCreate = async(req, res, next)=>{
     try {
-        const {name, shopName, email, phone, address, zipCode, password, description} = req.body;
+        const {name, shopName, email, phone, address, zipCode, pinCode, password, description} = req.body;
     const shopEmail = await Shop.findOne({email});
 
     if(shopEmail){
@@ -27,6 +27,7 @@ exports.shopCreate = async(req, res, next)=>{
         phone: phone,
         address: address,
         zipCode: zipCode,
+        pinCode: pinCode,
         password: password,
         avatar: fileUrl,
         description: description,
@@ -71,7 +72,7 @@ exports.activationShop = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Invalid token", 400));
       }
   
-      const { name, shopName, email, phone, address, zipCode, password, avatar, description } = newShop;
+      const { name, shopName, email, phone, address, zipCode, pinCode, password, avatar, description } = newShop;
       let shop = await Shop.findOne({ email });
       if (shop) {
         return next(new ErrorHandler("User already exists!", 400));
@@ -83,6 +84,7 @@ exports.activationShop = catchAsyncErrors(async (req, res, next) => {
         phone,
         address,
         zipCode,
+        pinCode,
         password,
         avatar,
         description,
@@ -260,7 +262,7 @@ exports.deleteSellersByAdmin = catchAsyncErrors(async (req, res, next)=>{
 exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next)=>{
   try {
     const {withdrawMethods} = req.body;
-    console.log(withdrawMethods);
+
     const shop = await Shop.findByIdAndUpdate(req.shop._id, {
       withdrawMethods
   });

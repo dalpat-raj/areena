@@ -1,61 +1,64 @@
+import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import HeaderTop from "./components/layout/headerTop/HeaderTop";
-import Header from "./components/layout/header/Header";
-import Home from "./components/home/Home";
-import "./app.scss";
-import Wishlist from "./pages/wishlist/Wishlist";
-import ProductDetails from "./components/products/productDetails/ProductDetails";
-import Products from "./components/products/product/Products";
-import Login from "./components/user/loginSignUp/Login";
-import SignUp from "./components/user/loginSignUp/SignUp";
-import Profile from "./pages/profile/Profile";
-import ActivationPage from "./pages/activation/ActivationPage";
-import { useEffect, useState } from "react";
-import Store from "./Store";
-import { loadUser } from "./actions/userAction";
-import { loadSeller } from "./actions/sellerAction";
-// Shop
-import SellerProtectedRoute from "./routes/SellerProtectedRoute";
-import ShopCreate from "./pages/shop/shopCreate/ShopCreate";
-import ShopLogin from "./pages/shop/shopCreate/ShopLogin";
-import ShopDashboard from "./components/shop/shopDashboard/ShopDashboard";
-import ShopHomePage from "./components/shop/shopHomePage/ShopHomePage";
-import ShopAllOrders from "./components/shop/shopAllOrders/ShopAllOrders";
-import ShopOrderDetails from "./components/shop/shopAllOrders/shopOrderDetails/ShopOrderDetails";
-import ShopCreateProduct from "./components/shop/shopCreateProduct/ShopCreateProduct";
-import ShopAllProducts from "./components/shop/shopAllProducts/ShopAllProducts";
-import ShopCreateEvent from "./components/shop/shopEvent/shopCreateEvent/ShopCreateEvent";
-import ShopAllEvent from "./components/shop/shopEvent/shopAllEvent/ShopAllEvent";
-import ShopCouponCode from "./components/shop/shopCouponCode/ShopCouponCode";
-import ShopPreview from "./components/shop/shopPreviewPage/ShopPreview";
-import Checkout from "./components/checkout/checkout/Checkout";
-import Payment from "./components/checkout/payment/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import OrderDetails from "./components/user/ordres/orderDetails/OrderDetails";
-import TrackOrderDetails from "./components/user/ordres/trackOrderDetails/TrackOrderDetails";
-import ShopAllRefunds from "./components/shop/shopRefunds/ShopAllRefunds";
-import ShopSetting from "./components/shop/shopSetting/ShopSetting";
-import ShopWithdrawMoney from "./components/shop/shopWithdrawMoney/ShopWithdrawMoney";
-import ShopInbox from "./components/shop/shopInbox/ShopInbox";
+import "react-toastify/dist/ReactToastify.css";
+import "./app.scss";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import HeaderTop from "./components/layout/headerTop/HeaderTop";
+import Header from "./components/layout/header/Header";
+import Home from "./components/home/Home";
+import { loadUser } from "./actions/userAction";
+import { loadSeller } from "./actions/sellerAction";
+import Store from "./Store";
+
+const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
+const SignUp = React.lazy(()=>import("./components/user/loginSignUp/SignUp"));
+const Profile = React.lazy(()=>import("./pages/profile/Profile"));
+const ActivationPage = React.lazy(()=>import("./pages/activation/ActivationPage"));
+const Wishlist = React.lazy(()=>import("./pages/wishlist/Wishlist"))
+const Products = React.lazy(()=>import("./components/products/product/Products"));
+const ProductDetails = React.lazy(()=>import("./components/products/productDetails/ProductDetails"))
+const Checkout = React.lazy(()=>import("./components/checkout/checkout/Checkout"));
+const Payment = React.lazy(()=>import("./components/checkout/payment/Payment"));
+const OrderDetails = React.lazy(()=>import("./components/user/ordres/orderDetails/OrderDetails"));
+const TrackOrderDetails = React.lazy(()=>import("./components/user/ordres/trackOrderDetails/TrackOrderDetails"));
+
+// Shop
+const ShopCreate = React.lazy(()=>import("./pages/shop/shopCreate/ShopCreate"));
+const ShopLogin = React.lazy(()=>import("./pages/shop/shopCreate/ShopLogin"));
+const ShopDashboard = React.lazy(()=>import("./components/shop/shopDashboard/ShopDashboard"));
+const ShopHomePage = React.lazy(()=>import("./components/shop/shopHomePage/ShopHomePage"));
+const ShopAllOrders = React.lazy(()=>import("./components/shop/shopAllOrders/ShopAllOrders"));
+const ShopOrderDetails = React.lazy(()=>import("./components/shop/shopAllOrders/shopOrderDetails/ShopOrderDetails"));
+const ShopCreateProduct = React.lazy(()=>import("./components/shop/shopCreateProduct/ShopCreateProduct"));
+const ShopAllProducts = React.lazy(()=>import("./components/shop/shopAllProducts/ShopAllProducts"));
+const ShopCreateEvent = React.lazy(()=>import("./components/shop/shopEvent/shopCreateEvent/ShopCreateEvent"));
+const ShopAllEvent = React.lazy(()=>import("./components/shop/shopEvent/shopAllEvent/ShopAllEvent"));
+const ShopCouponCode = React.lazy(()=>import("./components/shop/shopCouponCode/ShopCouponCode"));
+const ShopPreview = React.lazy(()=>import("./components/shop/shopPreviewPage/ShopPreview"));
+const ShopAllRefunds = React.lazy(()=>import("./components/shop/shopRefunds/ShopAllRefunds"));
+const ShopSetting = React.lazy(()=>import("./components/shop/shopSetting/ShopSetting"));
+const ShopWithdrawMoney = React.lazy(()=>import("./components/shop/shopWithdrawMoney/ShopWithdrawMoney"));
+const ShopInbox = React.lazy(()=>import("./components/shop/shopInbox/ShopInbox"));
+
 // admin
-import AdminProtectedRoute from "./routes/AdminProtectedRoute";
-import AdminDashboard from "./components/admin/adminDashboard/AdminDashboard";
-import AdminAllProducts from "./components/admin/adminAllProducts/AdminAllProducts";
-import AdminAllOrders from "./components/admin/adminAllOrders/AdminAllOrders";
-import AdminAllSellers from "./components/admin/adminAllSellers/AdminAllSellers";
-import AdminAllUsers from "./components/admin/adminAllUsers/AdminAllUsers";
-import AdminAllEvents from "./components/admin/adminAllEvents/AdminAllEvents";
-import AdminWithdrawReques from "./components/admin/adminWithdrawRequest/AdminWithdrawReques";
-import OrderSuccess from "./components/checkout/orderSuccess/OrderSuccess";
-import CoustomerService from "./pages/coustomerService/CoustomerService";
-import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy";
-import ForgatePassword from "./pages/shop/forgatePassword/ForgatePassword";
-import NotFound from "./components/layout/notFound/NotFound";
+const AdminProtectedRoute = React.lazy(()=>import("./routes/AdminProtectedRoute"));
+const AdminDashboard = React.lazy(()=>import("./components/admin/adminDashboard/AdminDashboard"))
+const AdminAllProducts = React.lazy(()=>import("./components/admin/adminAllProducts/AdminAllProducts"))
+const AdminAllOrders = React.lazy(()=>import("./components/admin/adminAllOrders/AdminAllOrders"));
+const AdminAllSellers = React.lazy(()=>import("./components/admin/adminAllSellers/AdminAllSellers"));
+const AdminAllUsers = React.lazy(()=>import("./components/admin/adminAllUsers/AdminAllUsers"));
+const AdminAllEvents = React.lazy(()=>import("./components/admin/adminAllEvents/AdminAllEvents"));
+const AdminWithdrawReques = React.lazy(()=>import("./components/admin/adminWithdrawRequest/AdminWithdrawReques"));
+const OrderSuccess = React.lazy(()=>import("./components/checkout/orderSuccess/OrderSuccess"));
+const CoustomerService = React.lazy(()=>import("./pages/coustomerService/CoustomerService"));
+const PrivacyPolicy = React.lazy(()=>import("./pages/privacyPolicy/PrivacyPolicy"));
+const ForgatePassword = React.lazy(()=>import("./pages/shop/forgatePassword/ForgatePassword"));
+const NotFound = React.lazy(()=>import("./components/layout/notFound/NotFound"));
 
 
 
@@ -87,29 +90,29 @@ function App() {
         {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <Routes>
-              <Route path="/payment" element={<Payment />} />
+              <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} />
             </Routes>
           </Elements>
         )}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pages/wishlist" element={<Wishlist />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order/success" element={<OrderSuccess />} />
-          <Route path="/coustomer-services" element={<CoustomerService />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/pages/wishlist" element={<Suspense fallback={<div><h1>loading...</h1></div>}><Wishlist /></Suspense>} />
+          <Route path="/products" element={<Suspense fallback={""}><Products /></Suspense>} />
+          <Route path="/product/:id" element={<Suspense fallback={""}><ProductDetails /></Suspense>} />
+          <Route path="/login" element={<Suspense fallback={""}><Login /></Suspense>} />
+          <Route path="/signUp" element={<Suspense fallback={""}><SignUp /></Suspense>} />
+          <Route path="/checkout" element={<Suspense fallback={""}><Checkout /></Suspense>} />
+          <Route path="/order/success" element={<Suspense fallback={""}><OrderSuccess /></Suspense>} />
+          <Route path="/coustomer-services" element={<Suspense fallback={""}><CoustomerService /></Suspense>} />
+          <Route path="/privacy-policy" element={<Suspense fallback={""}><PrivacyPolicy /></Suspense>} />
+          <Route path="*" element={<Suspense fallback={""}><NotFound /></Suspense>} />
 
           {/* protected route     */}
           <Route
             path="/account"
             element={
               <ProtectedRoute>
-                <Profile />
+                <Suspense fallback={""}><Profile /></Suspense>
               </ProtectedRoute>
             }
           />
@@ -117,7 +120,7 @@ function App() {
             path="/user/order/:id"
             element={
               <ProtectedRoute>
-                <OrderDetails />
+                <Suspense fallback={""}><OrderDetails /></Suspense>
               </ProtectedRoute>
             }
           />
@@ -125,7 +128,7 @@ function App() {
             path="/user/track-order/:id"
             element={
               <ProtectedRoute>
-                <TrackOrderDetails />
+                <Suspense fallback={""}><TrackOrderDetails /></Suspense>
               </ProtectedRoute>
             }
           />
@@ -133,16 +136,16 @@ function App() {
           {/* shop  */}
           <Route
             path="/shop-activation/:activation_token"
-            element={<ActivationPage />}
+            element={<Suspense fallback={""}><ActivationPage /></Suspense>}
           />
-          <Route path="/shop-create" element={<ShopCreate />} />
-          <Route path="/shop-login" element={<ShopLogin />} />
-          <Route path="/shop-forgate-password" element={<ForgatePassword />} />
+          <Route path="/shop-create" element={<Suspense fallback={""}><ShopCreate /></Suspense>} />
+          <Route path="/shop-login" element={<Suspense fallback={""}><ShopLogin /></Suspense>} />
+          <Route path="/shop-forgate-password" element={<Suspense fallback={""}><ForgatePassword /></Suspense>} />
           <Route
             path="/shop-dashboard"
             element={
               <SellerProtectedRoute>
-                <ShopDashboard />
+                <Suspense fallback={""}><ShopDashboard /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -150,17 +153,17 @@ function App() {
             path="/shop-profile/:id"
             element={
               <SellerProtectedRoute>
-                <ShopHomePage />
+                <Suspense fallback={""}><ShopHomePage /></Suspense>
               </SellerProtectedRoute>
             }
           />
-          <Route path="/shop/preview/:id" element={<ShopPreview />} />
+          <Route path="/shop/preview/:id" element={<Suspense fallback={""}><ShopPreview /></Suspense>} />
 
           <Route
             path="/shop-dashboard/orders"
             element={
               <SellerProtectedRoute>
-                <ShopAllOrders />
+                <Suspense fallback={""}><ShopAllOrders /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -168,7 +171,7 @@ function App() {
             path="/shop/order/:id"
             element={
               <SellerProtectedRoute>
-                <ShopOrderDetails />
+                <Suspense fallback={""}><ShopOrderDetails /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -177,7 +180,7 @@ function App() {
             path="/shop-dashboard/products"
             element={
               <SellerProtectedRoute>
-                <ShopAllProducts />
+                <Suspense fallback={""}><ShopAllProducts /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -185,7 +188,7 @@ function App() {
             path="/shop-dashboard-create-product"
             element={
               <SellerProtectedRoute>
-                <ShopCreateProduct />
+                <Suspense fallback={""}><ShopCreateProduct /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -194,7 +197,7 @@ function App() {
             path="/shop-dashboard-create-event"
             element={
               <SellerProtectedRoute>
-                <ShopCreateEvent />
+                <Suspense fallback={""}><ShopCreateEvent /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -202,7 +205,7 @@ function App() {
             path="/shop-dashboard-events"
             element={
               <SellerProtectedRoute>
-                <ShopAllEvent />
+                <Suspense fallback={""}><ShopAllEvent /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -210,7 +213,7 @@ function App() {
             path="/shop-dashboard-withdraw-money"
             element={
               <SellerProtectedRoute>
-                <ShopWithdrawMoney />
+                <Suspense fallback={""}><ShopWithdrawMoney /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -218,7 +221,7 @@ function App() {
             path="/shop-dashboard-messages"
             element={
               <SellerProtectedRoute>
-                <ShopInbox />
+                <Suspense fallback={""}><ShopInbox /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -226,7 +229,7 @@ function App() {
             path="/shop-dashboard-coupon-code"
             element={
               <SellerProtectedRoute>
-                <ShopCouponCode />
+                <Suspense fallback={""}><ShopCouponCode /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -234,7 +237,7 @@ function App() {
             path="/shop-dashboard-refund"
             element={
               <SellerProtectedRoute>
-                <ShopAllRefunds />
+                <Suspense fallback={""}><ShopAllRefunds /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -242,7 +245,7 @@ function App() {
             path="/shop-dashboard-setting"
             element={
               <SellerProtectedRoute>
-                <ShopSetting />
+                <Suspense fallback={""}><ShopSetting /></Suspense>
               </SellerProtectedRoute>
             }
           />
@@ -253,7 +256,7 @@ function App() {
             path="/admin-dashboard"
             element={
               <AdminProtectedRoute>
-                <AdminDashboard />
+                <Suspense fallback={""}><AdminDashboard /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -261,7 +264,7 @@ function App() {
             path="/admin-all-products"
             element={
               <AdminProtectedRoute>
-                <AdminAllProducts />
+                <Suspense fallback={""}><AdminAllProducts /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -269,7 +272,7 @@ function App() {
             path="/admin-all-orders"
             element={
               <AdminProtectedRoute>
-                <AdminAllOrders />
+                <Suspense fallback={""}><AdminAllOrders /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -277,7 +280,7 @@ function App() {
             path="/admin-all-sellers"
             element={
               <AdminProtectedRoute>
-                <AdminAllSellers />
+                <Suspense fallback={""}><AdminAllSellers /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -285,7 +288,7 @@ function App() {
             path="/admin-all-users"
             element={
               <AdminProtectedRoute>
-                <AdminAllUsers />
+                <Suspense fallback={""}><AdminAllUsers /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -293,7 +296,7 @@ function App() {
             path="/admin-all-events"
             element={
               <AdminProtectedRoute>
-                <AdminAllEvents />
+                <Suspense fallback={""}><AdminAllEvents /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -301,7 +304,7 @@ function App() {
             path="/admin-withdraw-request"
             element={
               <AdminProtectedRoute>
-                <AdminWithdrawReques />
+                <Suspense fallback={""}></Suspense><AdminWithdrawReques />
               </AdminProtectedRoute>
             }
           />
