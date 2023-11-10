@@ -14,19 +14,29 @@ const Checkout = () => {
   const [country, setCountry] = useState(
     user?.addresses[0]?.country ? user?.addresses[0]?.country : "India"
   );
-  const [state, setState] = useState(user?.addresses[0]?.state ? user?.addresses[0]?.state : "");
-  const [city, setCity] = useState(user?.addresses[0]?.city ? user?.addresses[0]?.city : "");
+  const [state, setState] = useState(
+    user?.addresses[0]?.state ? user?.addresses[0]?.state : ""
+  );
+  const [city, setCity] = useState(
+    user?.addresses[0]?.city ? user?.addresses[0]?.city : ""
+  );
   const [name, setName] = useState(user?.name ? user?.name : "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber ? user?.phoneNumber : "");
-  const [address1, setAddress1] = useState(user?.addresses[0]?.address1 ? user?.addresses[0]?.address1 : "");
-  const [address2, setAddress2] = useState(user?.addresses[0]?.address2 );
-  const [zipCode, setZipCode] = useState(user?.addresses[0]?.zipCode ? user?.addresses[0]?.zipCode : null);
-  const [sellerPinCode, setSellerPinCode] = useState([])
+  const [phoneNumber, setPhoneNumber] = useState(
+    user?.phoneNumber ? user?.phoneNumber : ""
+  );
+  const [address1, setAddress1] = useState(
+    user?.addresses[0]?.address1 ? user?.addresses[0]?.address1 : ""
+  );
+  const [address2, setAddress2] = useState(user?.addresses[0]?.address2);
+  const [zipCode, setZipCode] = useState(
+    user?.addresses[0]?.zipCode ? user?.addresses[0]?.zipCode : null
+  );
 
   const [chooseAddress, setChooseAddress] = useState(false);
   const [couponCode, setCouponCode] = useState(null);
   const [couponCodeData, setCouponCodeData] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(null);
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -42,18 +52,18 @@ const Checkout = () => {
     setZipCode(newAddress?.zipCode);
   };
 
-  const subtotalPrice = cart.reduce(
-    (acc, item) => acc + item.qty * item.sellingPrice,
-    0
-  );
+  let subTotalPrice =
+    data?.length !== 0
+      ? data?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0)
+      : cart?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0);
 
-  const shippingPrice = subtotalPrice * 0.1;
+  const shippingPrice = subTotalPrice < 1000 ? (subTotalPrice / 100) * 9 : 0;
 
   const discountPercentage = couponCodeData ? discountPrice : "";
 
   const totalPrice = couponCodeData
-    ? (subtotalPrice + shippingPrice - discountPercentage).toFixed(2)
-    : (subtotalPrice + shippingPrice).toFixed(2);
+    ? (subTotalPrice + shippingPrice - discountPercentage).toFixed(2)
+    : (subTotalPrice + shippingPrice).toFixed(2);
 
   const checkCouponCodeValid = async (e) => {
     e.preventDefault();
@@ -92,7 +102,6 @@ const Checkout = () => {
   };
 
   const countinueToPayment = () => {
-    
     if (
       country === "" ||
       state === "" ||
@@ -111,26 +120,34 @@ const Checkout = () => {
         zipCode,
       };
       const orderData = {
-        cart,
+        data,
         totalPrice,
-        subtotalPrice,
+        subTotalPrice,
         shippingPrice,
         discountPrice,
         shippingAddress,
         user,
       };
-      // oreder item save on local storage
-      // localStorage.setItem("latestOrder", JSON.stringify(orderData));
-      // navigate("/payment");
+
       
+      if (data?.length !== 0) {
+        // oreder item save on local storage
+        localStorage.setItem("latestOrder", JSON.stringify(orderData));
+        navigate("/payment");
+      } else {
+        alert("Product Not Deliver With Your Address");
+      }
     }
   };
-  
-  
-  useEffect(()=>{
-    
-  },[])
-  
+
+  useEffect(() => {
+    setData(
+      cart?.filter((item) =>
+        item?.shop?.pinCode.find((item) => +item === +zipCode)
+      )
+    );
+  }, [cart, zipCode]);
+
   return (
     <div className="checkout__main">
       <div className="row">
@@ -195,7 +212,7 @@ const Checkout = () => {
                 />
               </div>
               <div className="box">
-              <input
+                <input
                   type="text"
                   name="state"
                   value={city}
@@ -249,29 +266,52 @@ const Checkout = () => {
 
         <div className="box coupon__col">
           <div className="cart__products">
-            {cart &&
-              cart.map((item, i) => (
-                <div className="product__row" key={i}>
-                  <div className="col img__row">
-                    <div className="img">
-                      <img
-                        src={`${backend__url}/${item?.images[0]}`}
-                        alt="df"
-                      />
-                      <span className="product__qty">{item?.qty}</span>
+            {data?.length !== 0 ? <h4><span>note:-</span> only this products is deliverable on your pin Code</h4> : null}
+            {data?.length !== 0
+              ? data?.map((item, i) => (
+                  <div className="product__row" key={i}>
+                    <div className="col img__row">
+                      <div className="img">
+                        <img
+                          src={`${backend__url}/${item?.images[0]}`}
+                          alt="df"
+                        />
+                        <span className="product__qty">{item?.qty}</span>
+                      </div>
+                      <div className="product__name">
+                        <p>{item?.name}</p>
+                        <span>
+                          {item?.size} {`/ ${item?.color}`}
+                        </span>
+                      </div>
                     </div>
-                    <div className="product__name">
-                      <p>{item?.name}</p>
-                      <span>
-                        {item?.size} {`/ ${item?.color}`}
-                      </span>
+                    <div className="col col_price">
+                      <p>₹ {item?.sellingPrice * item?.qty}</p>
                     </div>
                   </div>
-                  <div className="col col_price">
-                    <p>₹ {item?.sellingPrice * item?.qty}</p>
+                ))
+              : cart?.map((item, i) => (
+                  <div className="product__row" key={i}>
+                    <div className="col img__row">
+                      <div className="img">
+                        <img
+                          src={`${backend__url}/${item?.images[0]}`}
+                          alt="df"
+                        />
+                        <span className="product__qty">{item?.qty}</span>
+                      </div>
+                      <div className="product__name">
+                        <p>{item?.name}</p>
+                        <span>
+                          {item?.size} {`/ ${item?.color}`}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col col_price">
+                      <p>₹ {item?.sellingPrice * item?.qty}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
             <form>
               <div className="discount__code">
@@ -294,7 +334,7 @@ const Checkout = () => {
             <div className="price">
               <div className="subtotal row">
                 <p>Subtotal</p>
-                <p>₹ {subtotalPrice && subtotalPrice}</p>
+                <p>₹ {subTotalPrice && subTotalPrice}</p>
               </div>
               <div className="shipping row">
                 <p>Shipping </p>

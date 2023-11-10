@@ -71,10 +71,59 @@
         .order_container {
           margin-top: 1rem;
           box-shadow: 0px 0px 10px -3px rgba(0, 0, 0, 0.5);
-          .row {
-            margin-bottom: 10px !important;
-            padding: 10px;
-          }
+          .order__main{
+            .box{
+                .row{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                    border: 1px solid #eee;
+                    padding: 1rem 2rem;
+                    gap: 2rem;
+                    .img_name{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        .img_name_row{
+                            display: flex;
+                            gap: 10px;
+                        }
+                        img{
+                            width: 60px !important;
+                            height: 60px !important;
+                            object-fit: cover;
+                        }
+                        p{
+                            font-size: $fs-7;
+                            color: #333 !important;
+                            font-family: $font-domine;
+                        }
+                    }
+                    .price{
+                        font-size: $fs-7;
+                        color: #333 !important;
+        
+                    }
+                    .status{
+                        text-align: left;
+                        font-size: $fs-7;
+                        color: #333 !important;
+                        font-weight: 500;
+                        p{
+                            color: #333 !important;
+                            margin-bottom: 1rem;
+                        }
+                    }
+                    .update__btn{
+                        width: 30%;
+                        text-align: right ;
+                        .btn-sec{
+                            padding: 10px !important;
+                        }
+                    }
+                }
+            }
+        }
         }
       }
     }
@@ -102,6 +151,34 @@
           height: 100% !important;
         }
       }
+      .order__main{
+        .box{
+            .row{
+                margin-bottom: 10px;
+                padding: 10px;
+                gap: 10px;
+                .img_name{
+                    gap: 5px;
+                    .img_name_row{
+                        flex-direction: column;
+                    }                        
+                  
+                }
+                .price{
+                    display: none;
+                }
+                .status{
+                    display: none;
+                }
+                .update__btn{
+                    width: 40%;
+                    .btn-sec{
+                        padding: 10px !important;
+                    }
+                }
+            }
+        }
+    }
     }
   }
 }
@@ -148,6 +225,22 @@
                 }
               }
             }
+            .order__main{
+              .box{
+                  .row{
+                      flex-direction: column;
+                      gap: 10px;
+                     
+                      .update__btn{
+                          text-align: left;
+                          width: 60%;
+                          .btn-sec{
+                              padding: 6px 8px !important;
+                          }
+                      }
+                  }
+              }
+          }
           }
         }
       }

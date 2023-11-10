@@ -9,13 +9,13 @@ const HeaderTop = () => {
           <p className="service-time">AVAILABLE 24/7 AT +566 4444 9940</p>
 
           <div className="header-alert-news">
-            <p>Free Shipping This Week Order Over - $55</p>
+            <p>Free Shipping This Week Order Over - ₹1000</p>
           </div>
 
           <div className="header-top-actions">
             <select name="currency">
-              <option value="usd">USD $</option>
-              <option value="eur">EUR &euro;</option>
+              <option value="usd">INR </option>
+              <option value="eur">INR </option>
             </select>
 
             <select name="language">

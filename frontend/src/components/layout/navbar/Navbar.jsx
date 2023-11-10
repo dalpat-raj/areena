@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {IonIcon} from '@ionic/react'
-import {bagHandleOutline, caretBackOutline, chevronDownOutline, chevronForwardOutline, closeOutline, gridOutline, heartOutline, homeOutline, logoFacebook, menuOutline, logoTwitter, logoInstagram, logoLinkedin} from "ionicons/icons"
+import {bagHandleOutline, caretBackOutline, chevronDownOutline, chevronForwardOutline, closeOutline, gridOutline, heartOutline, homeOutline, logoFacebook, menuOutline, logoTwitter, logoInstagram, logoYoutube} from "ionicons/icons"
 import "../headerTop/headerTop.scss";
 import {NavLink, useNavigate} from "react-router-dom"
 
@@ -253,7 +253,7 @@ const Navbar = ({setCartComponent, wishlist, cart}) => {
           </li>
 
           <li className="menu-category">
-            <NavLink to="/Blog" className="menu-title">Blog</NavLink>
+            <NavLink to="/" className="menu-title">Blog</NavLink>
           </li>
 
           {/* <li className="menu-category">
@@ -391,14 +391,14 @@ const Navbar = ({setCartComponent, wishlist, cart}) => {
           </li>
 
           <li>
-            <NavLink to="/" className="social-link">
+            <NavLink to="https://instagram.com/areena_mart?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D" className="social-link">
               <IonIcon icon={logoInstagram}></IonIcon>
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/" className="social-link">
-              <IonIcon icon={logoLinkedin}></IonIcon>
+            <NavLink to="https://www.youtube.com/@areenaseries" className="social-link">
+              <IonIcon icon={logoYoutube}></IonIcon>
             </NavLink>
           </li>
 

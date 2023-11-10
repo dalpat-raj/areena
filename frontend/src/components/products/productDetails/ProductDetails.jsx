@@ -26,6 +26,7 @@ import Rating from "../../layout/rating/Rating";
 import axios from "axios";
 import { getSameProducts } from "../../../actions/productAction";
 import Loader from "../../layout/loader/Loader";
+import { Helmet } from "react-helmet";
 
 const ProductDetails = () => {
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -135,6 +136,17 @@ const ProductDetails = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>
+          {`Buy ${data?.name}`}
+        </title>
+        <meta
+          name="description"
+          content={data?.name || data?.description}
+        />
+        <link rel="canonical" href={`https://areenaa.in/product`} />
+      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (
@@ -294,7 +306,7 @@ const ProductDetails = () => {
                     <span className="order__text">
                       Delivery Available Only This PinCode :- {
                         data?.shop?.pinCode?.map((pin, i)=>(
-                          <span key={i}>{pin.split(",").join(", ")}</span>
+                          <span key={i}>{pin}</span>
                         ))
                       }
 

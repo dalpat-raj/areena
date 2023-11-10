@@ -29,7 +29,7 @@ const Payment = () => {
   }, []);
 
   const order = {
-    cart: orderData?.cart,
+    cart: orderData?.data,
     shippingAddress: orderData?.shippingAddress,
     user: user && user,
     totalPrice: orderData?.totalPrice,
@@ -39,53 +39,53 @@ const Payment = () => {
     amount: Math.round(orderData?.totalPrice * 100),
   };
 
-  const paymentHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+  // const paymentHandler = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     };
 
-      const { data } = await axios.post(
-        `/api/v2/payment/process`,
-        paymentData,
-        config
-      );
+  //     const { data } = await axios.post(
+  //       `/api/v2/payment/process`,
+  //       paymentData,
+  //       config
+  //     );
 
-      const client_secret = data.client_secret;
+  //     const client_secret = data.client_secret;
 
-      if (!stripe || !elements) return;
-      const result = await stripe.confirmCardPayment(client_secret, {
-        payment_method: {
-          card: elements.getElement(CardNumberElement),
-        },
-      });
+  //     if (!stripe || !elements) return;
+  //     const result = await stripe.confirmCardPayment(client_secret, {
+  //       payment_method: {
+  //         card: elements.getElement(CardNumberElement),
+  //       },
+  //     });
 
-      if (result.error) {
-        toast.error(result.error.message);
-      } else {
-        if (result.paymentIntent.status === "succeeded") {
-          order.paymentInfo = {
-            id: result.paymentIntent.id,
-            status: result.paymentIntent.status,
-            type: "Credit Card",
-          };
+  //     if (result.error) {
+  //       toast.error(result.error.message);
+  //     } else {
+  //       if (result.paymentIntent.status === "succeeded") {
+  //         order.paymentInfo = {
+  //           id: result.paymentIntent.id,
+  //           status: result.paymentIntent.status,
+  //           type: "Credit Card",
+  //         };
 
-          await axios
-            .post(`/api/v2/create-order`, order, config)
-            .then((res) => {
-              navigate("/order/success");
-              localStorage.setItem("cartItems", JSON.stringify([]));
-              localStorage.setItem("latestOrder", JSON.stringify([]));
-            });
-        }
-      }
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+  //         await axios
+  //           .post(`/api/v2/create-order`, order, config)
+  //           .then((res) => {
+  //             localStorage.setItem("cartItems", JSON.stringify([]));
+  //             localStorage.setItem("latestOrder", JSON.stringify([]));
+  //             navigate("/order/success");
+  //           });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     toast.error(error);
+  //   }
+  // };
 
   const cashOnDelivery = async () => {
 
@@ -100,9 +100,9 @@ const Payment = () => {
         },
       })
       .then((res) => {
-        navigate("/order/success");
         localStorage.setItem("cartItems", JSON.stringify([]));
         localStorage.setItem("latestOrder", JSON.stringify([]));
+        navigate("/order/success");
       });
   };
 
@@ -111,13 +111,13 @@ const Payment = () => {
       <div className="row">
         <div className="box payment__col">
           <div className="input__col">
-            <div className="select__box" onClick={() => setSelected(1)}>
+            {/* <div className="select__box" onClick={() => setSelected(1)}>
               <div className="round__box">
                 <span className={selected === 1 && "active"}></span>
               </div>
               <p>Pay with Debit/credit card</p>
-            </div>
-            <div className="input__details">
+            </div> */}
+            {/* <div className="input__details">
               <form onSubmit={paymentHandler}>
                 <div className="box">
                   <input
@@ -189,7 +189,7 @@ const Payment = () => {
                   </button>
                 </div>
               </form>
-            </div>
+            </div> */}
 
             <div className="select__box" onClick={() => setSelected(2)}>
               <div className="round__box" onClick={cashOnDelivery}>
@@ -238,7 +238,7 @@ const Payment = () => {
             <div className="price">
               <div className="subtotal row">
                 <p>Subtotal</p>
-                <p>₹ {orderData?.subtotalPrice}</p>
+                <p>₹ {orderData?.subTotalPrice}</p>
               </div>
               <div className="shipping row">
                 <p>Shipping </p>

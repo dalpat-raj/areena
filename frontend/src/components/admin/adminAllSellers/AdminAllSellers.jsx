@@ -9,18 +9,17 @@ import { backend__url } from "../../../Server";
 import "./adminAllSellers.scss";
 import { AiOutlineDelete } from "react-icons/ai";
 import Loader from "../../layout/loader/Loader";
+import { Helmet } from "react-helmet";
 
 const AdminAllSellers = () => {
-  const { allSellers, isLoading } = useSelector(
-    (state) => state.seller
-  );
+  const { allSellers, isLoading } = useSelector((state) => state.seller);
   const [active, setActive] = useState(4);
 
   const dispatch = useDispatch();
 
   const deleteSellerHandler = (id) => {
     dispatch(deleteSellerByAdmin(id));
-      dispatch(getAllSellerForAdmin());
+    dispatch(getAllSellerForAdmin());
   };
 
   useEffect(() => {
@@ -29,6 +28,10 @@ const AdminAllSellers = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Areena All Sellers</title>
+      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (

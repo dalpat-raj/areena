@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import ProductCard from '../../home/ProductCard';
 import { getAllEventUser } from '../../../actions/eventAction';
+import { Helmet } from 'react-helmet';
 
 
 const AdminAllEvents = () => {
@@ -19,6 +20,10 @@ const AdminAllEvents = () => {
 
   return (
     <div className="admin__container">
+     <Helmet>
+        <meta charSet="utf-8" />
+        <title>Areena All Event's</title>
+      </Helmet>
     <div className="container">
       <div className="dashboard__row">
         <div className="col__2 dashboard__sidebar">

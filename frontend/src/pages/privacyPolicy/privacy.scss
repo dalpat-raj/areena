@@ -1,26 +1,65 @@
 @import "../../sass/variable";
 
 .privacy{
+    width: 60%;
+    margin: auto;
+    margin-bottom: 1rem;
     h2{
         margin: 1rem 0;
-        font-size: 20px;
+        font-size: 22px;
         color: #333;
+        text-align: center;
+        font-family: $font-domine;
     }
     p{
-        font-size: $fs-7;
+        font-size: $fs-3;
         font-weight: $weight-500;
-        margin: 1rem 0;
+        color: #333;
+        margin: 1.5rem 0 5px 0;
+        font-family: $font-domine;
     }
     span{
         font-size: $fs-7;
-        color: #333;
+        color: #6b6b6b;
         margin: 1rem 0;
     }
     li{
         list-style-type: circle;
         p{
             display: inline-block;
+            font-size: $fs-7;
             
+        }
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .privacy{
+        width: 95%;
+        h2{
+            margin: 1rem 0;
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            font-family: $font-domine;
+        }
+        p{
+            font-size: $fs-7;
+            font-weight: $weight-500;
+            margin: 1.5rem 0 5px 0;
+        }
+        span{
+            font-size: $fs-8;
+            color: #797979;
+            margin: 1rem 0;
+        }
+        li{
+            list-style-type: circle;
+            p{
+                display: inline-block;
+                
+            }
         }
     }
 }

@@ -4,10 +4,15 @@
     width: 100%;
     box-shadow: 5px 0 5px -5px #888;
     height: 85vh;
+    overflow-y: scroll;
+    &::-webkit-scrollbar { 
+        width: 0px !important; 
+      }
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 10px 0;
+    padding-top: 4rem;
     .dashboardSidebar__row{
         cursor: pointer;
         display: flex;
@@ -57,6 +62,11 @@
     .dashboardSidebar__main{
         height: 92vh;
         width: auto;
+        padding-top: 0;
+        overflow-y: scroll;
+        &::-webkit-scrollbar { 
+            width: 0px !important; 
+        }
         .dashboardSidebar__row{
             display: block;
             border: 0;

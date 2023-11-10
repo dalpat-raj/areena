@@ -1,0 +1,43 @@
+@import "../../sass/variable";
+
+.refund__policy__main{
+    width: 60%;
+    margin: 3rem auto 2rem auto;
+    .container__heading{
+        font-size: 36px;
+        color: #333;
+        font-family: $font-domine;
+    }
+    
+
+    h4{
+        margin: 2rem 0 0 0;
+        font-size: 28px;
+        color: #333;
+        font-family: $font-domine;
+    }
+    p{
+        display: block;
+        padding: 15px 0;
+        color: #333;
+        font-size: $fs-7;
+    }
+}
+
+
+
+@media only screen and (max-width: 768px){
+    .refund__policy__main{
+        width: 95%;
+        margin: 2rem auto 2rem auto;
+    }
+    .container__heading{
+        font-size: 24px !important;
+    }
+    h4{
+        font-size: 20px !important;
+    }
+    p{
+        color: #747474 !important;
+    }
+}

@@ -5,6 +5,7 @@ import { BsCameraFill } from "react-icons/bs";
 import { backend__url } from "../../../Server";
 import axios from "axios";
 import { loadSeller, updateSellerInfo } from "../../../actions/sellerAction";
+import "./shopSetting.scss";
 
 const ShopSetting = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -54,11 +55,11 @@ const ShopSetting = () => {
       <div className="container">
         <div className="dashboard__row">
           <div className="col__2 dashboard__sidebar">
-            <DashboardSidebar active={11} />
+            <DashboardSidebar active={12} />
           </div>
 
           <div className="col__2">
-            <div className="account__main">
+            <div className="shop__account__main">
               <div className="main__container">
                 <div className="img__box">
                   <img

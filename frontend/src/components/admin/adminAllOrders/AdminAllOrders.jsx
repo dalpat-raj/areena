@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "./adminAllOrders.scss";
 import { getAllOrdersAdmin } from "../../../actions/orderAction";
 import { backend__url } from "../../../Server";
-import { Link } from "react-router-dom";
 import Loader from "../../layout/loader/Loader";
+import { Helmet } from "react-helmet";
 
 const AdminAllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -19,6 +19,10 @@ const AdminAllOrders = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Areena Orders</title>
+      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (
@@ -36,8 +40,7 @@ const AdminAllOrders = () => {
                       <div className="box">
                         {orders &&
                           orders.map((item, i) => (
-                            <Link to={`/shop/order/${item?._id}`} key={i}>
-                              <div className="row">
+                              <div className="row" key={i}>
                                 <div className="img_name">
                                   {item?.cart.map((item, i) => (
                                     <div className="img_name_row" key={i}>
@@ -60,7 +63,6 @@ const AdminAllOrders = () => {
                                   <p>{item?.status}</p>
                                 </div>
                               </div>
-                            </Link>
                           ))}
                       </div>
                     </div>

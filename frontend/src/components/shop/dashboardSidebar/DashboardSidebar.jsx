@@ -5,7 +5,7 @@ import {FiPackage, FiShoppingBag} from "react-icons/fi";
 import {MdOutlineLocalOffer} from 'react-icons/md'
 import {VscNewFile} from "react-icons/vsc"
 import {CiMoneyBill, CiSettings} from "react-icons/ci"
-import {BiMessageSquareDetail} from "react-icons/bi"
+import {BiMapPin, BiMessageSquareDetail} from "react-icons/bi"
 import {HiOutlineReceiptRefund} from 'react-icons/hi'
 import "./dashboardSidebar.scss";
 import { RxDashboard } from 'react-icons/rx';
@@ -106,6 +106,15 @@ const DashboardSidebar = ({active}) => {
     </div>
 
     <div className={active === 11 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
+        <Link to={"/shop-dashboard-delivery-area"}>
+            <div className='sidebar__header'>
+                <div className='icon'><BiMapPin/></div>
+                <div className='text'>Your Delivery Area</div>
+            </div>
+        </Link>
+    </div>
+
+    <div className={active === 12 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
         <Link to={"/shop-dashboard-setting"}>
             <div className='sidebar__header'>
                 <div className='icon'><CiSettings/></div>

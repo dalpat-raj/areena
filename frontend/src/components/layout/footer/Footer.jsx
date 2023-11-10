@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {IonIcon} from "@ionic/react"
-import { logoFacebook, logoInstagram, logoTwitter, logoYoutube, chevronForwardOutline, chevronDownOutline } from "ionicons/icons"
+import { chevronForwardOutline, chevronDownOutline } from "ionicons/icons"
 import "./footer.scss";
 import { Link } from 'react-router-dom';
+import { AiFillYoutube, AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
+import { BsFacebook } from 'react-icons/bs';
 
 const Footer = () => {
 
@@ -18,24 +20,21 @@ const Footer = () => {
                         <img src="/logo.png" alt="" />
                     </div>
                     <p className="description">
-                        Ut enim ad minim veniam, quis nostrud
-                        exercitation laboris nisi ut aliquip ex ea
-                        commodo consequat.Ut enim ad minim
-                        veniam,quis nostrud exercitation
+                    Arinaa provides you more products in less budget and that too of good quality. Here you can buy your favorite products.
                     </p>
                     <h4>KEEP IN TOUCH</h4>
                     <div className="social__icon">
                         <div className="icon">
-                            <IonIcon icon={logoFacebook}/>
+                            <BsFacebook/>
                         </div>
                         <div className="icon">
-                            <IonIcon icon={logoTwitter}/>
+                            <AiOutlineTwitter/>
                         </div>
                         <div className="icon">
-                            <IonIcon icon={logoInstagram}/>
+                            <Link to={"https://instagram.com/areena_mart?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D"}><AiOutlineInstagram/></Link>
                         </div>
                         <div className="icon">
-                            <IonIcon icon={logoYoutube}/>
+                            <Link to={"https://www.youtube.com/@areenaseries"}><AiFillYoutube/></Link>
                         </div>
                     </div>
                 </div>
@@ -54,24 +53,24 @@ const Footer = () => {
                         <li><Link to={"/account"}>my account</Link></li>
                         <li>My cart</li>
                         <li>Orders and returns</li>
-                        <li>Contact Us</li>
+                        <li><Link to={"/contact"}>Contact Us</Link></li>
                     </ul>
                 </div>
                 <div className="box borr">
                     <button onClick={()=>setFooterCtgg(!footerCtgg)} className="accordion-menuu">
-                        <h4>Women's</h4>
+                        <h4>Additional</h4>
                         <div>
                         <IonIcon className={footerCtgg ? "hide-icon" : "open-icon"} icon={chevronForwardOutline}></IonIcon>
                         <IonIcon className={footerCtgg ? "close-icon" : "hide-icon"} icon={chevronDownOutline}></IonIcon>
                         </div>
                     </button>
                     <ul className={footerCtgg ? "category-list-show" : "category-list"}>
-                        <li><Link to={"/privacy-policy"}>privacy policy</Link></li>
-                        <li>Terms & conditions</li>
-                        <li>shipping & Returns</li>
+                        <li><Link to={"/privacy-policy"}>Privacy Policy</Link></li>
+                        <li><Link to={"/terms-conditions"}>Terms & conditions</Link></li>
+                        <li><Link to={"/shipping-return"}>Shipping & Return</Link></li>
                         <li>help & FAQs</li>
-                        <li>refund policy</li>
-                        <li><Link to={"/coustomer-services"}>customer service</Link></li>
+                        <li><Link to={"/refund-policy"}>Refund Policy</Link></li>
+                        <li><Link to={"/coustomer-services"}>Customer Service</Link></li>
                     </ul>
                 </div>
                 <div className="box">

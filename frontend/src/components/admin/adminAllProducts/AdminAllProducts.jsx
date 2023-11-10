@@ -4,6 +4,7 @@ import "./adminAllProducts.scss";
 import { useSelector } from "react-redux";
 import Loader from "../../layout/loader/Loader";
 import ProductCard from "../../home/ProductCard";
+import { Helmet } from "react-helmet";
 
 const AdminAllProducts = () => {
   const { products, isLoading } = useSelector((state) => state.products);
@@ -12,6 +13,10 @@ const AdminAllProducts = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Areena Products</title>
+      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (

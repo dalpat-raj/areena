@@ -8,12 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import AdminProtectedRoute from "./routes/AdminProtectedRoute"
 import HeaderTop from "./components/layout/headerTop/HeaderTop";
 import Header from "./components/layout/header/Header";
 import Home from "./components/home/Home";
 import { loadUser } from "./actions/userAction";
 import { loadSeller } from "./actions/sellerAction";
 import Store from "./Store";
+import Payment from "./components/checkout/payment/Payment"
+import NotFound from "./components/layout/notFound/NotFound";
+
 
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
 const SignUp = React.lazy(()=>import("./components/user/loginSignUp/SignUp"));
@@ -23,9 +27,15 @@ const Wishlist = React.lazy(()=>import("./pages/wishlist/Wishlist"))
 const Products = React.lazy(()=>import("./components/products/product/Products"));
 const ProductDetails = React.lazy(()=>import("./components/products/productDetails/ProductDetails"))
 const Checkout = React.lazy(()=>import("./components/checkout/checkout/Checkout"));
-const Payment = React.lazy(()=>import("./components/checkout/payment/Payment"));
 const OrderDetails = React.lazy(()=>import("./components/user/ordres/orderDetails/OrderDetails"));
 const TrackOrderDetails = React.lazy(()=>import("./components/user/ordres/trackOrderDetails/TrackOrderDetails"));
+const OrderSuccess = React.lazy(()=>import("./components/checkout/orderSuccess/OrderSuccess"));
+const CoustomerService = React.lazy(()=>import("./pages/coustomerService/CoustomerService"));
+const PrivacyPolicy = React.lazy(()=>import("./pages/privacyPolicy/PrivacyPolicy"));
+const RefundPolicy = React.lazy(()=>import("./pages/refundPolicy/RefundPolicy"));
+const ShippingReturn = React.lazy(()=>import("./pages/shippingReturn/ShippingReturn"));
+const TermsConditions = React.lazy(()=>import("./pages/termCondition/TermsConditions"));
+const Contact = React.lazy(()=>import("./pages/contact/Contact"));
 
 // Shop
 const ShopCreate = React.lazy(()=>import("./pages/shop/shopCreate/ShopCreate"));
@@ -40,13 +50,14 @@ const ShopCreateEvent = React.lazy(()=>import("./components/shop/shopEvent/shopC
 const ShopAllEvent = React.lazy(()=>import("./components/shop/shopEvent/shopAllEvent/ShopAllEvent"));
 const ShopCouponCode = React.lazy(()=>import("./components/shop/shopCouponCode/ShopCouponCode"));
 const ShopPreview = React.lazy(()=>import("./components/shop/shopPreviewPage/ShopPreview"));
-const ShopAllRefunds = React.lazy(()=>import("./components/shop/shopRefunds/ShopAllRefunds"));
-const ShopSetting = React.lazy(()=>import("./components/shop/shopSetting/ShopSetting"));
 const ShopWithdrawMoney = React.lazy(()=>import("./components/shop/shopWithdrawMoney/ShopWithdrawMoney"));
 const ShopInbox = React.lazy(()=>import("./components/shop/shopInbox/ShopInbox"));
+const ShopAllRefunds = React.lazy(()=>import("./components/shop/shopRefunds/ShopAllRefunds"));
+const ShopDeliveryArea = React.lazy(()=>import("./components/shop/ShopDeliveryArea/ShopDeliveryArea"))
+const ShopSetting = React.lazy(()=>import("./components/shop/shopSetting/ShopSetting"));
+const ForgatePassword = React.lazy(()=>import("./pages/shop/forgatePassword/ForgatePassword"));
 
 // admin
-const AdminProtectedRoute = React.lazy(()=>import("./routes/AdminProtectedRoute"));
 const AdminDashboard = React.lazy(()=>import("./components/admin/adminDashboard/AdminDashboard"))
 const AdminAllProducts = React.lazy(()=>import("./components/admin/adminAllProducts/AdminAllProducts"))
 const AdminAllOrders = React.lazy(()=>import("./components/admin/adminAllOrders/AdminAllOrders"));
@@ -54,11 +65,6 @@ const AdminAllSellers = React.lazy(()=>import("./components/admin/adminAllSeller
 const AdminAllUsers = React.lazy(()=>import("./components/admin/adminAllUsers/AdminAllUsers"));
 const AdminAllEvents = React.lazy(()=>import("./components/admin/adminAllEvents/AdminAllEvents"));
 const AdminWithdrawReques = React.lazy(()=>import("./components/admin/adminWithdrawRequest/AdminWithdrawReques"));
-const OrderSuccess = React.lazy(()=>import("./components/checkout/orderSuccess/OrderSuccess"));
-const CoustomerService = React.lazy(()=>import("./pages/coustomerService/CoustomerService"));
-const PrivacyPolicy = React.lazy(()=>import("./pages/privacyPolicy/PrivacyPolicy"));
-const ForgatePassword = React.lazy(()=>import("./pages/shop/forgatePassword/ForgatePassword"));
-const NotFound = React.lazy(()=>import("./components/layout/notFound/NotFound"));
 
 
 
@@ -90,7 +96,7 @@ function App() {
         {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <Routes>
-              <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} />
+              <Route path="/payment" element={<Payment />} />
             </Routes>
           </Elements>
         )}
@@ -105,7 +111,11 @@ function App() {
           <Route path="/order/success" element={<Suspense fallback={""}><OrderSuccess /></Suspense>} />
           <Route path="/coustomer-services" element={<Suspense fallback={""}><CoustomerService /></Suspense>} />
           <Route path="/privacy-policy" element={<Suspense fallback={""}><PrivacyPolicy /></Suspense>} />
-          <Route path="*" element={<Suspense fallback={""}><NotFound /></Suspense>} />
+          <Route path="/refund-policy" element={<Suspense fallback={""}><RefundPolicy /></Suspense>} />
+          <Route path="/shipping-return" element={<Suspense fallback={""}><ShippingReturn /></Suspense>} />
+          <Route path="/terms-conditions" element={<Suspense fallback={""}><TermsConditions /></Suspense>} />
+          <Route path="/contact" element={<Suspense fallback={""}><Contact /></Suspense>} />
+          <Route path="*" element={<NotFound />} />
 
           {/* protected route     */}
           <Route
@@ -242,6 +252,14 @@ function App() {
             }
           />
           <Route
+            path="/shop-dashboard-delivery-area"
+            element={
+              <SellerProtectedRoute>
+                <Suspense fallback={""}><ShopDeliveryArea /></Suspense>
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
             path="/shop-dashboard-setting"
             element={
               <SellerProtectedRoute>
@@ -304,7 +322,7 @@ function App() {
             path="/admin-withdraw-request"
             element={
               <AdminProtectedRoute>
-                <Suspense fallback={""}></Suspense><AdminWithdrawReques />
+                <Suspense fallback={""}><AdminWithdrawReques /></Suspense>
               </AdminProtectedRoute>
             }
           />
@@ -321,7 +339,6 @@ function App() {
           pauseOnHover
           theme="dark"
         />
-        {/* <Footer /> */}
       </BrowserRouter>
     </div>
   );

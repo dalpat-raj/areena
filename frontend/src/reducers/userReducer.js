@@ -79,19 +79,6 @@ export const userReducer = createReducer(initialState, {
         state.error = action.payload;
     },
 
-    // update User Info
-    // updateUserAvatarRequest: (state) => {
-    //     state.loading = true;
-    // },
-    // updateUserAvatarSuccess: (state, action) => {
-    //     state.loading = false;
-    //     state.user = action.payload;
-    // },
-    // updateUserAvatarFail: (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    // },
-
 
     // update User Addresses
     updateUserAddressRequest: (state) => {

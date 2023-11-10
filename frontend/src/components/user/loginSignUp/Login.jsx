@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { lockClosedOutline, mailOutline } from "ionicons/icons";
@@ -6,10 +6,12 @@ import "./login.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../../actions/userAction";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import Footer from "../../layout/footer/Footer";
+import { Helmet } from "react-helmet";
+import axios from "axios";
+const Footer = React.lazy(()=>import("../../layout/footer/Footer"));
 
 const Login = () => {
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated} = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +24,13 @@ const Login = () => {
       email: email,
       password: password,
     };
-    dispatch(LoginUser(user));
+    axios.post(`/api/v2/login`, user, {
+      withCredentials: true,
+    }).then((res)=>{
+      dispatch(LoginUser(res.data.user));
+    }).catch((error)=>{
+      alert(error?.response?.data?.error?.message)
+    })
   };
 
   useEffect(() => {
@@ -32,8 +40,19 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate ]);
 
+
+
   return (
     <>
+     <Helmet>
+        <meta charSet="utf-8" />
+        <title>areena:- login Areena Account - Order Online At Areena Today</title>
+        <meta
+          name="description"
+          content="Choose From a Wide Range Of Areena Speakers, Available At Great Prices. Enhance Your Shopping Experience With Our Personalised..."
+        />
+        <link rel="canonical" href="https://areenaa.in/login" />
+      </Helmet>
       <div className="login__container">
         <div className="container">
           <div className="container__heading">
@@ -109,7 +128,9 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Suspense fallback={""}>
       <Footer />
+      </Suspense>
     </>
   );
 };

@@ -10,6 +10,24 @@ import { getAllOrdersAdmin } from '../../../actions/orderAction';
 import { backend__url } from '../../../Server';
 import { getProduct } from '../../../actions/productAction';
 import { Line } from "react-chartjs-2";
+import {
+  CategoryScale,
+  Chart,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+} from "chart.js";
+import { Helmet } from 'react-helmet';
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement
+);
+
 
 const AdminDashboard = () => {
 
@@ -26,7 +44,7 @@ const AdminDashboard = () => {
         dispatch(getProduct());
     },[dispatch])
 
-    const adminEarning = orders && orders.reduce((acc, item)=>acc + item.totalPrice * .10, 0);
+    const adminEarning = orders && orders.reduce((acc, item)=>acc + ((item.totalPrice / 100) * 2), 0);
     const adminBalance = adminEarning?.toFixed(2)
 
     const lineState = {
@@ -43,6 +61,10 @@ const AdminDashboard = () => {
 
   return (
     <>
+    <Helmet>
+        <meta charSet="utf-8" />
+        <title>Areena Dashboard</title>
+      </Helmet>
     {
       isLoading ? (
         <Loader/>

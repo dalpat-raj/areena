@@ -5,6 +5,7 @@ import "./adminWithdrawRequest.scss";
 import axios from "axios";
 import { getAllWithdrawRequest } from "../../../actions/withdrawAction";
 import Loader from "../../layout/loader/Loader";
+import { Helmet } from "react-helmet";
 
 const AdminWithdrawReques = () => {
 
@@ -36,6 +37,10 @@ const AdminWithdrawReques = () => {
 
   return (
    <>
+    <Helmet>
+        <meta charSet="utf-8" />
+        <title>Withdraw</title>
+      </Helmet>
    {
     isLoading ? (
       <Loader/>

@@ -100,7 +100,16 @@
             background-color: $footer-back;
 
             .cart__products{
-
+                h4{
+                    padding-bottom: 1rem;
+                    font-size: 15px;
+                    text-transform: capitalize;
+                    color: #585858;
+                    span{
+                        font-size: 18px;
+                        color: #E53A49;
+                    }
+                }
                 .product__row{
                     display: flex;
                     justify-content: space-between;

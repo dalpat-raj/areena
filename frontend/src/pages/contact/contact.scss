@@ -1,0 +1,129 @@
+@import "../../sass/variable";
+
+.contact__main{
+    background-color: $footer-back;
+    .contact__back{
+        width: 100%;
+        height: 30vh;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.69)), url('../../../public/contact.webp');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+    }
+    .contact__row{
+        display: flex;
+        justify-content: space-between;
+        gap: 4rem;
+        padding: 4rem 0;
+
+        .form__box{
+            flex-basis: 60%;
+            .form__heading{
+                text-align: center;
+                padding-bottom: 1rem;
+                font-family: $font-domine;
+                color: #333;
+            }
+            form{
+                .input__box__2{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-basis: 50%;
+                    gap: 10px;
+                }
+                .input__box{
+                    width: 100%;
+                    margin: 10px 0;
+                    input, textarea{
+                        width: 100%;
+                        padding: 10px 18px;
+                        border: 1px solid #eee;
+                        background-color: #fff;
+                        border-radius: 6px;
+                        font-size: 13px;
+                        line-height: 20px;
+                        &:focus{
+                            outline: 0;
+                            border: 1px solid #a8a8a8;
+                        }
+                    }
+                }
+                .btn__box{
+                    width: 100%;
+                    button{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .address__box{
+            flex-basis: 40%;
+            .address, .time, .connect{
+                padding: 1.5rem 0;
+            }
+            h2{
+                font-size: $fs-4;
+                color: #333;
+                font-family: $font-domine;
+                margin-bottom: 20px;
+            }
+            p{
+                padding: 5px 0;
+                font-size: $fs-7;
+                color: #333;
+                text-transform: capitalize;
+            }
+            span{
+                margin-right: 10px;
+                a{
+                    color: #333;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .contact__main{
+        .contact__back{
+            height: 15vh;
+        }
+        .contact__row{
+            flex-direction: column;
+            gap: 2rem;
+            padding: 3rem 0;
+    
+            .form__box{
+                flex-basis: 100%;
+            }
+    
+            .address__box{
+                flex-basis: 40%;
+                .address, .time, .connect{
+                    padding: 1.5rem 0;
+                }
+                h2{
+                    font-size: $fs-4;
+                    color: #333;
+                    font-family: $font-domine;
+                    margin-bottom: 20px;
+                }
+                p{
+                    padding: 5px 0;
+                    font-size: $fs-7;
+                    color: #333;
+                    text-transform: capitalize;
+                }
+                span{
+                    margin-right: 10px;
+                    a{
+                        color: #333;
+                    }
+                }
+            }
+        }
+    }
+}

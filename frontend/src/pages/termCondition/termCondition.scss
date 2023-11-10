@@ -1,0 +1,70 @@
+@import "../../sass/variable";
+
+.terms__conditions__main{
+    width: 60%;
+    margin: 3rem auto 2rem auto;
+    .container__heading{
+        font-size: 36px;
+        color: #333;
+        font-family: $font-domine;
+    }
+    h4{
+        margin: 2rem 0 0 0;
+        font-size: 28px;
+        color: #333;
+        font-family: $font-domine;
+        text-transform: uppercase
+    }
+    h5{
+        display: inline;
+        width: max-content;
+        font-size: 18px;
+        color: #333;
+        p{
+            display: inline;
+            text-wrap: wrap;
+        }
+    }
+    li{
+        list-style-type: disc;
+        padding: 10px 0;
+        color: #333;
+        font-size: $fs-7;
+    }
+    p{
+        display: block;
+        padding: 15px 0;
+        color: #333;
+        font-size: $fs-7;
+    }
+    h6{
+        font-size: $fs-6;
+        color: #7a7a7a;
+    }
+    span{
+        display: block;
+        padding: 3px 0;
+        color: #747474;
+        font-size: $fs-8;
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+    .terms__conditions__main{
+        width: 95%;
+        margin: 2rem auto 2rem auto;
+    }
+    .container__heading{
+        font-size: 24px !important;
+    }
+    h4{
+        font-size: 20px !important;
+    }
+    p{
+        color: #747474 !important;
+    }
+    li{
+        color: #747474 !important;
+    }
+}

@@ -44,19 +44,13 @@ export const CreateUser = (userData) => async (dispatch) => {
 export const LoginUser = (user) => async (dispatch) => {
   try {
     dispatch({
-      type: "LoginUserRequest",
-    });
-    const { data } = await axios.post(`/api/v2/login`, user, {
-      withCredentials: true,
-    });
-    dispatch({
       type: "LoginUserSuccess",
-      payload: data.user,
+      payload: user,
     });
   } catch (error) {
     dispatch({
       type: "LoginUserFail",
-      payload: error?.response?.data?.error?.message,
+      payload: "error",
     });
   }
 };
