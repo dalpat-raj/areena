@@ -12,7 +12,9 @@ const { shopCreate,
     getAllSellerForAdmin,
     deleteSellersByAdmin,
     addWithdrawMethods,
-    deleteWithdrawMethods
+    deleteWithdrawMethods,
+    updatePinCode,
+    deletePinCode
 } = require("../controller/shopController");
 const { isSeller, isAdmin, isAutenticated } = require("../middleware/auth")
 
@@ -26,7 +28,9 @@ router.get("/shop-logout", logoutShop)
 router.get("/get-shop-info/:id", getShopInfo);
 router.put("/update-shop-avatar", isSeller, upload.single("image"), updateShopAvatar);
 router.put("/update-shop", isSeller, updateShop);
+router.put("/shop-delivery-pincode-add", isSeller, updatePinCode);
 router.put("/add-seller-withdraw-methods", isSeller, addWithdrawMethods)
+router.delete("/shop-delivery-pincode-delete/:pin", isSeller, deletePinCode)
 router.delete("/delete-withdraw-methods", isSeller, deleteWithdrawMethods)
 
 // admin

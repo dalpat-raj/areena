@@ -7,167 +7,179 @@ const sendShopToken = require("../utils/jwtShopToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const fs = require("fs");
 
+exports.shopCreate = async (req, res, next) => {
+  try {
+    const {
+      name,
+      shopName,
+      email,
+      phone,
+      address,
+      zipCode,
+      password,
+      description,
+    } = req.body;
+    const shopEmail = await Shop.findOne({ email });
 
-
-exports.shopCreate = async(req, res, next)=>{
-    try {
-        const {name, shopName, email, phone, address, zipCode, pinCode, password, description} = req.body;
-    const shopEmail = await Shop.findOne({email});
-
-    if(shopEmail){
-        return next(new ErrorHandler("Shop already exists", 400))
+    if (shopEmail) {
+      return next(new ErrorHandler("Shop already exists", 400));
     }
 
     const filename = req.file.filename;
     const fileUrl = path.join(filename);
     const shop = {
-        name: name,
-        shopName: shopName,
-        email: email,
-        phone: phone,
-        address: address,
-        zipCode: zipCode,
-        pinCode: pinCode,
-        password: password,
-        avatar: fileUrl,
-        description: description,
-    }
+      name: name,
+      shopName: shopName,
+      email: email,
+      phone: phone,
+      address: address,
+      zipCode: zipCode,
+      password: password,
+      avatar: fileUrl,
+      description: description,
+    };
 
-    const activationToken = createActivationToken(shop)
-    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    // const activationUrl = `http://areenaa.in/shop-activation/${activationToken}`;
+    const activationToken = createActivationToken(shop);
+    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
     try {
-        await sendMail({
-          email: shop.email,
-          subject: "Activate your Shop Account",
-          message: `Hello ${shop.name}, Please click on the link to activate your Shop account: ${activationUrl} This link valid for 5 minutes`,
-        });
-        res.status(201).json({
-          success: true,
-          message: `Please check your email`,
-        });
-      } catch (error) {
-        return next(new ErrorHandler(error.message, 500));
-      }
+      await sendMail({
+        email: shop.email,
+        subject: "Activate your Shop Account",
+        message: `Hello ${shop.name}, Please click on the link to activate your Shop account: ${activationUrl} This link valid for 5 minutes`,
+      });
+      res.status(201).json({
+        success: true,
+        message: `Please check your email`,
+      });
     } catch (error) {
-        return next(new ErrorHandler(error.message, 400));
+      return next(new ErrorHandler(error.message, 500));
     }
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 400));
+  }
 };
 
 // create activation token
 const createActivationToken = (shop) => {
-    return jwt.sign(shop, process.env.ACTIVATION_SECRET, {
-        expiresIn: "5m",
-    });
+  return jwt.sign(shop, process.env.ACTIVATION_SECRET, {
+    expiresIn: "5m",
+  });
 };
 
 // activation
 exports.activationShop = catchAsyncErrors(async (req, res, next) => {
-    try {
-      const { activation_token } = req.body;
-      const newShop = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
-  
-      if (!newShop) {
-        return next(new ErrorHandler("Invalid token", 400));
-      }
-  
-      const { name, shopName, email, phone, address, zipCode, pinCode, password, avatar, description } = newShop;
-      let shop = await Shop.findOne({ email });
-      if (shop) {
-        return next(new ErrorHandler("User already exists!", 400));
-      }
-      shop = await Shop.create({
-        name,
-        shopName,
-        email,
-        phone,
-        address,
-        zipCode,
-        pinCode,
-        password,
-        avatar,
-        description,
-      });
-      sendShopToken(shop, 201, res);
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 400));
+  try {
+    const { activation_token } = req.body;
+    const newShop = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
+
+    if (!newShop) {
+      return next(new ErrorHandler("Invalid token", 400));
     }
-  });
-  
+
+    const {
+      name,
+      shopName,
+      email,
+      phone,
+      address,
+      zipCode,
+      password,
+      avatar,
+      description,
+    } = newShop;
+    let shop = await Shop.findOne({ email });
+    if (shop) {
+      return next(new ErrorHandler("User already exists!", 400));
+    }
+    shop = await Shop.create({
+      name,
+      shopName,
+      email,
+      phone,
+      address,
+      zipCode,
+      password,
+      avatar,
+      description,
+    });
+    sendShopToken(shop, 201, res);
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 400));
+  }
+});
+
 // Login Shop
 exports.loginShop = catchAsyncErrors(async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new ErrorHandler("Please Fill The Information",500));
+      return next(new ErrorHandler("Please Fill The Information", 500));
     }
-  
+
     const shop = await Shop.findOne({ email }).select("+password");
 
     if (!shop) {
       return next(new ErrorHandler("User does not exists!", 400));
     }
-  
+
     const isPasswordValid = await shop.comparePassword(password);
     if (!isPasswordValid) {
       return next(new ErrorHandler("Please Provide Correct Information", 400));
     }
 
     sendShopToken(shop, 201, res);
-
   } catch (error) {
-    return next(new ErrorHandler(error.message, 500))
+    return next(new ErrorHandler(error.message, 500));
   }
 });
 
 // Load shop
-exports.loadShop = catchAsyncErrors(async(req, res, next)=>{
+exports.loadShop = catchAsyncErrors(async (req, res, next) => {
   try {
-      const shop = await Shop.findById(req.shop._id);
-      if(!shop){
-          return next(new ErrorHandler("Shop Doesn't exists", 400))
-      }
-      res.status(201).json({
-          success: true,
-          shop
-      })
-
+    const shop = await Shop.findById(req.shop._id);
+    if (!shop) {
+      return next(new ErrorHandler("Shop Doesn't exists", 400));
+    }
+    res.status(201).json({
+      success: true,
+      shop,
+    });
   } catch (error) {
-      return next(new ErrorHandler(error.message, 500))
+    return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
-// Logout Shop 
-exports.logoutShop = catchAsyncErrors(async(req, res, next)=>{
+// Logout Shop
+exports.logoutShop = catchAsyncErrors(async (req, res, next) => {
   try {
     res.cookie("sellerToken", null, {
       expires: new Date(Date.now()),
       httpOnly: true,
     });
-    
+
     res.status(201).json({
       success: true,
-      message: "Logout Success"
+      message: "Logout Success",
     });
-
   } catch (error) {
-    return next(new ErrorHandler(error.message, 500))
+    return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
-exports.getShopInfo = catchAsyncErrors(async (req, res, next)=> {
+exports.getShopInfo = catchAsyncErrors(async (req, res, next) => {
   try {
     const shop = await Shop.findById(req.params.id);
     res.status(201).json({
       success: true,
-      shop
-    })
+      shop,
+    });
   } catch (error) {
-    return next(new ErrorHandler(error.message, 500))
+    return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
 // update shop avatar
 exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
@@ -179,7 +191,9 @@ exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
 
     const fileUrl = path.join(req.file.filename);
 
-    const shop = await Shop.findByIdAndUpdate(req.shop._id, { avatar: fileUrl });
+    const shop = await Shop.findByIdAndUpdate(req.shop._id, {
+      avatar: fileUrl,
+    });
 
     res.status(200).json({
       success: true,
@@ -225,51 +239,65 @@ exports.updateShop = catchAsyncErrors(async (req, res, next) => {
 });
 
 // admin get all seller
-exports.getAllSellerForAdmin = catchAsyncErrors(async (req, res, next)=>{
+exports.getAllSellerForAdmin = catchAsyncErrors(async (req, res, next) => {
   try {
-    const sellers = await Shop.find().sort({createdAt: -1});
-    if(!sellers){
-      return next(new ErrorHandler("seller not found!",404))
+    const sellers = await Shop.find().sort({ createdAt: -1 });
+    if (!sellers) {
+      return next(new ErrorHandler("seller not found!", 404));
     }
     res.status(201).json({
       success: true,
-      sellers
-    })
+      sellers,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
-// delete sellers by admin 
-exports.deleteSellersByAdmin = catchAsyncErrors(async (req, res, next)=>{
+// delete sellers by admin
+exports.deleteSellersByAdmin = catchAsyncErrors(async (req, res, next) => {
   try {
-    const sellers = await Shop.findByIdAndDelete(req.params.id)
+    const sellers = await Shop.findByIdAndDelete(req.params.id);
 
-    if(!sellers){
-      return next(new ErrorHandler("seller not found!", 404))
+    if (!sellers) {
+      return next(new ErrorHandler("seller not found!", 404));
     }
 
     res.status(201).json({
       success: true,
-      message: "Seller Delete Success"
-    })
+      message: "Seller Delete Success",
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
 // add seller withdraw methods
-exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next)=>{
+exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
   try {
-    const {withdrawMethods} = req.body;
+    const { withdrawMethods } = req.body;
 
     const shop = await Shop.findByIdAndUpdate(req.shop._id, {
-      withdrawMethods
-  });
+      withdrawMethods,
+    });
 
     res.status(201).json({
       success: true,
-      shop
+      shop,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+exports.updatePinCode = catchAsyncErrors(async (req, res, next)=>{
+  try {
+    const shop = await Shop.findById(req.shop._id);
+    shop.pinCode = [...shop.pinCode, req.body.pinCode]
+    await shop.save();
+    res.status(201).json({
+      success: true,
+      shop,
     })
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
@@ -277,11 +305,10 @@ exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next)=>{
 })
 
 // delete withdraw methods
-exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next)=>{
-
+exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
   try {
     const shop = await Shop.findById(req.shop._id);
-    if(!shop){
+    if (!shop) {
       return next(new ErrorHandler("Seller Not Found", 404));
     }
 
@@ -290,9 +317,31 @@ exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next)=>{
 
     res.status(201).json({
       success: true,
-      shop
-    })
+      shop,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
+
+
+// delete pinCode 
+exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.shop._id);
+    if (!shop) {
+      return next(new ErrorHandler("Seller Not Found", 404));
+    }
+
+    shop.pinCode = shop.pinCode.filter(item=>item != req.params.pin);
+    
+    await shop.save();
+
+    res.status(201).json({
+      success: true,
+      shop,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
