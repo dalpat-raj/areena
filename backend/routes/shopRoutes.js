@@ -14,7 +14,8 @@ const { shopCreate,
     addWithdrawMethods,
     deleteWithdrawMethods,
     updatePinCode,
-    deletePinCode
+    deletePinCode,
+    checkPinCodeDelivery
 } = require("../controller/shopController");
 const { isSeller, isAdmin, isAutenticated } = require("../middleware/auth")
 
@@ -32,6 +33,7 @@ router.put("/shop-delivery-pincode-add", isSeller, updatePinCode);
 router.put("/add-seller-withdraw-methods", isSeller, addWithdrawMethods)
 router.delete("/shop-delivery-pincode-delete/:pin", isSeller, deletePinCode)
 router.delete("/delete-withdraw-methods", isSeller, deleteWithdrawMethods)
+// router.post("/check-pin-code-delivery/:id", checkPinCodeDelivery)
 
 // admin
 router.get("/admin-get-all-seller",isAutenticated, isAdmin("Admin"), getAllSellerForAdmin)

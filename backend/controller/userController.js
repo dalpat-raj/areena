@@ -17,7 +17,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     let fileUrl = "";
 
-    if(req?.file?.filename){
+    if (req?.file?.filename) {
       const filename = req?.file?.filename;
       fileUrl = path.join(filename);
     }
@@ -194,7 +194,7 @@ exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
       { $pull: { addresses: { _id: addressId } } }
     );
 
-    const user = await User.findById(userId)
+    const user = await User.findById(userId);
 
     res.status(201).json({
       success: true,
@@ -205,15 +205,14 @@ exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
 // Update User Password
-exports.updateUserPassword = catchAsyncErrors(async (req, res, next)=>{
+exports.updateUserPassword = catchAsyncErrors(async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
     const user = await User.findById(req.user.id).select("+password");
 
     const isPasswordMatch = await user.comparePassword(oldPassword);
-    if(!isPasswordMatch){
+    if (!isPasswordMatch) {
       return next(new ErrorHandler("Old password is incorrect!", 400));
     }
 
@@ -222,40 +221,62 @@ exports.updateUserPassword = catchAsyncErrors(async (req, res, next)=>{
 
     res.status(201).json({
       success: true,
-      message: "password change successfully!"
-    })
-    
+      message: "password change successfully!",
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
-
+});
 
 // find user info with the user id
-exports.findUserWithId = catchAsyncErrors(async (req, res, next)=>{
+exports.findUserWithId = catchAsyncErrors(async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(201).json({
       success: true,
       user,
-    })
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
 
 // admin get all seller
-exports.getAllUsersForAdmin = catchAsyncErrors(async (req, res, next)=>{
+exports.getAllUsersForAdmin = catchAsyncErrors(async (req, res, next) => {
   try {
-    const users = await User.find().sort({createdAt: -1});
-    if(!users){
-      return next(new ErrorHandler("user not found!",404))
+    const users = await User.find().sort({ createdAt: -1 });
+    if (!users) {
+      return next(new ErrorHandler("user not found!", 404));
     }
     res.status(201).json({
       success: true,
-      users
-    })
+      users,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
-})
+});
+
+// forgate User Password
+exports.forgateUserPassword = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { forgateEmail, newPassword } = req.body;
+    const user = await User.findOne({ email: forgateEmail }).select(
+      "+password"
+    );
+
+    if (!user) {
+      return next(new ErrorHandler("Wrong Email Id", 404));
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Password Change Successfully",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});

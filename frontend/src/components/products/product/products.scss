@@ -252,7 +252,13 @@
             position: relative;
             margin-top: 2rem;
             .filter__sidebar{
-                max-width: 320px;
+                max-width: 100%;
+                padding: 20px;
+                overflow-y: scroll;
+                &::-webkit-scrollbar {
+                    width: 0px !important;
+                  }
+                
                 .close__icon{
                     font-size: 1.5rem;
                 }

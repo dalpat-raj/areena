@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  CardNumberElement,
-  CardCvcElement,
-  CardExpiryElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+// import {
+//   CardNumberElement,
+//   CardCvcElement,
+//   CardExpiryElement,
+//   useStripe,
+//   useElements,
+// } from "@stripe/react-stripe-js";
 import "./payment.scss";
 import { backend__url } from "../../../Server";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const Payment = () => {
   const { user } = useSelector((state) => state.user);
@@ -20,8 +20,8 @@ const Payment = () => {
   const [selected, setSelected] = useState(1);
 
   const navigate = useNavigate();
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
 
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
@@ -35,9 +35,9 @@ const Payment = () => {
     totalPrice: orderData?.totalPrice,
   };
 
-  const paymentData = {
-    amount: Math.round(orderData?.totalPrice * 100),
-  };
+  // const paymentData = {
+  //   amount: Math.round(orderData?.totalPrice * 100),
+  // };
 
   // const paymentHandler = async (e) => {
   //   e.preventDefault();

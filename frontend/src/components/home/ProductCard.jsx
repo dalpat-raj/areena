@@ -16,7 +16,7 @@ import {
 import { toast } from "react-toastify";
 import "./productCard.scss";
 import { addTocart } from "../../actions/cart";
-import { getAllProductsShop, getProduct, getProductDetails } from "../../actions/productAction";
+import { getAllProductsShop, getProduct } from "../../actions/productAction";
 import Rating from "../layout/rating/Rating";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
@@ -60,13 +60,12 @@ const ProductCard = ({ products, isWishlist, isEvent, list }) => {
   };
 
   const productDetailsHandler = (id) => {
-    dispatch(getProductDetails(id));
     navigate(
       `${isEvent === true ? `/product/${id}?isEvent=true` : `/product/${id}`}`
     );
   };
 
-  // delete product bu seller
+  // delete product by seller
   const handleDeleteBySeller=async(id)=>{
     await axios.delete(`/api/v2/delete-shop-product/${id}`, {withCredentials: true}).then((res)=>{
       if(res.data.success === true){
@@ -79,21 +78,21 @@ const ProductCard = ({ products, isWishlist, isEvent, list }) => {
     setConfirmDelete(false)
   }
 
-    // delete product bu Admin
-    const handleDeleteByAdmin=async(id)=>{
-      await axios.delete(`/api/v2/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
-        if(res.data.success === true){
-          toast.success(res.data.message)
-        }
-      }).catch((err)=>{
-        alert(err.response.data.error.message)
-      })
-      dispatch(getProduct());
-      setConfirmDelete(false)
-    }
+  // delete product by Admin
+  const handleDeleteByAdmin=async(id)=>{
+    await axios.delete(`/api/v2/delete-product-admin/${id}`, {withCredentials: true}).then((res)=>{
+      if(res.data.success === true){
+        toast.success(res.data.message)
+      }
+    }).catch((err)=>{
+      alert(err.response.data.error.message)
+    })
+    dispatch(getProduct());
+    setConfirmDelete(false)
+  }
 
 
-
+  // wishlist 
   useEffect(() => {
     if (wishlist && wishlist.find((i) => i._id === data?._id)) {
       setClick(true);

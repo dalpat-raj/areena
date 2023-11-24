@@ -12,9 +12,13 @@ const FilterSidebar = ({
   minPrice,
   maxPrice,
   setPrice,
-  setBrand
+  setBrand,
+  sizeData,
+  setSize,
+  setFilterBar,
+  handleClear,
 }) => {
-  
+
   return (
     <div className="filter__main__box">
       <div className="filter__box categories__filter">
@@ -25,27 +29,33 @@ const FilterSidebar = ({
           {categoryData &&
             categoryData.map((item, i) => (
               <div className="input__radio" key={i}>
-                <input type="radio" name="category" value={item} onChange={(e)=>setCategory(e.target.value) || setColor("")} />
+                <input
+                  type="radio"
+                  name="category"
+                  value={item}
+                  onChange={(e) => setCategory(e.target.value) || setColor("")}
+                />
                 <label htmlFor="category">{item}</label>
               </div>
             ))}
-            
         </div>
       </div>
+      
       <div className="filter__box color__filter">
         <div className="filter__heading">
           <h4>COLOR</h4>
         </div>
         <ul className="filter__type">
           {colorData &&
-            colorData?.slice(0,12)?.map((item,i) => (
-              <li
-              key={i}
-                style={{ backgroundColor: `${item?.hex}` }}
-                onClick={() => setColor(item?.name)}
-              >
-              </li>
-            ))}
+            colorData
+              ?.slice(0, 12)
+              ?.map((item, i) => (
+                <li
+                  key={i}
+                  style={{ backgroundColor: `${item?.hex}` }}
+                  onClick={() => setColor(item?.name)}
+                ></li>
+              ))}
         </ul>
       </div>
 
@@ -65,59 +75,32 @@ const FilterSidebar = ({
             </div>
           </div>
           <div className="slider">
-            <RangeSlider max={80000} onInput={setPrice}  />
+            <RangeSlider max={80000} onInput={setPrice} />
           </div>
         </ul>
       </div>
 
-      {/* <div className="filter__box size__filter">
+      <div className="filter__box size__filter">
         <div className="filter__heading">
           <h4>SIZE</h4>
         </div>
         <ul className="filter__type">
           <div className="alpabate__size">
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>XS</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>XS</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>XS</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>XS</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>XS</span>
-            </div>
-          </div>
-
-          <div className="number__size">
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>2</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>2</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>2</span>
-            </div>
-            <div className="size__input__box">
-              <input type="checkbox" />
-              <span>2</span>
-            </div>
+            {sizeData?.length !== 0 &&
+              sizeData?.map((item, i) => (
+                <div className="input__radio" key={i}>
+                  <input
+                    type="radio"
+                    name="category"
+                    value={item}
+                    onChange={(e) => setSize(e.target.value) || setColor("")}
+                  />
+                  <label htmlFor="category">{item}</label>
+                </div>
+              ))}
           </div>
         </ul>
-      </div> */}
+      </div>
 
       <div className="filter__box product__brand__filter">
         <div className="filter__heading">
@@ -141,17 +124,20 @@ const FilterSidebar = ({
           <h4>AVAILABILITY</h4>
         </div>
         <ul className="filter__type">
-          <div className="alpabate__size">
             <div className="size__input__box">
-              <input type="checkbox" />
-              <span>In Stock</span>
+              <input type="radio" name="stock"/>
+              <label>In Stock</label>
             </div>
             <div className="size__input__box">
-              <input type="checkbox" />
-              <span>Out Of Stock</span>
+              <input type="radio" name="stock"/>
+              <label>Out Of Stock</label>
             </div>
-          </div>
         </ul>
+      </div>
+
+      <div className="filter__box btn__group">
+        <button className="btn-sec" onClick={handleClear}>Clear</button>
+        <button className="btn-main" onClick={()=>setFilterBar(false)}>Apply</button>
       </div>
     </div>
   );

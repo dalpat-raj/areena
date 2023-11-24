@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Get All Products
 export const getProduct =
-  (limit = 8, page = 1, minPrice = 0, maxPrice = 80000, sortBy="", category="", brand="", color="") =>
+  (limit = 8, page = 1, minPrice = 0, maxPrice = 80000, sortBy="", category="", brand="", size="", color="") =>
   async (dispatch) => {
     category = category?.split(" ").join("+")
     category = category?.split("&").join("-");
@@ -11,7 +11,7 @@ export const getProduct =
     try {
       dispatch({ type: "ProductRequest" });
 
-      let link = `/api/v2/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}${sortBy && `&sort=${sortBy}`}${category && `&category=${category}`}${brand && `&brand=${brand}`}${color && `&color=${color}`}`
+      let link = `/api/v2/products?limit=${limit}&page=${page}&sellingPrice[lte]=${maxPrice}&sellingPrice[gte]=${minPrice}${sortBy && `&sort=${sortBy}`}${category && `&category=${category}`}${brand && `&brand=${brand}`}${size && `&size=${size}`}${color && `&color=${color}`}`
 
       const { data } = await axios.get(link);
 

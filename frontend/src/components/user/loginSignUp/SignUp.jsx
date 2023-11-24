@@ -1,6 +1,7 @@
 import React, { Suspense, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { lockClosedOutline, mailOutline, personOutline } from "ionicons/icons";
+import { CgProfile } from "react-icons/cg";
 import { BsPhone } from "react-icons/bs";
 import "./signUp.scss";
 import { useNavigate } from "react-router";
@@ -118,7 +119,11 @@ const SignUp = () => {
                   <div className="img__box">
                     <img src={URL.createObjectURL(avatar)} alt="areena" />
                   </div>
-                ) : null}
+                ) : (
+                  <div className="img__box">
+                    <CgProfile />
+                  </div>
+                )}
                 <div className="input__box">
                   <input
                     type="file"
@@ -127,6 +132,7 @@ const SignUp = () => {
                     onChange={(e) => handleFileInputChange(e)}
                     className="sr-only"
                   />
+                  <button>Profile Image</button>
                 </div>
               </div>
 

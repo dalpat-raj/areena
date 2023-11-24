@@ -2,33 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { chevronDownOutline, chevronForwardOutline } from "ionicons/icons";
 import "./prodDesc.scss";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { backend__url } from "../../../Server";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProductsShop } from "../../../actions/productAction";
 import Rating from "../../layout/rating/Rating";
 
 const ProdDesc = ({ data }) => {
-  const { products } = useSelector((state) => state.products);
+  const { shopProducts } = useSelector((state) => state.products);
 
   const [details, setDetails] = useState("");
 
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
-  const eventData = searchParams.get("isEvent");
   
-  useEffect(() => {
-    if(eventData === true) {
-      dispatch(getAllProductsShop(data?.shop?._id));
-    }
-  }, [dispatch, data, eventData]);
-
-
   useEffect(() => {
     if (data?.details) {
       setDetails(data?.details);
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const descriptionTab = useRef(null);
   const shippingTab = useRef(null);
@@ -143,12 +133,12 @@ const ProdDesc = ({ data }) => {
   };
 
   const totalReviewsLength =
-    products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+  shopProducts &&
+    shopProducts.reduce((acc, product) => acc + product.reviews.length, 0);
 
   const totalRatings =
-    products &&
-    products.reduce(
+  shopProducts &&
+    shopProducts.reduce(
       (acc, product) =>
         acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
       0
@@ -434,7 +424,7 @@ const ProdDesc = ({ data }) => {
                     </p>
                     <p>
                       Total Products :{" "}
-                      <span>{products && products.length}</span>
+                      <span>{shopProducts && shopProducts?.length}</span>
                     </p>
                     <p>
                       Total Review :{" "}
@@ -713,7 +703,7 @@ const ProdDesc = ({ data }) => {
                     <span>{data?.shop?.createdAt?.slice(0, 10)}</span>
                   </p>
                   <p>
-                    Total Products : <span>{products && products.length}</span>
+                    Total Products : <span>{shopProducts && shopProducts.length}</span>
                   </p>
                   <p>
                     Total Review :{" "}

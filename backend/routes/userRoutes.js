@@ -9,7 +9,8 @@ const { registerUser,
     deleteUserAddress,
     updateUserPassword,
     findUserWithId,
-    getAllUsersForAdmin
+    getAllUsersForAdmin,
+    forgateUserPassword
 } = require("../controller/userController");
 const router = express.Router();
 const {upload} = require("../multer");
@@ -26,6 +27,7 @@ router.put("/update-user-address", isAutenticated, updateUserAddress);
 router.delete("/delete-user-address/:id", isAutenticated, deleteUserAddress);
 router.put("/update-user-password", isAutenticated, updateUserPassword);
 router.get("/user-info/:id", findUserWithId);
+router.post("/forgate-user-password", forgateUserPassword);
 
 // admin
 router.get("/admin-get-all-users",isAutenticated, isAdmin("Admin"), getAllUsersForAdmin)

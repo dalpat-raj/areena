@@ -24,7 +24,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Rating from "../../layout/rating/Rating";
 import axios from "axios";
-import { getSameProducts } from "../../../actions/productAction";
+import { getAllProductsShop, getProductDetails, getSameProducts } from "../../../actions/productAction";
 import Loader from "../../layout/loader/Loader";
 import { Helmet } from "react-helmet";
 
@@ -40,6 +40,9 @@ const ProductDetails = () => {
   const [data, setData] = useState(null);
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState("M");
+  const [checkPin, setCheckPin] = useState(null);
+  const [deliveryAvailable, setDeliveryAvailable] = useState(false);
+  const [checkOk, setCheckOk] = useState(false);
   const [click, setClick] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const dispatch = useDispatch();
@@ -86,6 +89,20 @@ const ProductDetails = () => {
     dispatch(removeFromWishlist(product));
   };
 
+  const checkPinCodeHandler = () => {
+    if(checkPin){
+    setCheckOk(true)
+    const result = data?.shop?.pinCode?.find(item=>item===checkPin)
+    if(result === checkPin){
+      setDeliveryAvailable(true)
+    }else{
+      setDeliveryAvailable(false)
+     }
+    }else{
+      alert("Incorrect Pin Code !")
+    }
+  }
+
   const handleMessage = async () => {
     if (isAuthenticated) {
       const groupTitle = data?._id + user?._id;
@@ -98,7 +115,7 @@ const ProductDetails = () => {
           sellerId,
         })
         .then((res) => {
-          navigate(`/api/v2/conversation/${res.data.conversation._id}`);
+          navigate(`/conversation/${res.data.conversation._id}`);
         })
         .catch((err) => {
           console.log(err);
@@ -130,9 +147,15 @@ const ProductDetails = () => {
     }
   }, [wishlist, productDetails]);
 
+  // same products
   useEffect(() => {
     dispatch(getSameProducts(productDetails?.name));
+    dispatch(getAllProductsShop(productDetails?.shop?._id));
   }, [dispatch, productDetails]);
+  
+  useEffect(()=>{
+    dispatch(getProductDetails(id));
+  },[dispatch, id])
 
   return (
     <>
@@ -304,12 +327,22 @@ const ProductDetails = () => {
                   <div className="order__eligible">
                     <IonIcon icon={trainOutline} />
                     <span className="order__text">
-                      Delivery Available Only This PinCode :- {
-                        data?.shop?.pinCode?.map((pin, i)=>(
-                          <span key={i}>{pin}</span>
-                        ))
-                      }
-
+                      <label htmlFor="">Check Product Delivery Available Or Not</label>
+                    {
+                     checkOk && (
+                      deliveryAvailable ? (
+                        <div className="deliver__available">
+                          <p className="right">✔ Delivery Available</p>
+                        </div>
+                      ) : (
+                        <div className="deliver__available">
+                        <p className="wrong">❌ Not Deliver</p>
+                        </div>
+                      )
+                     )
+                    }
+                      <input type="number" value={checkPin} onChange={(e)=>setCheckPin(+e.target.value)} placeholder="Type Your Delivery Pin Code"/>
+                      <button onClick={checkPinCodeHandler} className="btn-main">Check</button>
                     </span>
                   </div>
 

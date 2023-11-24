@@ -11,10 +11,10 @@ const RecomendedProduct = ({data, eventData}) => {
 
   useEffect(()=>{
     if(eventData !== null){
-      const filterEvents = event && event.filter((item)=>item.category === data?.category);
+      const filterEvents = event && event?.filter((item)=>item.category === data?.category);
       setProductData(filterEvents);
     }else{
-      const filterProducts = products && products.slice(0,5).filter((item)=>item.category === data?.category);
+      const filterProducts = products && products?.slice(0,5)?.filter((item)=>item.category === data?.category);
       setProductData(filterProducts);
     }
   },[data, products, event, eventData])

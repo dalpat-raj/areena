@@ -129,7 +129,7 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (!order) {
       return next(new ErrorHandler("Order not found!", 400));
     }
-    if (req.body.status === "Transferred to delivery partner") {
+    if (req.body.status === "Delivered") {
       order.cart.forEach(async (o) => {
         await updateOrder(o._id, o.qty);
       });

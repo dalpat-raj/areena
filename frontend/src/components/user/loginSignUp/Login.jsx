@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { lockClosedOutline, mailOutline } from "ionicons/icons";
 import "./login.scss";
@@ -12,9 +12,16 @@ const Footer = React.lazy(()=>import("../../layout/footer/Footer"));
 
 const Login = () => {
   const { isAuthenticated} = useSelector((state) => state.user);
+
+  const [forgate, setFrogate] = useState(false);
+  const [forgateEmail, setForgateEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConNewPassword, setShowConNewPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,6 +39,24 @@ const Login = () => {
       alert(error?.response?.data?.error?.message)
     })
   };
+
+  const forgateUserPassword = (e) => {
+    e.preventDefault();
+    if(newPassword === confirmNewPassword){
+      axios.post(`/api/v2/forgate-user-password`, {forgateEmail, newPassword}).then((res)=>{
+        alert(res.data.message)
+        setFrogate(false)
+        setForgateEmail("")
+        setNewPassword("")
+        setConfirmNewPassword("")
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }else{
+      alert("Password Not Match")
+    }
+    
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -102,9 +127,9 @@ const Login = () => {
                   <button type="submit" className="btn-main">
                     SIGN IN
                   </button>
-                  <NavLink>Forgot your password?</NavLink>
                 </div>
               </form>
+              <button className="forgate__btn" onClick={()=>setFrogate(true)}>Forgot your password?</button>
             </div>
             <div className="col__2">
               <div className="col__heading">
@@ -131,6 +156,68 @@ const Login = () => {
       <Suspense fallback={""}>
       <Footer />
       </Suspense>
+      {
+        forgate && (
+          <>
+            <div className="forgate__main">
+              <h2>Forgate Password</h2>
+              <form onSubmit={forgateUserPassword}>
+                <div className="input__box">
+                <label htmlFor="email">Email</label>
+                  <input 
+                  id="email"
+                  type="email" 
+                  placeholder="type your email"
+                  value={forgateEmail}
+                  onChange={(e)=>setForgateEmail(e.target.value)}
+                  />
+                </div>
+                <div className="input__box">
+                  <label htmlFor="newpassword">New Password</label>
+                  <input 
+                  id="newpassword"
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="new password"
+                  value={newPassword}
+                  onChange={(e)=>setNewPassword(e.target.value)}
+                  />
+                  <div className="pass__icon">
+                      {showNewPassword ? (
+                        <AiOutlineEyeInvisible
+                          onClick={() => setShowNewPassword(false)}
+                        />
+                      ) : (
+                        <AiOutlineEye onClick={() => setShowNewPassword(true)} />
+                      )}
+                    </div>
+                </div>
+                <div className="input__box">
+                <label htmlFor="conNewPass">Confirm New Password</label>
+                  <input 
+                  id="conNewPass"
+                  type={showConNewPassword ? "text" : "password"}
+                  placeholder="confirm new Password"
+                  value={confirmNewPassword}
+                  onChange={(e)=>setConfirmNewPassword(e.target.value)}
+                  />
+                  <div className="pass__icon">
+                      {showConNewPassword ? (
+                        <AiOutlineEyeInvisible
+                          onClick={() => setShowConNewPassword(false)}
+                        />
+                      ) : (
+                        <AiOutlineEye onClick={() => setShowConNewPassword(true)} />
+                      )}
+                    </div>
+                </div>
+                <button type="submit" className="btn-main">Submit</button>
+              </form>
+              <button className="btn-sec" onClick={()=>setFrogate(false)}>Cancle</button>
+            </div>
+            <p onClick={()=>setFrogate(false)} className="overlay"></p>
+          </>
+        )
+      }
     </>
   );
 };

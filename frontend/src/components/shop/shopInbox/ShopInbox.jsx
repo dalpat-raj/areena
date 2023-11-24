@@ -313,7 +313,7 @@ const Message = ({
           <span>
             {!isLoading && data?.lastMessageId !== user?._id
               ? "You:"
-              : user?.name.split(" ")[0] + ": "}{" "}
+              : user?.name?.split(" ")[0] + ": "}{" "}
             {data?.lastMessage}
           </span>
         </div>

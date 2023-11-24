@@ -96,9 +96,9 @@ const Inbox = () => {
     const message = {
       sender: user?._id,
       text: newMessage,
-      conversationId: currentChat._id,
+      conversationId: currentChat?._id,
     };
-    const receiverId = currentChat.members.find(
+    const receiverId = currentChat?.members?.find(
       (member) => member !== user?._id
     );
 

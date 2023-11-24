@@ -22,7 +22,7 @@ const ShopOrderDetails = () => {
   const updateOrderStatusHandler = () => {
     dispatch(updateOrderStatus(id, status));
   };
-  console.log(order);
+
   const refundUpdateOrderHandler = () => {
     if (status === "") {
       dispatch(updateRefundOrderStatus(id, "Processing Refund"));
@@ -116,19 +116,11 @@ const ShopOrderDetails = () => {
                   >
                     {[
                       "Processing",
-                      "Transferred to delivery partner",
-                      "Shipping",
-                      "Received",
-                      "On the way",
                       "Delivered",
                     ]
                       .slice(
                         [
                           "Processing",
-                          "Transferred to delivery partner",
-                          "Shipping",
-                          "Received",
-                          "On the way",
                           "Delivered",
                         ].indexOf(order?.status)
                       )

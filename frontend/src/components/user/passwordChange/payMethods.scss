@@ -29,8 +29,11 @@
                 border-radius: 6px;
                 font-size: 13px;
                 line-height: 20px;
+                outline: 0;
                 &:focus{
-                    outline: 1px solid $black-main;
+                    outline: unset;
+                    border-style: inset;
+                    border: 1px solid #333;
                 }
             }
             span{

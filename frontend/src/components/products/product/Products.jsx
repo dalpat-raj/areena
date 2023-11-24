@@ -21,19 +21,31 @@ const Products = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [colorData, setColorData] = useState([]);
   const [brandData, setBrandData] = useState([]);
+  const [sizeData, setSizeData] = useState([]);
   const [color, setColor] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
+  const [size, setSize] = useState("");
   const [price, setPrice] = useState([0, 80000]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(80000);
   const [page, setPage] = useState(1);
 
+  const [filterBar, setFilterBar] = useState(false)
+
   const limit = 8;
   const dispatch = useDispatch();
-  
-  // const [searchParams] = useSearchParams();
-  // const categories = searchParams.get("categories")
+
+  const handleClear=()=>{
+    setMinPrice(0);
+    setMaxPrice(80000);
+    setSortBy("");
+    setCategory("")
+    setBrand("")
+    setSize("")
+    setColor("")
+    setFilterBar(false)
+  }
 
   useEffect(() => {
     setData(products);
@@ -70,6 +82,20 @@ const Products = () => {
 
   useEffect(() => {
     axios
+      .get(`/api/v2/products?fields=size`)
+      .then((res) => {
+        let arrd = []
+        res.data.product.map((item,i) =>arrd.push(...item.size));
+        arrd = new Set(arrd)
+        setSizeData(Array.from(arrd))
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.error?.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
       .get(`/api/v2/products?fields=color`)
       .then((res) => {
         const result = new Set(res.data.product.map((item) => item.color));
@@ -90,6 +116,7 @@ const Products = () => {
         sortBy,
         category,
         brand,
+        size,
         color
       )
     );
@@ -102,6 +129,7 @@ const Products = () => {
     maxPrice,
     dispatch,
     brand,
+    size,
     color,
   ]);
 
@@ -110,7 +138,7 @@ const Products = () => {
       <img width={"100%"} src="/arrival.webp" alt="arrival" />
       <div className="container">
         <div className="product__row">
-          <div className={"filter__sidebar"}>
+          <div className={filterBar ? "filter__sidebar active" : "filter__sidebar"}>
             <FilterSidebar
               categoryData={categoryData}
               setCategory={setCategory}
@@ -121,13 +149,17 @@ const Products = () => {
               maxPrice={maxPrice}
               setPrice={setPrice}
               setBrand={setBrand}
+              sizeData={sizeData}
+              setSize={setSize}
+              setFilterBar={setFilterBar}
+              handleClear={handleClear}
             />
           </div>
 
           <div className="product__bar">
             {/* top filter  */}
             <div className="top__filter">
-              <div className="filter__open__icon">
+              <div className="filter__open__icon" onClick={()=>setFilterBar(true)}>
                 <HiAdjustmentsHorizontal />
                 <span>Filter</span>
               </div>
@@ -160,14 +192,14 @@ const Products = () => {
             ) : (
               <div className="product__containers">
                 {
-                  data.length === 0 ? (
+                  data?.length === 0 ? (
                     <div className="no__products">
                       <p>No Products Available !</p>
                     </div>
                   ) : (
                     <div className="products__row">
                   {data &&
-                    data.map((item, i) => (
+                    data?.map((item, i) => (
                       <ProductCard products={item} key={i} />
                     ))}
                 </div>

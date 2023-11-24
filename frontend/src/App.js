@@ -1,9 +1,9 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+// import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -15,7 +15,7 @@ import Home from "./components/home/Home";
 import { loadUser } from "./actions/userAction";
 import { loadSeller } from "./actions/sellerAction";
 import Store from "./Store";
-import Payment from "./components/checkout/payment/Payment"
+// import Payment from "./components/checkout/payment/Payment"
 import NotFound from "./components/layout/notFound/NotFound";
 
 
@@ -36,6 +36,7 @@ const RefundPolicy = React.lazy(()=>import("./pages/refundPolicy/RefundPolicy"))
 const ShippingReturn = React.lazy(()=>import("./pages/shippingReturn/ShippingReturn"));
 const TermsConditions = React.lazy(()=>import("./pages/termCondition/TermsConditions"));
 const Contact = React.lazy(()=>import("./pages/contact/Contact"));
+const Payment = React.lazy(()=>import("./components/checkout/payment/Payment"));
 
 // Shop
 const ShopCreate = React.lazy(()=>import("./pages/shop/shopCreate/ShopCreate"));
@@ -69,23 +70,23 @@ const AdminWithdrawReques = React.lazy(()=>import("./components/admin/adminWithd
 
 
 function App() {
-  const [stripeApiKey, setStripeApiKey] = useState();
+  // const [stripeApiKey, setStripeApiKey] = useState();
 
-  async function getStripeApiKey() {
-    await axios
-      .get(`/api/v2/stripeapikey`)
-      .then((res) => {
-        setStripeApiKey(res.data.stripeApiKey);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // async function getStripeApiKey() {
+  //   await axios
+  //     .get(`/api/v2/stripeapikey`)
+  //     .then((res) => {
+  //       setStripeApiKey(res.data.stripeApiKey);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   useEffect(() => {
     Store.dispatch(loadSeller());
     Store.dispatch(loadUser());
-    getStripeApiKey();
+    // getStripeApiKey();
   }, []);
 
   return (
@@ -93,13 +94,13 @@ function App() {
       <BrowserRouter>
         <HeaderTop />
         <Header />
-        {stripeApiKey && (
+        {/* {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
             <Routes>
               <Route path="/payment" element={<Payment />} />
             </Routes>
           </Elements>
-        )}
+        )} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pages/wishlist" element={<Suspense fallback={<div><h1>loading...</h1></div>}><Wishlist /></Suspense>} />
@@ -115,6 +116,7 @@ function App() {
           <Route path="/shipping-return" element={<Suspense fallback={""}><ShippingReturn /></Suspense>} />
           <Route path="/terms-conditions" element={<Suspense fallback={""}><TermsConditions /></Suspense>} />
           <Route path="/contact" element={<Suspense fallback={""}><Contact /></Suspense>} />
+          <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} />
           <Route path="*" element={<NotFound />} />
 
           {/* protected route     */}
