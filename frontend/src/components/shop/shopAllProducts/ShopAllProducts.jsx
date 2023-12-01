@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 
 const ShopAllProducts = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { products, isLoading, isDeleted } = useSelector(
+  const { shopProducts, isLoading, isDeleted } = useSelector(
     (state) => state.products
   );
   
@@ -30,11 +30,11 @@ const ShopAllProducts = () => {
 
           {isLoading ? (
             <Loader />
-          ) : products.length !== 0 ? (
+          ) : (shopProducts ? (
             <div className="col__2 shop__all__products">
               <div className="products__row">
-                {products &&
-                  products?.map((item, i) => (
+                {shopProducts &&
+                  shopProducts?.map((item, i) => (
                     <ProductCard products={item} key={i} shopProduct={true} />
                   ))}
               </div>
@@ -47,7 +47,7 @@ const ShopAllProducts = () => {
               </p>
               <button onClick={()=>navigate("/shop-dashboard-create-product")} className="btn-main">Create Products</button>
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>

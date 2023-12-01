@@ -103,7 +103,7 @@ function App() {
         )} */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pages/wishlist" element={<Suspense fallback={<div><h1>loading...</h1></div>}><Wishlist /></Suspense>} />
+          <Route path="/pages/wishlist" element={<Suspense fallback={""}><Wishlist /></Suspense>} />
           <Route path="/products" element={<Suspense fallback={""}><Products /></Suspense>} />
           <Route path="/product/:id" element={<Suspense fallback={""}><ProductDetails /></Suspense>} />
           <Route path="/login" element={<Suspense fallback={""}><Login /></Suspense>} />

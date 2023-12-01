@@ -8,6 +8,7 @@
   }
 }
 .filter__box {
+  // display: none;
   .filter__heading {
     padding-bottom: 1rem;
     border-bottom: 1px solid #eeeeee;
@@ -181,7 +182,7 @@
 }
 
 .btn__group{
-    display: flex;
+    display: none;
     gap: 10px;
     button{
         width: 50%;
@@ -203,4 +204,15 @@
 
 .range-slider__range {
   background-color: #6e6e6e !important;
+}
+
+
+@media only screen and (max-width: 768px){
+  .btn__group{
+    display: flex;
+    gap: 10px;
+    button{
+        width: 50%;
+    }    
+}
 }

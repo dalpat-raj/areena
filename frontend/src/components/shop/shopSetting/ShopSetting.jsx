@@ -17,6 +17,7 @@ const ShopSetting = () => {
   const [address, setAddress] = useState(seller?.address);
   const [description, setDescription] = useState(seller?.description);
   const [zipCode, setZipCode] = useState(seller?.zipCode);
+  const [password, setPassword] = useState(null);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -45,7 +46,8 @@ const ShopSetting = () => {
       shopName: shopName,
       address: address,
       description: description,
-      zipCode: zipCode
+      zipCode: zipCode,
+      password: password,
     }
     dispatch(updateSellerInfo(seller))
   };
@@ -127,6 +129,17 @@ const ShopSetting = () => {
                         id="zipCode"
                         value={zipCode}
                         onChange={(e) => setZipCode(e.target.value)}
+                      />
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="password">Your Password</label>
+                      <input
+                        type="password"
+                        id="password"
+                        required
+                        placeholder="Your Current Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                   </div>

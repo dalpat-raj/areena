@@ -24,9 +24,14 @@ exports.shopCreate = async (req, res, next) => {
     if (shopEmail) {
       return next(new ErrorHandler("Shop already exists", 400));
     }
+    
+    let fileUrl = "";
 
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+    if (req?.file?.filename) {
+      const filename = req?.file?.filename;
+      fileUrl = path.join(filename);
+    }
+
     const shop = {
       name: name,
       shopName: shopName,
@@ -39,9 +44,9 @@ exports.shopCreate = async (req, res, next) => {
       description: description,
     };
 
-    // const activationToken = createActivationToken(shop);
-    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
+    const activationToken = createActivationToken(shop);
+    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    // const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -185,9 +190,11 @@ exports.getShopInfo = catchAsyncErrors(async (req, res, next) => {
 exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
   try {
     const existsSeller = await Shop.findById(req.shop._id);
-    const existsAvatarPath = `uploads/${existsSeller.avatar}`;
+    // const existsAvatarPath = `../../uploads/${existsSeller.avatar}`;
 
-    fs.unlinkSync(existsAvatarPath);
+    // if(existsAvatarPath){
+    //   fs.unlinkSync(existsAvatarPath);
+    // }
 
     const fileUrl = path.join(req.file.filename);
 
@@ -207,7 +214,7 @@ exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
 // update user
 exports.updateShop = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { name, shopName, address, description, zipCode } = req.body;
+    const { name, shopName, address, description, zipCode, password } = req.body;
     const shop = await Shop.findById(req.shop._id).select("+password");
 
     if (!shop) {
