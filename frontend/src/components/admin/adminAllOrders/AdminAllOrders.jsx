@@ -6,6 +6,7 @@ import { getAllOrdersAdmin } from "../../../actions/orderAction";
 import { backend__url } from "../../../Server";
 import Loader from "../../layout/loader/Loader";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 const AdminAllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -40,6 +41,7 @@ const AdminAllOrders = () => {
                       <div className="box">
                         {orders &&
                           orders.map((item, i) => (
+                            <Link to={`/admin/order/${item?._id}`}>
                               <div className="row" key={i}>
                                 <div className="img_name">
                                   {item?.cart.map((item, i) => (
@@ -57,12 +59,13 @@ const AdminAllOrders = () => {
                                   ))}
                                 </div>
                                 <div className="price">
-                                  <p>₹ {item?.totalPrice}</p>
+                                  <p>₹ { item.totalPrice }</p>
                                 </div>
                                 <div className="status">
                                   <p>{item?.status}</p>
                                 </div>
                               </div>
+                            </Link>
                           ))}
                       </div>
                     </div>

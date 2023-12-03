@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiBeachBag } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router";
 import { backend__url } from "../../../../Server";
-import { getSelectedOrdersUser, orderRefund } from "../../../../actions/orderAction";
+import {
+  getSelectedOrdersUser,
+  orderRefund,
+} from "../../../../actions/orderAction";
 import "./orderDetails.scss";
 import { HiBadgeCheck } from "react-icons/hi";
 import { RxCross2 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loader from "../../../layout/loader/Loader";
 import { createNewReview } from "../../../../actions/reviewAction";
+import ComponentToPrint from "../../../admin/adminAllOrders/ComponentToPrint";
+import { useReactToPrint } from "react-to-print";
 
 const OrderDetails = () => {
   const { user } = useSelector((state) => state.user);
@@ -23,25 +28,37 @@ const OrderDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const reviewHandler = async () => {
-    dispatch(createNewReview({ user, rating, comment, productId: selectedItem._id, orderId: id }));
-    if(success === true){
+    dispatch(
+      createNewReview({
+        user,
+        rating,
+        comment,
+        productId: selectedItem._id,
+        orderId: id,
+      })
+    );
+    if (success === true) {
       alert(message);
       window.location.reload();
     }
   };
 
-  const refundHandler=(id)=>{
-    dispatch(orderRefund(id))
-  }
+  const refundHandler = (id) => {
+    dispatch(orderRefund(id));
+  };
 
   useEffect(() => {
     dispatch(getSelectedOrdersUser(id));
-    if(error){
-      dispatch({type: "clearErrors()"})
+    if (error) {
+      dispatch({ type: "clearErrors()" });
     }
   }, [dispatch, id, error]);
-
 
   return isLoading ? (
     <Loader />
@@ -85,7 +102,7 @@ const OrderDetails = () => {
           {order &&
             order?.cart?.map((item, i) => (
               <div className="product_main" key={i}>
-                <div className="image__box" >
+                <div className="image__box">
                   <img
                     src={`${backend__url}/${item?.images[0]}`}
                     alt="product details"
@@ -111,9 +128,7 @@ const OrderDetails = () => {
                 </div>
 
                 {order?.status === "Delivered" ? (
-                  item?.isReviewed === true ? (
-                    null
-                  ) : (
+                  item?.isReviewed === true ? null : (
                     <button
                       onClick={() => setOpen(true) || setSelectedItem(item)}
                       className="btn-sec update_status"
@@ -207,22 +222,41 @@ const OrderDetails = () => {
           </div>
           <div className="price__box">
             <div className="total_price">
-              <p>
-                Total Price : <span>₹ {order?.totalPrice}</span>
-              </p>
+              <h4>Payment Details</h4>
+              {order?.shippingPrice && (
+                <p>Shipping : ₹ {order?.shippingPrice}</p>
+              )}
+              {order?.discountPrice && (
+                <p>
+                  Discount : ₹{" "}
+                  {order?.discountPrice !== null ? order?.discountPrice : 0}
+                </p>
+              )}
+              {order?.subTotalPrice && (
+                <p>SubTotal : ₹ {order?.subTotalPrice}</p>
+              )}
+              {order?.totalPrice && <p>Total Price : ₹ {order?.totalPrice}</p>}
+              <div className="Component__to__print">
+                <ComponentToPrint ref={componentRef} />
+              </div>
+              <button className="btn-main" onClick={handlePrint}>
+                Download Invoice
+              </button>
             </div>
           </div>
         </div>
 
         <div className="row btn_row">
           <button className="btn-main">Send Message To Seller</button>
-          {
-            order?.status === "Delivered" && (
-              <button onClick={()=>refundHandler(order?._id)} className="btn-sec">Give a Refund</button>
-            )
-          }
+          {order?.status === "Delivered" && (
+            <button
+              onClick={() => refundHandler(order?._id)}
+              className="btn-sec"
+            >
+              Give a Refund
+            </button>
+          )}
         </div>
-
       </div>
     </div>
   );

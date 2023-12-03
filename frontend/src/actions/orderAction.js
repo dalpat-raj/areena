@@ -93,6 +93,27 @@ export const getAllOrdersShop = (ShopId) => async (dispatch) => {
   }
 };
 
+export const getSelectedOrderDetails = (orderId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getSelectedOrdersShopRequest",
+    });
+
+    const { data } = await axios.get(
+      `/api/v2/get-selected-order-details/${orderId}`,
+      { withCredentials: true }
+    );
+    dispatch({
+      type: "getSelectedOrdersShopSuccess",
+      payload: data.order,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getSelectedOrdersShopFail",
+      payload: error.response.data.error.message,
+    });
+  }
+};
 export const getSelectedOrderShop = (orderId) => async (dispatch) => {
   try {
     dispatch({

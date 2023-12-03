@@ -11,9 +11,10 @@ router.put("/order-refund/:id", orderRefund);
 
 // shop
 router.get("/get-all-orders-shop/:shopId", isSeller, getAllOrdersSeller);
-router.get("/get-selected-order-shop/:orderId", isSeller, getSelectedOrderShop);
-router.put("/update-order-status/:id", isSeller, updateOrderStatus);
-router.put("/shop-order-refund-success/:id", isSeller, updateRefundOrderStatus);
+router.get("/get-selected-order-details/:orderId",isAutenticated, isAdmin("Admin"), getSelectedOrderShop);
+router.get("/get-selected-order-shop/:orderId",isSeller, getSelectedOrderShop);
+router.put("/update-order-status/:id",isAutenticated, isAdmin("Admin"), updateOrderStatus);
+router.put("/shop-order-refund-success/:id", isAutenticated, isAdmin("Admin"), updateRefundOrderStatus);
 
 // admin
 router.get("/get-all-orders-admin",isAutenticated, isAdmin("Admin"), getAllOrdersAdmin);

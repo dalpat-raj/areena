@@ -45,8 +45,8 @@ exports.shopCreate = async (req, res, next) => {
     };
 
     const activationToken = createActivationToken(shop);
-    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    // const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
+    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -353,12 +353,3 @@ exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
-// exports.checkPinCodeDelivery = catchAsyncErrors(async (req, res, next)=>{
-//   try {
-//     const shop = await Shop.findById(req.params.id)
-//     console.log(shop);
-//   } catch (error) {
-//     return next(new ErrorHandler(error.message, 500));
-//   }
-// })

@@ -59,7 +59,7 @@
         align-items: center;
         gap: 1rem;
         img {
-          width: 55px !important;
+          width: 65px !important;
           height: 80px !important;
           object-fit: contain;
           border-radius: 5px;
@@ -75,7 +75,8 @@
           h5 {
             font-size: $fs-8;
             color: #333;
-            font-weight: 500;
+            font-weight: 400;
+            line-height: 17px;
           }
         }
       }
@@ -184,16 +185,23 @@
     }
     .price__box {
       .total_price {
-        p {
-          font-size: $fs-6;
+        h4 {
           font-weight: 600;
+          font-family: $font-domine;
           color: #000;
+          padding-bottom: 5px;
         }
-        span {
-          font-size: $fs-7;
-          font-weight: 400;
-          color: #333;
+        p {
+          // line-height: 1.2;
+          padding: 3px 0;
+          font-size: $fs-8;
         }
+      }
+      .Component__to__print{
+        display: none;
+      }
+      button{
+        margin-top: 10px;
       }
     }
   }
@@ -202,6 +210,7 @@
 @media only screen and (max-width: 768px) {
   .order_details {
     margin: 2rem 0 !important;
+    margin-bottom: 4rem !important;
 
     .product_details {
       padding: 1rem 0;

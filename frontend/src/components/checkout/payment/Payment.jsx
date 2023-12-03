@@ -32,6 +32,9 @@ const Payment = () => {
     cart: orderData?.data,
     shippingAddress: orderData?.shippingAddress,
     user: user && user,
+    shippingPrice: orderData?.shippingPrice,
+    discountPrice: orderData?.discountPrice,
+    subTotalPrice: orderData?.subTotalPrice,
     totalPrice: orderData?.totalPrice,
   };
 

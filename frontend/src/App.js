@@ -17,6 +17,7 @@ import { loadSeller } from "./actions/sellerAction";
 import Store from "./Store";
 // import Payment from "./components/checkout/payment/Payment"
 import NotFound from "./components/layout/notFound/NotFound";
+import AdminOrderDetails from "./components/admin/adminAllOrders/adminOrderDetails/AdminOrderDetails";
 
 
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
@@ -293,6 +294,14 @@ function App() {
             element={
               <AdminProtectedRoute>
                 <Suspense fallback={""}><AdminAllOrders /></Suspense>
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/order/:id"
+            element={
+              <AdminProtectedRoute>
+                <Suspense fallback={""}><AdminOrderDetails /></Suspense>
               </AdminProtectedRoute>
             }
           />

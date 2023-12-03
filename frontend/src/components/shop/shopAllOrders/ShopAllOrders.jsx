@@ -57,7 +57,7 @@ const ShopAllOrders = () => {
                           </div>
                           <div className="update__btn">
                               <button className="btn-sec">
-                                Update Status
+                                Check Status
                               </button>
                           </div>
                         </div>

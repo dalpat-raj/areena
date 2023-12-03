@@ -9,7 +9,7 @@ import axios from "axios";
 import { getAllProductsShop } from "../../../../actions/productAction";
 
 const ShopInfo = ({ isOwner }) => {
-  const {products} = useSelector((state)=>state.products)
+  const {products, shopProducts} = useSelector((state)=>state.products)
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,10 +30,10 @@ const ShopInfo = ({ isOwner }) => {
   };
 
   const totalReviewsLength =
-  products &&
-  products.reduce((acc, product) => acc + product.reviews.length, 0);
+  shopProducts &&
+  shopProducts.reduce((acc, product) => acc + product.reviews.length, 0);
 
-  const totalRatings = products && products.reduce((acc, product)=>acc + product.reviews.reduce((sum, review)=>sum + review.rating, 0),0)
+  const totalRatings = shopProducts && shopProducts.reduce((acc, product)=>acc + product.reviews.reduce((sum, review)=>sum + review.rating, 0),0)
 
   const averageRating = totalRatings / totalReviewsLength || 0;
  
@@ -56,7 +56,7 @@ const ShopInfo = ({ isOwner }) => {
       </div>
       <div className="product">
         <h5>Total Product</h5>
-        <span>{products ? products.length : "0"}</span>
+        <span>{shopProducts ? shopProducts.length : "0"}</span>
       </div>
       <div className="rating">
         <h5>Shop Rating</h5>

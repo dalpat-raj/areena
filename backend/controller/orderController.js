@@ -6,7 +6,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 exports.createOrder = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { cart, shippingAddress, user, totalPrice, paymentInfo } = req.body;
+    const { cart, shippingAddress, user, shippingPrice, discountPrice, paymentInfo } = req.body;
 
     const shopItems = new Map();
     for (const item of cart) {
@@ -25,7 +25,10 @@ exports.createOrder = catchAsyncErrors(async (req, res, next) => {
         cart: items,
         shippingAddress,
         user,
-        totalPrice,
+        shippingPrice,
+        discountPrice,
+        subTotalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) - discountPrice,
+        totalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) + shippingPrice - discountPrice,
         paymentInfo,
       });
       orders.push(order);
@@ -140,8 +143,9 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (req.body.status === "Delivered") {
       order.deliverAt = Date.now();
       order.paymentInfo = "Succeeded";
-      const serviceCharge = order.totalPrice * .10;
-      await updateSellerInfo(order.totalPrice - serviceCharge);
+      order.cart.forEach(async (o) => {
+        await updateSellerInfo(o.sellingPrice, o.shopId);
+      });
     }
 
     await order.save({ validateBeforeSave: false });
@@ -162,9 +166,9 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       await product.save({ validateBeforeSave: false });
     }
 
-    async function updateSellerInfo(amount){
-      const shop = await Shop.findById(req.shop._id);
-      shop.availableBalance = amount;
+    async function updateSellerInfo(amount, id){
+      const shop = await Shop.findById(id);
+      shop.availableBalance += amount;
       await shop.save();
     }
 
@@ -212,7 +216,7 @@ exports.updateRefundOrderStatus = catchAsyncErrors(async (req, res, next)=>{
 // get all orders for --------- Admin -------
 exports.getAllOrdersAdmin = catchAsyncErrors(async (req, res, next)=>{
   try {
-    const orders = await Order.find().sort({deliverAt: -1});
+    const orders = await Order.find().sort({createdAt: -1});
     if(!orders){
       return next(new ErrorHandler("Orders not found!",404))
     }

@@ -28,7 +28,7 @@ Chart.register(
 
 const ShopDashboard = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { products } = useSelector((state) => state.products);
+  const { products, shopProducts } = useSelector((state) => state.products);
   const { orders } = useSelector((state) => state.order);
 
   const dispatch = useDispatch();
@@ -42,8 +42,8 @@ const ShopDashboard = () => {
 
   let outOfStock = 0;
 
-  products &&
-    products?.forEach((item) => {
+  shopProducts &&
+  shopProducts?.forEach((item) => {
       if (item.stock === 0) {
         outOfStock += 1;
       }
@@ -113,7 +113,7 @@ const ShopDashboard = () => {
                     <AiOutlineMoneyCollect size={20} />
                     <h3>All Products</h3>
                   </div>
-                  <h5>{products && products?.length}</h5>
+                  <h5>{shopProducts && shopProducts?.length}</h5>
                   <Link to={`/shop-dashboard/products`}>
                     <h5>View Products</h5>
                   </Link>
@@ -142,7 +142,7 @@ const ShopDashboard = () => {
                       {orders &&
                         orders?.map((item, i) => (
                           <Link to={`/shop/order/${item?._id}`} key={i}>
-                            <div className="row">
+                            <div className="l__row">
                               <div className="img_name">
                                 {item?.cart?.map((item, i) => (
                                   <div className="img_name_row" key={i}>

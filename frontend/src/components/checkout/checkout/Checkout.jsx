@@ -57,7 +57,7 @@ const Checkout = () => {
       ? data?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0)
       : cart?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0);
 
-  const shippingPrice = subTotalPrice < 1000 ? (subTotalPrice / 100) * 9 : 0;
+      const shippingPrice = subTotalPrice < 1000 ? ((subTotalPrice / 100) * 5) : 0;
 
   const discountPercentage = couponCodeData ? discountPrice : "";
 

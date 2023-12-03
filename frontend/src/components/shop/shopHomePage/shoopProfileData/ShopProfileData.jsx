@@ -10,7 +10,7 @@ import { BiUserCircle } from "react-icons/bi";
 
 const ShopProfileData = ({ isOwner }) => {
   const { seller } = useSelector((state) => state.seller);
-  const { products } = useSelector((state) => state.products);
+  const { shopProducts } = useSelector((state) => state.products);
   const { event } = useSelector((state) => state.events);
   const [active, setActive] = useState(1);
   const { id } = useParams();
@@ -21,7 +21,7 @@ const ShopProfileData = ({ isOwner }) => {
     dispatch(getAllEventShop(id));
   }, [seller, dispatch, id]);
 
-  const allReviews = products && products?.map((item) => item.reviews).flat();
+  const allReviews = shopProducts && shopProducts?.map((item) => item.reviews).flat();
  
   return (
     <div className="ShopProfileData">
@@ -49,8 +49,8 @@ const ShopProfileData = ({ isOwner }) => {
       {active === 1 && (
         <div className="shopprofileDataBox">
           <div className="products__row">
-            {products &&
-              products?.map((item, i) => (
+            {shopProducts &&
+              shopProducts?.map((item, i) => (
                 <ProductCard products={item} isWishlist={false} key={i} />
               ))}
           </div>

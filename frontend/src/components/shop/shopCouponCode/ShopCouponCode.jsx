@@ -11,7 +11,7 @@ import axios from "axios";
 
 const ShopCouponCode = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { products } = useSelector((state) => state.products);
+  const { shopProducts } = useSelector((state) => state.products);
   const { coupons, isLoading } = useSelector(
     (state) => state.coupons
   );
@@ -156,8 +156,8 @@ const ShopCouponCode = () => {
                   onChange={(e) => setSelectedProducts(e.target.value)}
                 >
                   <option value="Choose a Product">Choose Your Product</option>
-                  {products &&
-                    products.map((item, i) => (
+                  {shopProducts &&
+                    shopProducts.map((item, i) => (
                       <option value={item.title} key={i}>
                         {item.name}
                       </option>

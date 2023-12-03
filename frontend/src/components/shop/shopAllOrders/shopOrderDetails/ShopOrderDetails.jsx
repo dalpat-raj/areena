@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiBeachBag } from "react-icons/gi";
 import {
   getSelectedOrderShop,
-  updateOrderStatus,
-  updateRefundOrderStatus,
+  // updateOrderStatus,
+  // updateRefundOrderStatus,
 } from "../../../../actions/orderAction";
 import { useNavigate, useParams } from "react-router";
 import { HiBadgeCheck } from "react-icons/hi";
@@ -14,22 +14,22 @@ import "./shopOrderDetails.scss";
 
 const ShopOrderDetails = () => {
   const { order, isLoading } = useSelector((state) => state.order);
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const updateOrderStatusHandler = () => {
-    dispatch(updateOrderStatus(id, status));
-  };
+  // const updateOrderStatusHandler = () => {
+  //   dispatch(updateOrderStatus(id, status));
+  // };
 
-  const refundUpdateOrderHandler = () => {
-    if (status === "") {
-      dispatch(updateRefundOrderStatus(id, "Processing Refund"));
-    } else {
-      dispatch(updateRefundOrderStatus(id, status));
-    }
-  };
+  // const refundUpdateOrderHandler = () => {
+  //   if (status === "") {
+  //     dispatch(updateRefundOrderStatus(id, "Processing Refund"));
+  //   } else {
+  //     dispatch(updateRefundOrderStatus(id, status));
+  //   }
+  // };
 
   useEffect(() => {
     dispatch(getSelectedOrderShop(id));
@@ -104,7 +104,7 @@ const ShopOrderDetails = () => {
 
           <div className="update_stauts">
             <h4>Order Status</h4>
-            {order?.status !== "Delivered" &&
+            {/* {order?.status !== "Delivered" &&
             order?.status !== "Refund Success" ? (
               <>
                 {order?.status !== "Processing Refund" &&
@@ -163,8 +163,8 @@ const ShopOrderDetails = () => {
                 </button>
               </>
             ) : (
+            )} */}
               <span>{order?.status}</span>
-            )}
           </div>
         </div>
 
