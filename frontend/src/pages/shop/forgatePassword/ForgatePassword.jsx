@@ -5,6 +5,8 @@ import "../../../components/user/loginSignUp/login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Footer from "../../../components/layout/footer/Footer"
+import "./shopForgatePass.scss";
+import axios from "axios";
 
 const ForgatePassword = () => {
 
@@ -24,17 +26,24 @@ const ForgatePassword = () => {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      const user = {
-        email: email,
-        password: password,
-        cpassword: cpassword,
-      };
-      user?.split(",")
+      if(password === cpassword){
+        axios.post(`/api/v2/forgate-shop-password`, {email, password}).then((res)=>{
+          alert(res.data.message)
+          setEmail("")
+          setPassword("")
+          setCpassword("")
+          navigate("/shop-login")
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }else{
+        alert("Password Not Match")
+      }
     };
 
   return (
     <>
-    <div className="login__container">
+    <div className="shopfor__container">
       <div className="container">
         <div className="container__heading">
           <h2>Shop Forgate Password</h2>

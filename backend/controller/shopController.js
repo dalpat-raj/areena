@@ -353,3 +353,25 @@ exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.forgateShopPassword = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const shop = await Shop.findOne({ email: email }).select(
+      "+password"
+    );
+
+    if (!shop) {
+      return next(new ErrorHandler("Wrong Email Id", 404));
+    }
+
+    shop.password = password;
+    await shop.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Password Change Successfully",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+})

@@ -9,7 +9,7 @@ import axios from "axios";
 import { getAllProductsShop } from "../../../../actions/productAction";
 
 const ShopInfo = ({ isOwner }) => {
-  const {products, shopProducts} = useSelector((state)=>state.products)
+  const {shopProducts} = useSelector((state)=>state.products)
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();

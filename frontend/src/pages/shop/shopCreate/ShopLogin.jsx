@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginSeller } from "../../../actions/sellerAction";
 import Footer from "../../../components/layout/footer/Footer";
+import "./shopLogin.scss";
 import axios from "axios";
 
 const ShopLogin = () => {
@@ -44,7 +45,7 @@ const ShopLogin = () => {
 
   return (
     <>
-      <div className="login__container">
+      <div className="shoplogin__container">
         <div className="container">
           <div className="container__heading">
             <h2>My Account</h2>
