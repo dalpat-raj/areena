@@ -129,7 +129,7 @@ const Checkout = () => {
         user,
       };
 
-      
+      console.log(data);
       if (data?.length !== 0) {
         // oreder item save on local storage
         localStorage.setItem("latestOrder", JSON.stringify(orderData));
@@ -147,7 +147,7 @@ const Checkout = () => {
       )
     );
   }, [cart, zipCode]);
-
+  
   return (
     <div className="checkout__main">
       <div className="row">

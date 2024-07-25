@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const sendShopToken = require("../utils/jwtShopToken");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const fs = require("fs");
+const Product = require("../model/productModel");
 
 exports.shopCreate = async (req, res, next) => {
   try {
@@ -45,8 +46,8 @@ exports.shopCreate = async (req, res, next) => {
     };
 
     const activationToken = createActivationToken(shop);
-    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
+    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    // const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -298,29 +299,53 @@ exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.updatePinCode = catchAsyncErrors(async (req, res, next)=>{
+  const pinCodeToAdd = req.body.pinCode;
+
   try {
-    const shop = await Shop.findById(req.shop._id);
+    const products = await Product.find({ shopId: req.shop._id });
+    const shop = await Shop.findById(req.shop._id)
+
+    if (!shop && !products) {
+      return next(new ErrorHandler("Seller Not Found", 404));
+    }
+    
     shop.pinCode = [...shop.pinCode, req.body.pinCode]
+    const updatePromises = products.map(async (product) => {
+        const newPinCodes = [...product.shop.pinCode, pinCodeToAdd];
+        await Product.updateOne({ _id: product._id }, { $set: { 'shop.pinCode': newPinCodes } });
+    });
+
     await shop.save();
+    await Promise.all(updatePromises);
+
     res.status(201).json({
       success: true,
-      shop,
+      shop
     })
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
 })
 
-// delete withdraw methods
-exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
+// delete pinCode 
+exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {
   try {
     const shop = await Shop.findById(req.shop._id);
-    if (!shop) {
+    const products = await Product.find({ shopId: req.shop._id });
+
+    if (!shop && !products) {
       return next(new ErrorHandler("Seller Not Found", 404));
     }
 
-    shop.withdrawMethods = null;
+    const addPinCode = shop.pinCode.filter(item=>item != req.params.pin);
+    
+    shop.pinCode = addPinCode;
+    const updatePromises = products.map(async (product) => {
+      await Product.updateOne({ _id: product._id }, { $set: { 'shop.pinCode': addPinCode } });
+    });
+
     await shop.save();
+    await Promise.all(updatePromises);
 
     res.status(201).json({
       success: true,
@@ -331,17 +356,15 @@ exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
-// delete pinCode 
-exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {
+// delete withdraw methods
+exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
   try {
     const shop = await Shop.findById(req.shop._id);
     if (!shop) {
       return next(new ErrorHandler("Seller Not Found", 404));
     }
 
-    shop.pinCode = shop.pinCode.filter(item=>item != req.params.pin);
-    
+    shop.withdrawMethods = null;
     await shop.save();
 
     res.status(201).json({
@@ -375,3 +398,5 @@ exports.forgateShopPassword = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 })
+
+

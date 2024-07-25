@@ -9,7 +9,6 @@ import axios from "axios";
 
 const ShopDeliveryArea = () => {
   const { seller } = useSelector((state) => state.seller);
-
   const [pinCode, setPinCode] = useState(null);
 
   const dispatch = useDispatch();

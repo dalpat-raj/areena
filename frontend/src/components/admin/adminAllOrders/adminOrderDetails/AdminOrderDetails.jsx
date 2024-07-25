@@ -20,7 +20,7 @@ const AdminOrderDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-
+  
   const updateOrderStatusHandler = () => {
     dispatch(updateOrderStatus(id, status));
   };

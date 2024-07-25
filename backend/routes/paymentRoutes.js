@@ -1,11 +1,9 @@
 const express = require("express");
-const {
-  paymentProcess,
-  paymentApiKey,
-} = require("../controller/paymentController");
+const { isAutenticated} = require("../middleware/auth");
+const { OrderIdGenerating, PaymentProcess } = require("../controller/paymentController");
 const router = express.Router();
 
-router.post("/payment/process", paymentProcess);
-router.get("/stripeapikey", paymentApiKey);
+router.post('/payment/orders-id-generating', isAutenticated, OrderIdGenerating)
+router.post("/payment/payment-verify-process", isAutenticated, PaymentProcess);
 
 module.exports = router;

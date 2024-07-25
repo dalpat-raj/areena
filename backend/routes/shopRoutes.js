@@ -15,7 +15,6 @@ const { shopCreate,
     deleteWithdrawMethods,
     updatePinCode,
     deletePinCode,
-    checkPinCodeDelivery,
     forgateShopPassword
 } = require("../controller/shopController");
 const { isSeller, isAdmin, isAutenticated } = require("../middleware/auth")
@@ -34,11 +33,12 @@ router.put("/shop-delivery-pincode-add", isSeller, updatePinCode);
 router.put("/add-seller-withdraw-methods", isSeller, addWithdrawMethods)
 router.delete("/shop-delivery-pincode-delete/:pin", isSeller, deletePinCode)
 router.delete("/delete-withdraw-methods", isSeller, deleteWithdrawMethods)
-// router.post("/check-pin-code-delivery/:id", checkPinCodeDelivery)
 router.post("/forgate-shop-password", forgateShopPassword);
 
 // admin
 router.get("/admin-get-all-seller",isAutenticated, isAdmin("Admin"), getAllSellerForAdmin)
 router.delete("/delete-seller-by-admin/:id",isAutenticated, isAdmin("Admin"), deleteSellersByAdmin)
+
+router.get("/get-seller-for-delivery/:id", getShopInfo)
 
 module.exports = router;

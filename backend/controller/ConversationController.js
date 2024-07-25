@@ -6,6 +6,7 @@ const Conversation = require("../model/Conversation");
 exports.newConversation = catchAsyncErrors(async (req, res, next) => {
   try {
     const { groupTitle, userId, sellerId } = req.body;
+    console.log(req.body);
 
     const isConversationExists = await Conversation.findOne({ groupTitle });
 

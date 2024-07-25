@@ -129,6 +129,7 @@ exports.getSelectedOrderShop = catchAsyncErrors(async (req, res, next) => {
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
+    console.log(order);
     if (!order) {
       return next(new ErrorHandler("Order not found!", 400));
     }

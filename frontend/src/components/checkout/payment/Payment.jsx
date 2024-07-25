@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import {
-//   CardNumberElement,
-//   CardCvcElement,
-//   CardExpiryElement,
-//   useStripe,
-//   useElements,
-// } from "@stripe/react-stripe-js";
 import "./payment.scss";
 import { backend__url } from "../../../Server";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import axios from "axios";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Payment = () => {
   const { user } = useSelector((state) => state.user);
@@ -20,14 +13,13 @@ const Payment = () => {
   const [selected, setSelected] = useState(1);
 
   const navigate = useNavigate();
-  // const stripe = useStripe();
-  // const elements = useElements();
 
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
     setOrderData(orderData);
   }, []);
-
+  
+  const amount = orderData?.totalPrice
   const order = {
     cart: orderData?.data,
     shippingAddress: orderData?.shippingAddress,
@@ -38,60 +30,86 @@ const Payment = () => {
     totalPrice: orderData?.totalPrice,
   };
 
-  // const paymentData = {
-  //   amount: Math.round(orderData?.totalPrice * 100),
-  // };
+  const config = {
+    headers: { "Content-Type": "application/json" },
+    withCredentials: true,
+  };
 
-  // const paymentHandler = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     };
+  const proceedToPayment = async () => {    
+    try {
+      const {data} = await axios.post(`/api/v2/payment/orders-id-generating`,{amount},config);
+     
+      if(data){
+        handlePaymentVerify(data?.data)
+        console.log(data);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.error);
+    }
+  };
 
-  //     const { data } = await axios.post(
-  //       `/api/v2/payment/process`,
-  //       paymentData,
-  //       config
-  //     );
+  const handlePaymentVerify = async (data) => {
+    const options = {
+      key: "rzp_test_KPEfWuTPzusg7A",
+      amount: data?.amount,
+      currency: data?.currency,
+      name: "MS_VIRAT_INDIA",
+      description: "Test Mode",
+      order_id: data?.id,
+      handler: async (response) => {
+          try {
+            const order = {
+              cart: orderData?.data,
+              shippingAddress: orderData?.shippingAddress,
+              user: user && user,
+              shippingPrice: orderData?.shippingPrice,
+              discountPrice: orderData?.discountPrice,
+              subTotalPrice: orderData?.subTotalPrice,
+              totalPrice: orderData?.totalPrice,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            };
 
-  //     const client_secret = data.client_secret;
-
-  //     if (!stripe || !elements) return;
-  //     const result = await stripe.confirmCardPayment(client_secret, {
-  //       payment_method: {
-  //         card: elements.getElement(CardNumberElement),
-  //       },
-  //     });
-
-  //     if (result.error) {
-  //       toast.error(result.error.message);
-  //     } else {
-  //       if (result.paymentIntent.status === "succeeded") {
-  //         order.paymentInfo = {
-  //           id: result.paymentIntent.id,
-  //           status: result.paymentIntent.status,
-  //           type: "Credit Card",
-  //         };
-
-  //         await axios
-  //           .post(`/api/v2/create-order`, order, config)
-  //           .then((res) => {
-  //             localStorage.setItem("cartItems", JSON.stringify([]));
-  //             localStorage.setItem("latestOrder", JSON.stringify([]));
-  //             navigate("/order/success");
-  //           });
-  //       }
-  //     }
-  //   } catch (error) {
-  //     toast.error(error);
-  //   }
-  // };
+            const dataa = await axios.post(`/api/v2/payment/payment-verify-process`,order, config)
+            if(dataa?.data){
+                order.paymentInfo = {
+                  type: dataa?.data?.paymmentData?.method,
+                  status: "Paid",
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  created_at: data?.created_at,
+                  wallet: dataa?.data?.paymmentData?.walllet,
+                  bank: dataa?.data?.paymmentData?.bank,
+                  card_id: dataa?.data?.paymmentData?.card_id,
+                  upi: dataa?.data?.paymmentData?.upi,
+                }
+                
+                await axios
+                .post(`/api/v2/create-order`, order, {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+                .then((res) => {
+                  navigate("/order/success")
+                  localStorage.removeItem("cartItems");
+                });
+              }
+          } catch (error) {
+            toast.error(error?.response?.data?.error)
+          }
+      },
+      theme: {
+          color: "#5f63b8"
+      }
+  };
+  const rzp1 = new window.Razorpay(options);
+  rzp1.open();
+  }
 
   const cashOnDelivery = async () => {
-
     order.paymentInfo = {
       type: "Cash On Delivery",
     };
@@ -114,85 +132,13 @@ const Payment = () => {
       <div className="row">
         <div className="box payment__col">
           <div className="input__col">
-            {/* <div className="select__box" onClick={() => setSelected(1)}>
-              <div className="round__box">
+            <div className="select__box" onClick={() => setSelected(1)}>
+              <div className="round__box" >
                 <span className={selected === 1 && "active"}></span>
               </div>
-              <p>Pay with Debit/credit card</p>
-            </div> */}
-            {/* <div className="input__details">
-              <form onSubmit={paymentHandler}>
-                <div className="box">
-                  <input
-                    type="text"
-                    value={user?.name}
-                    placeholder="Name On Card (Optional)"
-                  />
-                  <CardExpiryElement
-                    className="input"
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "13px",
-                          lineHeight: 1.5,
-                        },
-                        empty: {
-                          color: "#3a120a",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#333",
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-                <div className="box">
-                  <CardNumberElement
-                    className="input"
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "13px",
-                          lineHeight: 1.5,
-                        },
-                        empty: {
-                          color: "#333",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#333",
-                          },
-                        },
-                      },
-                    }}
-                  />
-
-                  <CardCvcElement
-                    className="input"
-                    options={{
-                      style: {
-                        base: {
-                          fontSize: "13px",
-                          lineHeight: 1.5,
-                        },
-                        empty: {
-                          color: "#333",
-                          backgroundColor: "transparent",
-                          "::placeholder": {
-                            color: "#333",
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-                <div className="btn__box">
-                  <button type="submit" className="btn-main">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div> */}
+              <p>Pay Online</p>
+              <button onClick={proceedToPayment} className="btn-main" style={{background: "green", marginLeft: "20px"}}>Pay</button>
+            </div>
 
             <div className="select__box" onClick={() => setSelected(2)}>
               <div className="round__box" onClick={cashOnDelivery}>

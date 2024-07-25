@@ -208,11 +208,38 @@
 
 
 @media only screen and (max-width: 768px){
+  .filter__main__box{
+    // padding-bottom: 100px;
+  }
   .btn__group{
+    width: 50%;
+    position: fixed;
+    background-color: #fff;
+    bottom: 0%;
     display: flex;
     gap: 10px;
+    padding: 10px 0;
     button{
-        width: 50%;
+        // width: 50%;
+    }    
+}
+}
+
+
+@media only screen and (max-width: 480px){
+  .filter__main__box{
+    padding-bottom: 100px;
+  }
+  .btn__group{
+    width: 100%;
+    position: fixed;
+    background-color: #fff;
+    bottom: 0%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    button{
+        width: 43%;
     }    
 }
 }

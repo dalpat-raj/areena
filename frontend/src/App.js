@@ -1,9 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-// import { Elements } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
-// import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -15,9 +12,9 @@ import Home from "./components/home/Home";
 import { loadUser } from "./actions/userAction";
 import { loadSeller } from "./actions/sellerAction";
 import Store from "./Store";
-// import Payment from "./components/checkout/payment/Payment"
 import NotFound from "./components/layout/notFound/NotFound";
 import AdminOrderDetails from "./components/admin/adminAllOrders/adminOrderDetails/AdminOrderDetails";
+import Inbox from "./components/user/inbox/Inbox";
 
 
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
@@ -71,23 +68,10 @@ const AdminWithdrawReques = React.lazy(()=>import("./components/admin/adminWithd
 
 
 function App() {
-  // const [stripeApiKey, setStripeApiKey] = useState();
-
-  // async function getStripeApiKey() {
-  //   await axios
-  //     .get(`/api/v2/stripeapikey`)
-  //     .then((res) => {
-  //       setStripeApiKey(res.data.stripeApiKey);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   useEffect(() => {
     Store.dispatch(loadSeller());
     Store.dispatch(loadUser());
-    // getStripeApiKey();
   }, []);
 
   return (
@@ -95,13 +79,6 @@ function App() {
       <BrowserRouter>
         <HeaderTop />
         <Header />
-        {/* {stripeApiKey && (
-          <Elements stripe={loadStripe(stripeApiKey)}>
-            <Routes>
-              <Route path="/payment" element={<Payment />} />
-            </Routes>
-          </Elements>
-        )} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pages/wishlist" element={<Suspense fallback={""}><Wishlist /></Suspense>} />
@@ -145,6 +122,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+        <Route
+          path="/inbox"
+          element={
+            <ProtectedRoute>
+              <Inbox />
+            </ProtectedRoute>
+          }
+        />
 
           {/* shop  */}
           <Route

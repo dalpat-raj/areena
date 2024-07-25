@@ -32,7 +32,7 @@ const OrderDetails = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
+  
   const reviewHandler = async () => {
     dispatch(
       createNewReview({
@@ -117,12 +117,12 @@ const OrderDetails = () => {
                 </div>
 
                 <div className="payment_info">
-                  {order && order?.paymentInfo?.status === "succeeded" ? (
+                  {order && order?.paymentInfo?.status === "Paid" ? (
                     <img src={"/payment.png"} alt="payment" />
                   ) : (
                     <>
                       <h5>Payment Info</h5>
-                      <p>Not Paid</p>
+                      <p>{order?.paymentInfo?.status}</p>
                     </>
                   )}
                 </div>

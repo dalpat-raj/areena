@@ -213,7 +213,7 @@ const ProductCard = ({ products, isWishlist, isEvent, list }) => {
       <div className="product__card__text">
         <span className="shop__name">
           <Link to={`/shop/preview/${data && data?.shopId}`}>
-            {data?.shop?.shopName.slice(0, 25)}
+            {data?.shop?.shopName?.slice(0, 25)}
           </Link>
         </span>
         <p className="product__name">

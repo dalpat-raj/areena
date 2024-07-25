@@ -89,15 +89,24 @@ const ProductDetails = () => {
     dispatch(removeFromWishlist(product));
   };
 
-  const checkPinCodeHandler = () => {
-    if(checkPin){
-    setCheckOk(true)
-    const result = data?.shop?.pinCode?.find(item=>item===checkPin)
+  const matchPincode=(pincode, checkPin)=>{
+    const result = pincode.find(item=>item===checkPin)
     if(result === checkPin){
       setDeliveryAvailable(true)
     }else{
       setDeliveryAvailable(false)
-     }
+    }
+  }
+
+  const checkPinCodeHandler = () => {
+    // console.log(checkPin);
+    if(checkPin){
+      axios.get(`/api/v2/get-seller-for-delivery/${data?.shopId}`).then((res)=>{
+        matchPincode(res?.data?.shop?.pinCode, checkPin);
+      }).catch((error)=>{
+        console.log(error);
+      })
+    setCheckOk(true)
     }else{
       alert("Incorrect Pin Code !")
     }
@@ -115,7 +124,8 @@ const ProductDetails = () => {
           sellerId,
         })
         .then((res) => {
-          navigate(`/conversation/${res.data.conversation._id}`);
+          navigate(`/inbox?${res?.data?.conversation?._id}`);
+          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);

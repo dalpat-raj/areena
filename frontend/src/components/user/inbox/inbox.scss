@@ -1,6 +1,6 @@
 @import "../../../sass/variable.scss";
 
-.user__inbox__container{
+// .user__inbox__container{
     .inbox__main{
         box-shadow: 0 0 5px rgba(0,0,0,0.5);
         height: 75vh;
@@ -124,6 +124,7 @@
                     }
                 }
                 .messages__box{
+                    overflow-y: auto;
                     flex-basis: 100%;
                     padding: 0 10px 0 10px;
                     .message__row{
@@ -205,4 +206,4 @@
         }
     }
 
-}
+// }
