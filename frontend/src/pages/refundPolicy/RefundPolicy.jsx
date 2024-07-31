@@ -13,7 +13,7 @@ const RefundPolicy = () => {
     <>
     <Helmet>
         <meta charSet="utf-8" />
-        <title>areena:- Refund Policy</title>
+        <title>Areenaa EnterPrise:- Refund Policy</title>
         <meta
           name="description"
           content="We have a 7-day return policy, which means you have 7 days after receiving your item to request a refund."
@@ -27,7 +27,7 @@ const RefundPolicy = () => {
     <div className="refund__content">
         <p>We have a 7-day return policy, which means you have 7 days after receiving your item to request a refund.</p>
         <p>To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging. You’ll also need the receipt or proof of purchase</p>
-        <p>To start a return, you can contact us at https://areenaa.in/contact Please note that returns will need to be sent to the following address: [INSERT RETURN ADDRESS]</p>
+        <p>To start a return, you can contact us at https://areenaa.in/contact Please note that returns will need to be sent to the following address: 478 Mali Was, Tokra Road Reodar, Sirodi - Sirohi (Rajsthan) - 307511</p>
         <p>If your return is accepted, we’ll send you a return shipping label, as well as instructions on how and where to send your package. Items sent back to us without first requesting a return will not be accepted.</p>
         <p>You can always contact us for any return question at https://areenaa.in/contact</p>
 

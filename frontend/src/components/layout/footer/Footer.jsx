@@ -20,7 +20,7 @@ const Footer = () => {
                         <img src="/logo.png" alt="" />
                     </div>
                     <p className="description">
-                    Arinaa provides you more products in less budget and that too of good quality. Here you can buy your favorite products.
+                    Arinaa Enterprise provides you more products in less budget and that too of good quality. Here you can buy your favorite products.
                     </p>
                     <h4>KEEP IN TOUCH</h4>
                     <div className="social__icon">
@@ -86,7 +86,7 @@ const Footer = () => {
                 </div>
             </div>
         <div className="bottom__header">
-            <p>© 2023, AREENA. All Rights Reserved.</p>
+            <p>© 2024, AREENAA ENTERPRISE. All Rights Reserved.</p>
             <div className="img" >
                 <img style={{width:"310px"}} src="/pay.png" alt="" />
             </div>

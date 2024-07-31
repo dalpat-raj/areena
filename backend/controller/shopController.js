@@ -46,8 +46,8 @@ exports.shopCreate = async (req, res, next) => {
     };
 
     const activationToken = createActivationToken(shop);
-    const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    // const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
+    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
+    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
     try {
       await sendMail({

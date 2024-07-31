@@ -50,11 +50,12 @@ const Payment = () => {
 
   const handlePaymentVerify = async (data) => {
     const options = {
-      key: "rzp_test_KPEfWuTPzusg7A",
+      key: "rzp_test_Atq8PJD3cqG6Xl",
       amount: data?.amount,
       currency: data?.currency,
-      name: "MS_VIRAT_INDIA",
-      description: "Test Mode",
+      name: "AREENAA",
+      description: "Payment Mode",
+      image: "/logo.png",
       order_id: data?.id,
       handler: async (response) => {
           try {
@@ -100,6 +101,11 @@ const Payment = () => {
           } catch (error) {
             toast.error(error?.response?.data?.error)
           }
+      },
+      prefill: {
+        name: "Areenaa",
+        email: "AreenaEcom@gmail.com",
+        contact: "8306371006"
       },
       theme: {
           color: "#5f63b8"

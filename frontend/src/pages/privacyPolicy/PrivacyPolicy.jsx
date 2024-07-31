@@ -17,11 +17,11 @@ const PrivacyPolicy = () => {
           <link rel="canonical" href="https://areenaa.in/privacy-policy" />
         </Helmet>
       <div className="privacy container">
-        <h2>AREENA - Privacy Policy</h2>
+        <h2>AREENA ENTERPRISE - Privacy Policy</h2>
         <span>
           This Privacy Policy describes how your personal information is
           collected, used, and shared when you visit or make a purchase from{" "}
-          <Link to={"/https://areenaa.in"}>http://areena.com</Link>
+          <Link to={"/https://areenaa.in"}>https://areenaa.in</Link>
         </span>
         <p>WHAT PERSONAL INFORMATION WE COLLECT</p>
         <span>
@@ -118,7 +118,7 @@ const PrivacyPolicy = () => {
         </span>
         <span>
           We also use Google Analytics to help us understand how our customers
-          use Areena.com <u>How Google uses your Personal Information.</u>
+          use Areena.in <u>How Google uses your Personal Information.</u>
         </span>
         <br />
         <br />
