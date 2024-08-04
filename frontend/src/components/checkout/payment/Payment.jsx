@@ -50,7 +50,7 @@ const Payment = () => {
 
   const handlePaymentVerify = async (data) => {
     const options = {
-      key: "rzp_test_Atq8PJD3cqG6Xl",
+      key: "rzp_live_vQcJ9ULb1wlQ96",
       amount: data?.amount,
       currency: data?.currency,
       name: "AREENAA",
