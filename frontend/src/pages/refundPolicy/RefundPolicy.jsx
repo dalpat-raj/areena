@@ -13,12 +13,12 @@ const RefundPolicy = () => {
     <>
     <Helmet>
         <meta charSet="utf-8" />
-        <title>Areenaa EnterPrise:- Refund Policy</title>
+        <title>Areenaa EnterPrise:- Cancllation & Refund Policy</title>
         <meta
           name="description"
           content="We have a 7-day return policy, which means you have 7 days after receiving your item to request a refund."
         />
-        <link rel="canonical" href="https://areenaa.in/refund-policy" />
+        <link rel="canonical" href="https://areenaa.in/cancllation-refund-policy" />
       </Helmet>
     <div className="refund__policy__main container">
     <h2 className="container__heading">

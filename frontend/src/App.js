@@ -15,6 +15,8 @@ import Store from "./Store";
 import NotFound from "./components/layout/notFound/NotFound";
 import AdminOrderDetails from "./components/admin/adminAllOrders/adminOrderDetails/AdminOrderDetails";
 import Inbox from "./components/user/inbox/Inbox";
+import About from "./pages/about/About";
+import Pricing from "./pages/Pricing/Pricing";
 
 
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
@@ -90,10 +92,12 @@ function App() {
           <Route path="/order/success" element={<Suspense fallback={""}><OrderSuccess /></Suspense>} />
           <Route path="/coustomer-services" element={<Suspense fallback={""}><CoustomerService /></Suspense>} />
           <Route path="/privacy-policy" element={<Suspense fallback={""}><PrivacyPolicy /></Suspense>} />
-          <Route path="/refund-policy" element={<Suspense fallback={""}><RefundPolicy /></Suspense>} />
+          <Route path="/pricing" element={<Suspense fallback={""}><Pricing /></Suspense>} />
+          <Route path="/cancellation-refund-policy" element={<Suspense fallback={""}><RefundPolicy /></Suspense>} />
           <Route path="/shipping-return" element={<Suspense fallback={""}><ShippingReturn /></Suspense>} />
           <Route path="/terms-conditions" element={<Suspense fallback={""}><TermsConditions /></Suspense>} />
-          <Route path="/contact" element={<Suspense fallback={""}><Contact /></Suspense>} />
+          <Route path="/contact-us" element={<Suspense fallback={""}><Contact /></Suspense>} />
+          <Route path="/about-us" element={<Suspense fallback={""}><About /></Suspense>} />
           <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} />
           <Route path="*" element={<NotFound />} />
 

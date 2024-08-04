@@ -16,7 +16,7 @@ const Home = () => {
     <div className="home__section">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Areena Online Shopping India</title>
+        <title>Areenaa Online Shopping India</title>
         <meta name="description" content="Online Shopping India - Buy clothing, laptops, camera, T-shirt, watches, apparel, shoes. Free Shipping & Cash on Delivery" />
         <link rel="canonical" href={`https://areenaa.in`} />
       </Helmet>

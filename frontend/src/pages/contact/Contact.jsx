@@ -28,9 +28,9 @@ const Contact = () => {
       <div className="contact__main">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Contact</title>
+          <title>Contact-us</title>
           <meta name="description" content="areenaa.in if you are facing any problem so you can contact our team areena" />
-          <link rel="canonical" href="https://areenaa.in/contact" />
+          <link rel="canonical" href="https://areenaa.in/contact-us" />
         </Helmet>
         <div className="contact__back"></div>
         <div className="container">
@@ -86,9 +86,9 @@ const Contact = () => {
             <div className="address__box">
               <div className="address">
                 <h2>Address</h2>
-                <p>Tokra Street Maliwas, 307511</p>
-                <p>Just near at Indane gas office</p>
-                <p>PHONE: +91 0000 0000 00</p>
+                <p>478, Maliwas Tokra Road Sirodi, 307511</p>
+                <p>Dist:- Sirohi(Rajsthan)</p>
+                <p>PHONE: +91 8306371006</p>
                 <p>EMAIL: AreenaEcom@gmail.com</p>
               </div>
               <div className="time">

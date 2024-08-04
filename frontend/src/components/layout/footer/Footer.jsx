@@ -47,13 +47,10 @@ const Footer = () => {
                         </div>
                     </button>
                     <ul className={footerCtg ? "category-list-show" : "category-list"}>
-                        <li>latest news</li>
+                        <li><Link to={"/about-us"}>About Us</Link></li>
+                        <li><Link to={"/contact-us"}>Contact Us</Link></li>
                         <li><Link to={"/shop-login"}>login seller</Link></li>
-                        <li>career</li>
                         <li><Link to={"/account"}>my account</Link></li>
-                        <li>My cart</li>
-                        <li>Orders and returns</li>
-                        <li><Link to={"/contact"}>Contact Us</Link></li>
                     </ul>
                 </div>
                 <div className="box borr">
@@ -68,9 +65,8 @@ const Footer = () => {
                         <li><Link to={"/privacy-policy"}>Privacy Policy</Link></li>
                         <li><Link to={"/terms-conditions"}>Terms & conditions</Link></li>
                         <li><Link to={"/shipping-return"}>Shipping & Return</Link></li>
-                        <li>help & FAQs</li>
-                        <li><Link to={"/refund-policy"}>Refund Policy</Link></li>
-                        <li><Link to={"/coustomer-services"}>Customer Service</Link></li>
+                        <li><Link to={"/cancellation-refund-policy"}>Cancellation / Refund Policy</Link></li>
+                        <li><Link to={"/Pricing"}>Pricing</Link></li>
                     </ul>
                 </div>
                 <div className="box">
