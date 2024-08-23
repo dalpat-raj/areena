@@ -1,51 +1,24 @@
 @import "../../../sass/variable";
 
 .payment__main{
+    padding: 50px;
+    background-color: $footer-back;
     .row{
-        width: 100%;
-        display: flex;
+        width: 60%;
+        margin: auto;
+        // display: flex;
         
         .payment__col{
-            flex-basis: 57%;
+            margin-top: 2rem;
             background-color: #fff;
-            border-right: 1px solid #adadad;
-            padding: 50px 50px 50px 120px;
-                .input__col{
-                    // margin-bottom: 1rem;
+            padding: 0 !important;
                     .select__box{
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
                         margin-bottom: 1rem;
-                        cursor: pointer;
-                        .round__box{
-                            content: "";
-                            width: 15px;
-                            height: 15px;
-                            border: 1px solid #000;
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 2px;
-                            .active{
-                                content: "";
-                                width: 100%;
-                                height: 100%;
-                                background-color: #000;
-                                border-radius: 50%;
-    
-                            }
-                        }
-                        p{
-                            margin-left: 0.5rem;
-                            font-size: $fs-7;
-                            font-weight: 500;
-                            color: #333;
+                        text-align: center;
+                        button{
+                            width: 100%;
                         }
                     }
-                    
-                }
                 .input__details{
                     margin-top: 1rem;
                     margin-bottom: 2rem;
@@ -74,9 +47,7 @@
         }
 
         .coupon__col{
-            flex-basis: 43%;
-            padding: 50px 120px 50px 50px;
-            background-color: $footer-back;
+            
 
             .cart__products{
 
@@ -154,6 +125,7 @@
 
                 .price{
                     .row{
+                        width: 100%;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -183,13 +155,11 @@
 
 @media only screen and (max-width: 768px){
     .payment__main{
+        padding: 0px;
         .row{
-            flex-direction: column;
-            
+            width: 100%;            
             .payment__col{
                 border-right: 0;
-                padding: 50px 50px 50px 50px;
-                border-bottom: 1px solid #adadad;
             }
     
             .coupon__col{

@@ -14,7 +14,7 @@ import { addTocart, removeFromCart } from "../../actions/cart";
 
 const Cart = ({ setCartComponent }) => {
   const { cart } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
 
   const [messageComponent, setMessageComponent] = useState(false);
   const [couponComponent, setCouponComponent] = useState(false);
@@ -189,7 +189,7 @@ const Cart = ({ setCartComponent }) => {
           </div>
           <p>Taxes and shipping calculated at checkout</p>
           <div className="btn_group">
-            {cart?.length !== 0 && user && (
+            {cart?.length !== 0 && (
               <>
                 <button className="btn-main" onClick={viewCheckoutHandler}>
                   PROCESS TO CHECKOUT

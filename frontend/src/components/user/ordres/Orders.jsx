@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./orders.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersUser } from "../../../actions/orderAction";
@@ -11,6 +11,7 @@ const Orders = () => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllOrdersUser(user._id));
@@ -23,7 +24,7 @@ const Orders = () => {
       ) : (
         <div className="order__main">
           <div className="box">
-            {orders &&
+            {orders?.length > 0 ? 
               orders.map((item, i) => (
                 <Link to={`/user/order/${item?._id}`}>
                   <div className="row" key={i}>
@@ -50,7 +51,13 @@ const Orders = () => {
                     </div>
                   </div>
                 </Link>
-              ))}
+              )) : <>
+              <div className="no_order_main">
+                <p>You are not buying product <br/>Please Explore Our Product And Buy</p>
+                <button className="btn-main" onClick={()=>navigate('/products')}>Let's Explore</button>
+              </div>
+             </>
+              }
           </div>
         </div>
       )}

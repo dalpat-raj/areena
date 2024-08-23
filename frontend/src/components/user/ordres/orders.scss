@@ -55,6 +55,20 @@
                 }
             }
         }
+        .no_order_main{
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            p{
+                font-size: $fs-6;
+            }
+            button{
+                margin-top: 1rem;
+            }
+        }
     }
 }
 

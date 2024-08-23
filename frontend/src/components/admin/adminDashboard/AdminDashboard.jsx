@@ -44,7 +44,7 @@ const AdminDashboard = () => {
         dispatch(getProduct());
     },[dispatch])
 
-    const adminEarning = orders && orders.reduce((acc, item)=>acc + ((item.totalPrice / 100) * 2), 0);
+    const adminEarning = orders && orders.reduce((acc, item)=>acc + item.totalPrice, 0);
     const adminBalance = adminEarning?.toFixed(2)
 
     const lineState = {

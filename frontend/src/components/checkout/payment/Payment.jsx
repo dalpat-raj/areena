@@ -5,12 +5,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loader from "../../layout/loader/Loader";
 
 const Payment = () => {
   const { user } = useSelector((state) => state.user);
 
   const [orderData, setOrderData] = useState([]);
-  const [selected, setSelected] = useState(1);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ const Payment = () => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
     setOrderData(orderData);
   }, []);
+  
   
   const amount = orderData?.totalPrice
   const order = {
@@ -35,13 +37,15 @@ const Payment = () => {
     withCredentials: true,
   };
 
-  const proceedToPayment = async () => {    
+  let rzp1 = null;
+
+  const proceedToPayment = async () => { 
+    setOpen(true)   
     try {
       const {data} = await axios.post(`/api/v2/payment/orders-id-generating`,{amount},config);
      
       if(data){
         handlePaymentVerify(data?.data)
-        console.log(data);
       }
     } catch (error) {
       toast.error(error?.response?.data?.error);
@@ -50,10 +54,10 @@ const Payment = () => {
 
   const handlePaymentVerify = async (data) => {
     const options = {
-      key: "rzp_live_vQcJ9ULb1wlQ96",
+      key: "rzp_live_StWW3JISw6LuW7",
       amount: data?.amount,
       currency: data?.currency,
-      name: "AREENAA",
+      name: "Areenaa Enterprtise",
       description: "Payment Mode",
       image: "/logo.png",
       order_id: data?.id,
@@ -103,7 +107,7 @@ const Payment = () => {
           }
       },
       prefill: {
-        name: "Areenaa",
+        name: "Areenaa Enterprise",
         email: "AreenaEcom@gmail.com",
         contact: "8306371006"
       },
@@ -111,8 +115,9 @@ const Payment = () => {
           color: "#5f63b8"
       }
   };
-  const rzp1 = new window.Razorpay(options);
+  rzp1 = new window.Razorpay(options);
   rzp1.open();
+  setOpen(false)
   }
 
   const cashOnDelivery = async () => {
@@ -133,32 +138,18 @@ const Payment = () => {
       });
   };
 
+  if(open){
+    return <Loader/>
+  }
+
   return (
     <div className="payment__main">
       <div className="row">
-        <div className="box payment__col">
-          <div className="input__col">
-            <div className="select__box" onClick={() => setSelected(1)}>
-              <div className="round__box" >
-                <span className={selected === 1 && "active"}></span>
-              </div>
-              <p>Pay Online</p>
-              <button onClick={proceedToPayment} className="btn-main" style={{background: "green", marginLeft: "20px"}}>Pay</button>
-            </div>
-
-            <div className="select__box" onClick={() => setSelected(2)}>
-              <div className="round__box" onClick={cashOnDelivery}>
-                <span className={selected === 2 && "active"}></span>
-              </div>
-              <p>Cash On Delivery</p>
-            </div>
-          </div>
-        </div>
-
         <div className="box coupon__col">
+
           <div className="cart__products">
-            {orderData?.cart &&
-              orderData?.cart.map((item, i) => (
+            {orderData?.data &&
+              orderData?.data.map((item, i) => (
                 <div className="product__row" key={i}>
                   <div className="col img__row">
                     <div className="img">
@@ -220,6 +211,23 @@ const Payment = () => {
               </div>
             </div>
           </div>
+
+          <div className="box payment__col">
+          <div className="input__col">
+            <div className="select__box">
+              <button onClick={proceedToPayment} className="btn-main" style={{background: "green", }}>Process To Pay</button>
+            </div>
+
+            {
+              orderData?.totalPrice > 500 && (
+              <div className="select__box">
+               <button className="btn-main" onClick={cashOnDelivery}>Cash on Delivery</button>
+               </div>
+              )
+            }
+          </div>
+        </div>
+
         </div>
       </div>
     </div>

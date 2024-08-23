@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersUser } from "../../../actions/orderAction";
 import { backend__url } from "../../../Server";
@@ -10,6 +10,7 @@ const TrackOrder = () => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllOrdersUser(user?._id));
@@ -22,7 +23,7 @@ const TrackOrder = () => {
       ) : (
         <div className="order__main">
           <div className="box">
-            {orders &&
+            {orders?.length > 0 ? 
               orders.map((item, i) => (
                 <Link to={`/user/track-order/${item?._id}`}>
                   <div className="row" key={i}>
@@ -54,7 +55,14 @@ const TrackOrder = () => {
                     </div>
                   </div>
                 </Link>
-              ))}
+              ))
+            : <>
+              <div className="no_order_main">
+                <p>You are not buying product <br/>Please Explore Our Product And Buy</p>
+                <button className="btn-main" onClick={()=>navigate('/products')}>Let's Explore</button>
+              </div>
+              </>
+             }
           </div>
         </div>
       )}

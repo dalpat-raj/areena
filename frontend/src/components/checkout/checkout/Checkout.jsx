@@ -3,7 +3,7 @@ import "./checkout.scss";
 import { useSelector } from "react-redux";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { backend__url } from "../../../Server";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -129,7 +129,6 @@ const Checkout = () => {
         user,
       };
 
-      console.log(data);
       if (data?.length !== 0) {
         // oreder item save on local storage
         localStorage.setItem("latestOrder", JSON.stringify(orderData));
@@ -139,6 +138,11 @@ const Checkout = () => {
       }
     }
   };
+
+  useEffect(()=>{
+    if(!user)
+      navigate('/login')
+  },[user, navigate])
 
   useEffect(() => {
     setData(
@@ -155,9 +159,6 @@ const Checkout = () => {
           <div className="heading">
             <h2>Shipping Address</h2>
             <div className="account">
-              <p>
-                Have an account? <Link to={"/login"}>Log in</Link>
-              </p>
             </div>
           </div>
 
