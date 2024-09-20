@@ -16,10 +16,13 @@ exports.shopCreate = async (req, res, next) => {
       email,
       phone,
       address,
+      gst,
+      pan,
       zipCode,
       password,
       description,
     } = req.body;
+    
     const shopEmail = await Shop.findOne({ email });
 
     if (shopEmail) {
@@ -39,13 +42,15 @@ exports.shopCreate = async (req, res, next) => {
       email: email,
       phone: phone,
       address: address,
+      gst: gst,
+      pan: pan,
       zipCode: zipCode,
       password: password,
       avatar: fileUrl,
       description: description,
     };
 
-    const activationToken = createActivationToken(shop);
+    const activationToken = createActivationToken(shop); 
     // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
     const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
 
@@ -90,6 +95,8 @@ exports.activationShop = catchAsyncErrors(async (req, res, next) => {
       email,
       phone,
       address,
+      gst,
+      pan,
       zipCode,
       password,
       avatar,
@@ -105,6 +112,8 @@ exports.activationShop = catchAsyncErrors(async (req, res, next) => {
       email,
       phone,
       address,
+      gst,
+      pan,
       zipCode,
       password,
       avatar,
@@ -190,13 +199,6 @@ exports.getShopInfo = catchAsyncErrors(async (req, res, next) => {
 // update shop avatar
 exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
   try {
-    const existsSeller = await Shop.findById(req.shop._id);
-    // const existsAvatarPath = `../../uploads/${existsSeller.avatar}`;
-
-    // if(existsAvatarPath){
-    //   fs.unlinkSync(existsAvatarPath);
-    // }
-
     const fileUrl = path.join(req.file.filename);
 
     const shop = await Shop.findByIdAndUpdate(req.shop._id, {
@@ -215,7 +217,7 @@ exports.updateShopAvatar = catchAsyncErrors(async (req, res, next) => {
 // update user
 exports.updateShop = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { name, shopName, address, description, zipCode, password } = req.body;
+    const { name, shopName, address, gst, pan, description, zipCode, password } = req.body;
     const shop = await Shop.findById(req.shop._id).select("+password");
 
     if (!shop) {
@@ -232,6 +234,8 @@ exports.updateShop = catchAsyncErrors(async (req, res, next) => {
     shop.name = name;
     shop.shopName = shopName;
     shop.address = address;
+    shop.gst = gst;
+    shop.pan = pan;
     shop.description = description;
     shop.zipCode = zipCode;
 

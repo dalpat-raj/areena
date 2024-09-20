@@ -6,18 +6,16 @@ const initialState = {
 
 export const productReducer = createReducer(initialState, {
   // create product seller
-  productCreateRequest: (state) => {
+  createProductsRequest: (state) => {
     state.isLoading = true;
   },
-  productCreateSuccess: (state, action) => {
+  createProductsSuccess: (state, action) => {
     state.isLoading = false;
     state.product = action.payload;
-    state.success = true;
   },
-  productCreateFail: (state, action) => {
+  createProductsail: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
-    state.success = false;
   },
 
   // get all product of shop
@@ -100,6 +98,19 @@ export const productReducer = createReducer(initialState, {
     state.sameProducts = action.payload;
   },
   getSameProductsFail: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+  },
+
+  // get product count
+  ProductCountRequest: (state) => {
+    state.isLoading = true;
+  },
+  ProductCountSuccess: (state, action) => {
+    state.isLoading = false;
+    state.productCount = action.payload;
+  },
+  ProductCountFail: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
   },

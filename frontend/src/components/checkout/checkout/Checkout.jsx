@@ -37,7 +37,7 @@ const Checkout = () => {
   const [couponCodeData, setCouponCodeData] = useState(null);
   const [discountPrice, setDiscountPrice] = useState(null);
   const [data, setData] = useState([]);
-
+  
   const navigate = useNavigate();
 
   const handleChooseAddresses = (e) => {

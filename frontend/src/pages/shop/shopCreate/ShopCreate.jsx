@@ -10,6 +10,8 @@ import {
   lockClosedOutline,
   mailOutline,
   personOutline,
+  documentAttachOutline,
+  idCardOutline
 } from "ionicons/icons";
 import { BsShopWindow } from "react-icons/bs";
 import axios from "axios";
@@ -24,6 +26,8 @@ const ShopCreate = () => {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [address, setAddress] = useState();
+  const [gst, setGst] = useState();
+  const [pan, setPan] = useState();
   const [zipCode, setZipCode] = useState();
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState();
@@ -48,6 +52,8 @@ const ShopCreate = () => {
       email: email,
       phone: phone,
       address: address,
+      gst: gst,
+      pan: pan,
       zipCode: zipCode,
       password: password,
       file: avatar,
@@ -149,6 +155,32 @@ const ShopCreate = () => {
                     />
                     <span>
                       <IonIcon icon={locationOutline} />
+                    </span>
+                  </div>
+
+                  <div className="input__box">
+                    <input
+                      type="text"
+                      id="gst"
+                      placeholder="GST Number"
+                      value={gst}
+                      onChange={(e) => setGst(e.target.value)}
+                    />
+                    <span>
+                      <IonIcon icon={idCardOutline} />
+                    </span>
+                  </div>
+
+                  <div className="input__box">
+                    <input
+                      type="text"
+                      id="pan"
+                      placeholder="Pan Card Number"
+                      value={pan}
+                      onChange={(e) => setPan(e.target.value)}
+                    />
+                    <span>
+                      <IonIcon icon={documentAttachOutline} />
                     </span>
                   </div>
 

@@ -23,6 +23,14 @@ const shopSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  gst: {
+    type: String,
+    required: true,
+  },
+  pan: {
+    type: String,
+    required: true,
+  },
   zipCode: {
     type: Number,
     required: true,

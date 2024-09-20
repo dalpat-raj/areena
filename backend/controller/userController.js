@@ -130,11 +130,6 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
 // update user avatar
 exports.updateUserAvatar = catchAsyncErrors(async (req, res, next) => {
   try {
-    const existsUser = await User.findById(req.user.id);
-    const existsAvatarPath = `uploads/${existsUser.avatar}`;
-
-    fs.unlinkSync(existsAvatarPath);
-
     const fileUrl = path.join(req.file.filename);
 
     const user = await User.findByIdAndUpdate(req.user.id, { avatar: fileUrl });

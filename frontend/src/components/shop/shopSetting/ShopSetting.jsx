@@ -15,6 +15,8 @@ const ShopSetting = () => {
   const [name, setName] = useState(seller?.name);
   const [shopName, setShopName] = useState(seller?.shopName);
   const [address, setAddress] = useState(seller?.address);
+  const [gst, setGst] = useState(seller?.gst);
+  const [pan, setPan] = useState(seller?.pan);
   const [description, setDescription] = useState(seller?.description);
   const [zipCode, setZipCode] = useState(seller?.zipCode);
   const [password, setPassword] = useState(null);
@@ -35,7 +37,8 @@ const ShopSetting = () => {
       alert("Profile Updated")
       dispatch(loadSeller());
     }).catch((err)=>{
-      alert(err.response.data.error.message)
+      alert(err?.response?.data?.error?.message)
+      
     })
   };
 
@@ -45,6 +48,8 @@ const ShopSetting = () => {
       name : name,
       shopName: shopName,
       address: address,
+      gst: gst,
+      pan: pan,
       description: description,
       zipCode: zipCode,
       password: password,
@@ -111,6 +116,24 @@ const ShopSetting = () => {
                         id="address"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
+                      />
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="gst">GST Number</label>
+                      <input
+                        type="text"
+                        id="address"
+                        value={gst}
+                        onChange={(e) => setGst(e.target.value)}
+                      />
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="pan">Pan Card</label>
+                      <input
+                        type="text"
+                        id="pan"
+                        value={pan}
+                        onChange={(e) => setPan(e.target.value)}
                       />
                     </div>
                     <div className="input__box">

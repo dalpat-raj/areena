@@ -11,6 +11,21 @@
   .products__row{
     grid-template-columns: auto auto auto;
     gap: 1rem;
+
+    .product__col{
+      position: relative;
+      .icon__edit{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #CECECE;
+        z-index: 10;
+        font-size: 1.5rem;
+        color: #333;
+        padding: 5px;
+        cursor: pointer;
+      }
+    }
   }
 }
 

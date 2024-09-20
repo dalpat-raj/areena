@@ -30,7 +30,6 @@ exports.getSearchProducts = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-
 // Get All Product
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -88,6 +87,20 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.getProductsCount = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const productCount = await Product.countDocuments();
+    console.log("ok");
+    
+    res.status(201).json({
+      success: true, 
+      productCount
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 400));
+  }
+});
+
 // get product details
 exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -128,7 +141,6 @@ exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
 
       res.status(201).json({
         success: true,
-        message: "Product created!",
         product,
       });
     }
@@ -136,6 +148,44 @@ exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 400));
   }
 });
+
+// edit shop product
+exports.editShopProduct = catchAsyncErrors(async (req, res, next) => {
+  try {
+    req.body.details = JSON.parse(req.body.details)
+    req.body.color = JSON.parse(req.body.color)
+    req.body.size = JSON.parse(req.body.size)
+
+    const shopId = req.body.shopId;
+    const shop = await Shop.findById(shopId);
+
+    if (!shop) {
+      return next(new ErrorHandler("Seller account is invalid", 404));
+    } else {
+      const product = await Product.findById(req.params.id)
+      
+      for (let key in req.body) {
+          product[key] = req.body[key]
+      }
+      
+          
+      if(req.files.length >= 1){
+        const files = req.files;
+        const imageUrls = files.map((file) => `${file.filename}`);
+        product.images = imageUrls;
+      }
+      
+      await product.save();
+
+      res.status(201).json({
+        success: true,
+      });
+    }
+    
+  } catch (error) {
+    return next(new ErrorHandler(error, 404))
+  }
+})
 
 // Get all products for seller
 exports.getAllProductShop = catchAsyncErrors(async (req, res, next) => {

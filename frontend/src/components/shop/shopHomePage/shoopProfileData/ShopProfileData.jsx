@@ -6,15 +6,25 @@ import { getAllProductsShop } from "../../../../actions/productAction";
 import ProductCard from "../../../home/ProductCard";
 import { getAllEventShop } from "../../../../actions/eventAction";
 import Rating from "../../../layout/rating/Rating";
+import { FiEdit } from "react-icons/fi";
 import { BiUserCircle } from "react-icons/bi";
+import ShopCreateProduct from "../../shopCreateProduct/ShopCreateProduct";
 
 const ShopProfileData = ({ isOwner }) => {
   const { seller } = useSelector((state) => state.seller);
   const { shopProducts } = useSelector((state) => state.products);
   const { event } = useSelector((state) => state.events);
   const [active, setActive] = useState(1);
+  const [edit, setEdit] = useState(false)
+  const [editProductData, setEditProductData] = useState("")
+
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const handleEdit = (item) => {
+    setEdit(true);
+    setEditProductData(item)
+  }
 
   useEffect(() => {
     dispatch(getAllProductsShop(id));
@@ -25,7 +35,11 @@ const ShopProfileData = ({ isOwner }) => {
  
   return (
     <div className="ShopProfileData">
-      <div className="ShopProfileData__header">
+      {
+        edit === true ? (
+          <ShopCreateProduct edit={edit} setEdit={setEdit} editProduct={editProductData}/>
+        ) : (<>
+          <div className="ShopProfileData__header">
         <ul className="ShopProfileData__navbar">
           <li onClick={() => setActive(1)} className={active === 1 && "active"}>
             Shop Products
@@ -51,7 +65,10 @@ const ShopProfileData = ({ isOwner }) => {
           <div className="products__row">
             {shopProducts &&
               shopProducts?.map((item, i) => (
-                <ProductCard products={item} isWishlist={false} key={i} />
+                <div className="product__col" key={i}>
+                <ProductCard products={item} isWishlist={false} />
+                <div className="icon__edit"><FiEdit onClick={()=>handleEdit(item)}/></div>
+                </div>
               ))}
           </div>
         </div>
@@ -97,6 +114,8 @@ const ShopProfileData = ({ isOwner }) => {
           </div>
         </div>
       )}
+       </> )
+      }
     </div>
   );
 };

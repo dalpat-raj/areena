@@ -10,6 +10,7 @@ import { orderReducer } from "./reducers/orderReducer";
 import { reviewReducer } from "./reducers/reviewReducer";
 import { withdrawReducer } from "./reducers/withdrawReducer";
 import { colorReducer } from "./reducers/colorReducer";
+import { bannerReducer } from "./reducers/bannerReducer";
 
 const Store = configureStore({
     reducer: {
@@ -24,6 +25,7 @@ const Store = configureStore({
         review: reviewReducer,
         withdraw: withdrawReducer,
         colors: colorReducer,
+        banner: bannerReducer,
     },
 })
 

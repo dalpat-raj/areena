@@ -27,13 +27,14 @@ router.post("/shop-login", loginShop);
 router.get("/getseller",isSeller,  loadShop);
 router.get("/shop-logout", logoutShop)
 router.get("/get-shop-info/:id", getShopInfo);
-router.put("/update-shop-avatar", isSeller, upload.single("image"), updateShopAvatar);
+router.put("/update-shop-avatar", isSeller, upload.single("file"), updateShopAvatar);
 router.put("/update-shop", isSeller, updateShop);
 router.put("/shop-delivery-pincode-add", isSeller, updatePinCode);
 router.put("/add-seller-withdraw-methods", isSeller, addWithdrawMethods)
 router.delete("/shop-delivery-pincode-delete/:pin", isSeller, deletePinCode)
 router.delete("/delete-withdraw-methods", isSeller, deleteWithdrawMethods)
 router.post("/forgate-shop-password", forgateShopPassword);
+
 
 // admin
 router.get("/admin-get-all-seller",isAutenticated, isAdmin("Admin"), getAllSellerForAdmin)

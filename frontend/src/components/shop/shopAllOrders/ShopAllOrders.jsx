@@ -30,7 +30,7 @@ const ShopAllOrders = () => {
             <div className="col__2 shop_all_orders">
               <div className="order__main">
                 <div className="box">
-                  {orders &&
+                  {orders?.length >= 1 ? 
                     orders.map((item, i) => (
                       <Link to={`/shop/order/${item?._id}`}>
                         <div className="row" key={i}>
@@ -62,7 +62,15 @@ const ShopAllOrders = () => {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                    ))
+                   : (
+                    <div className="not_products">
+                      <p>
+                        You have not a orders. Please create usable products.
+                      </p>
+                    </div>
+                  ) }
+                    
                 </div>
               </div>
             </div>

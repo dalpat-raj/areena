@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdminSidebar from "../adminSidebar/AdminSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,9 +22,6 @@ const AdminAllSellers = () => {
     dispatch(getAllSellerForAdmin());
   };
 
-  useEffect(() => {
-    dispatch(getAllSellerForAdmin());
-  }, [dispatch]);
 
   return (
     <>
@@ -64,6 +61,8 @@ const AdminAllSellers = () => {
                       <div className="phone__email__address">
                         <p>Phone : {item?.phone}</p>
                         <p>Email : {item?.email}</p>
+                        <p>GST : {item?.gst}</p>
+                        <p>Pan Card : {item?.pan}</p>
                         <p>
                           Address : {item?.address}, {item?.zipCode}
                         </p>

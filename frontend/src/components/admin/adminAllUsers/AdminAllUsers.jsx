@@ -5,7 +5,6 @@ import { backend__url } from "../../../Server";
 import Loader from "../../layout/loader/Loader";
 import { getAllUsersForAdmin } from "../../../actions/userAction";
 import "../adminAllSellers/adminAllSellers.scss";
-import { Helmet } from "react-helmet";
 
 const AdminAllUsers = () => {
   const { allUsers, isLoading } = useSelector((state) => state.user);
@@ -19,10 +18,6 @@ const AdminAllUsers = () => {
 
   return (
     <>
-    <Helmet>
-        <meta charSet="utf-8" />
-        <title>Areena All Users</title>
-      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (

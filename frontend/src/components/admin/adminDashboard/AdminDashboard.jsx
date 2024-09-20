@@ -8,7 +8,6 @@ import { MdBorderClear } from 'react-icons/md';
 import { useDispatch, useSelector } from "react-redux"
 import { getAllOrdersAdmin } from '../../../actions/orderAction';
 import { backend__url } from '../../../Server';
-import { getProduct } from '../../../actions/productAction';
 import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
@@ -19,6 +18,8 @@ import {
   ArcElement,
 } from "chart.js";
 import { Helmet } from 'react-helmet';
+import { getProductCounts } from '../../../actions/productAction';
+import { getAllSellerForAdmin } from '../../../actions/sellerAction';
 
 Chart.register(
   CategoryScale,
@@ -32,16 +33,18 @@ Chart.register(
 const AdminDashboard = () => {
 
     const {orders, isLoading} = useSelector((state)=>state.order)
-    const {products} = useSelector((state)=>state.products) 
+    const {productCount} = useSelector((state)=>state.products)
     const { allSellers } = useSelector((state) => state.seller
     );
-
+    
+    
     const [active, setActive] = useState(1)
     const dispatch = useDispatch();
-
+    
     useEffect(()=>{
-        dispatch(getAllOrdersAdmin());
-        dispatch(getProduct());
+      dispatch(getAllOrdersAdmin());
+      dispatch(getProductCounts())   
+      dispatch(getAllSellerForAdmin())   
     },[dispatch])
 
     const adminEarning = orders && orders.reduce((acc, item)=>acc + item.totalPrice, 0);
@@ -106,7 +109,7 @@ const AdminDashboard = () => {
                         <AiOutlineMoneyCollect size={20} />
                         <h3>All Products</h3>
                       </div>
-                      <h5>{products && products.length}</h5>
+                      <h5>{productCount ? productCount : 0}</h5>
                       <Link to={`/admin-all-products`}>
                         <h5>View Products</h5>
                       </Link>

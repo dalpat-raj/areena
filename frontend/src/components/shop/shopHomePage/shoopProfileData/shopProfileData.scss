@@ -35,6 +35,21 @@
             display: grid;
             grid-template-columns: auto auto auto !important;
             gap: 10px;
+
+            .product__col{
+                position: relative;
+                .icon__edit{
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  background-color: #CECECE;
+                  z-index: 10;
+                  font-size: 1.5rem;
+                  color: #333;
+                  padding: 5px;
+                  cursor: pointer;
+                }
+              }
         }
 
         .shop__reviews__main{

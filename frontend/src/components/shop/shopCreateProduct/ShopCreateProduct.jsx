@@ -4,34 +4,37 @@ import "./shopCreateProduct.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { AiOutlineEdit, AiOutlinePlusCircle } from "react-icons/ai";
-import { toast } from "react-toastify";
-import axios from "axios";
+import Loader from "../../layout/loader/Loader"
 import { getAllColor } from "../../../actions/ColorAction";
+import { createProduct, getAllProductsShop } from "../../../actions/productAction";
+import axios from "axios";
 
-const ShopCreateProduct = () => {
+const ShopCreateProduct = ({edit, setEdit, editProduct}) => {
   const { seller } = useSelector((state) => state.seller);
   const { colors } = useSelector((state) => state.colors);
-
+  const {isLoading}  = useSelector((state)=>state.products)
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [brand, setBrand] = useState("");
-  const [size, setSize] = useState([]);
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [tags, setTags] = useState("");
+  const [name, setName] = useState(edit ? editProduct.name : "");
+  const [brand, setBrand] = useState(edit ? editProduct.brand : "");
+  const [size, setSize] = useState(edit ? editProduct.size : []);
+  const [category, setCategory] = useState(edit ? editProduct.category : "");
+  const [subCategory, setSubCategory] = useState(edit ? editProduct.subCategory : "");
+  const [tags, setTags] = useState(edit ? editProduct.tags : "");
   const [color, setColor] = useState({
-    name: "",
-    hex: "",
+    name: edit ? editProduct.color.name : "",
+    hex: edit ? editProduct.color.hex : "",
   });
-  const [originalPrice, setOriginalPrice] = useState();
-  const [sellingPrice, setSellingPrice] = useState();
-  const [stock, setStock] = useState();
-  const [description, setDescription] = useState("");
+  const [originalPrice, setOriginalPrice] = useState(edit ? editProduct.originalPrice : 0);
+  const [sellingPrice, setSellingPrice] = useState(edit ? editProduct.sellingPrice : 0);
+  const [stock, setStock] = useState(edit ? editProduct.stock : 10);
+  const [description, setDescription] = useState(edit ? editProduct.description : "");
   const [active, setActive] = useState(false);
   const [images, setImages] = useState([]);
-
+ 
+  
   const handleImageChange = (e) => {
     e.preventDefault();
     let files = Array.from(e.target.files);
@@ -39,41 +42,35 @@ const ShopCreateProduct = () => {
   };
 
   const [otherDetails, setOtherDetails] = useState({
-    display: "",
-    ram: "",
-    storage: "",
-    camera: "",
-    manufacturer: "",
-    weight: "",
-    warranty: "",
-    guarantee: "",
-    dimensions: "",
-    modelno: "",
-    origin: "",
-    salesPackage: "",
-    headPhoneType: "",
-    connectivity: "",
-    fabric: "",
-    sleeve: "",
-    pattern: "",
-    fit: "",
-    pocketType: "",
-    occasion: "",
-    material: "",
-    numberOfPockets: "",
-    withRainCover: "",
-    withTrolleySupport: "",
-    laptopSleeve: "",
+    display: edit ? editProduct?.details?.display : "",
+    ram: edit ? editProduct?.details?.ram : "",
+    storage: edit ? editProduct?.details?.storage : "",
+    camera: edit ? editProduct?.details?.camera : "",
+    manufacturer: edit ? editProduct?.details?.manufacturer : "",
+    weight: edit ? editProduct?.details?.weight : "",
+    warranty: edit ? editProduct?.details?.warranty : "",
+    guarantee: edit ? editProduct?.details?.guarantee : "",
+    dimensions: edit ? editProduct?.details?.dimensions : "",
+    modelno: edit ? editProduct?.details?.modelno : "",
+    origin: edit ? editProduct?.details?.origin : "",
+    salesPackage: edit ? editProduct?.details?.salesPackage : "",
+    headPhoneType: edit ? editProduct?.details?.headPhoneType : "",
+    connectivity: edit ? editProduct?.details?.connectivity : "",
+    fabric: edit ? editProduct?.details?.fabric : "",
+    sleeve: edit ? editProduct?.details?.sleeve : "",
+    pattern: edit ? editProduct?.details?.pattern : "",
+    fit: edit ? editProduct?.details?.fit : "",
+    pocketType: edit ? editProduct?.details?.pocketType : "",
+    occasion: edit ? editProduct?.details?.occasion : "",
+    material: edit ? editProduct?.details?.material : "",
+    numberOfPockets: edit ? editProduct?.details?.numberOfPockets : "",
+    withRainCover: edit ? editProduct?.details?.withRainCover : "",
+    withTrolleySupport: edit ? editProduct?.details?.withTrolleySupport : "",
+    laptopSleeve: edit ? editProduct?.details?.laptopSleeve : "",
   });
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = {
-      headers: { "Content-Type": "multipart/form-data" },
-      withCredentials: true,
-    };
     const newForm = new FormData();
 
     images.forEach((image) => {
@@ -92,18 +89,47 @@ const ShopCreateProduct = () => {
     newForm.append("description", description);
     newForm.append("shopId", seller?._id);
     newForm.append("details", JSON.stringify(otherDetails));
-    await axios
-      .post(`/api/v2/create-product`, newForm, config)
-      .then((res) => {
-        if (res.data.success) {
-          toast.success("Product Created!");
-          navigate("/shop-dashboard/products");
-        }
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.error?.message);
-      });
+    dispatch(createProduct(newForm))
+
+    alert("Product Created !");
+    navigate("/shop-dashboard/products");  
   };
+
+  const EditProductSubmit = async (e) => {
+    e.preventDefault();
+    const newForm = new FormData();
+
+    images.forEach((image) => {
+      newForm.append("images", image);
+    });
+    newForm.append("name", name);
+    newForm.append("brand", brand);
+    newForm.append("size", JSON.stringify(size));
+    newForm.append("category", category);
+    newForm.append("subCategory", subCategory);
+    newForm.append("tags", tags);
+    newForm.append("color", JSON.stringify(color));
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("sellingPrice", sellingPrice);
+    newForm.append("stock", stock);
+    newForm.append("description", description);
+    newForm.append("shopId", seller?._id);
+    newForm.append("details", JSON.stringify(otherDetails));
+
+    await axios.put(`/api/v2/edit-shop-product/${editProduct?._id}`, newForm, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true,
+    }).then((res)=>{
+      dispatch(getAllProductsShop(seller?._id));
+      alert('Product Edited')
+      setEdit(false)
+    }).catch((err)=>{
+      console.log(err);
+      
+    })
+  }
 
   const categoriesData = [
     { title: "Baby & Child" },
@@ -114,6 +140,7 @@ const ShopCreateProduct = () => {
     { title: "Computer & Accessories" },
     { title: "Electronic" },
     { title: "Furniture" },
+    { title: "Groceries" },
     { title: "Helth & Personal Care" },
     { title: "Home & Kitchen" },
     { title: "Jewellery" },
@@ -182,16 +209,26 @@ const ShopCreateProduct = () => {
   return (
     <div className="dashboard__container">
       <div className="container">
-        <div className="dashboard__row">
-          <div className="col__2 dashboard__sidebar">
-            <DashboardSidebar active={4} />
-          </div>
-          <div className="col__2 dashboard_create_product">
+        <div className={!edit && "dashboard__row"} >
+          {
+            !edit && (
+              <div className="col__2 dashboard__sidebar">
+                <DashboardSidebar active={4} />
+              </div>
+            )
+          }
+
+          <div className="col__2 dashboard_create_product" >
+          {
+            isLoading ? (
+              <Loader />
+            ) : (
+              <>
             <div className="heading">
               <AiOutlineEdit size={25} />
               <h2>Create Product</h2>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={edit ? EditProductSubmit : handleSubmit}>
               <div className="input__box">
                 <label htmlFor="name">Product Name</label>
                 <input
@@ -541,10 +578,10 @@ const ShopCreateProduct = () => {
                   </label>
                 </div>
                 <div className="img__box">
-                  {images &&
-                    images.map((i) => (
+                  {
+                    images?.map((i) => 
                       <img src={URL.createObjectURL(i)} key={i} alt="" />
-                    ))}
+                  )}
                 </div>
               </div>
 
@@ -563,11 +600,22 @@ const ShopCreateProduct = () => {
               </div>
 
               <div className="btn__box">
-                <button type="submit" className="btn-main">
-                  Submit
-                </button>
+                {
+                  edit ? (
+                    <button type="submit" className="btn-main">
+                      Edit Product
+                    </button>
+                  ) : (
+                    <button type="submit" className="btn-main">
+                      Submit
+                    </button>
+                  )
+                }
               </div>
             </form>
+            </>
+            )
+          }
           </div>
         </div>
       </div>

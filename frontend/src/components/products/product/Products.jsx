@@ -15,7 +15,7 @@ import axios from "axios";
 const Products = () => {
   const { products, productsCount, isLoading } =
     useSelector((state) => state.products);
-
+  
   const [sortBy, setSortBy] = useState("");
   const [data, setData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
@@ -33,7 +33,7 @@ const Products = () => {
 
   const [filterBar, setFilterBar] = useState(false)
 
-  const limit = 8;
+  const limit = 100;
   const dispatch = useDispatch();
 
   const handleClear=()=>{
@@ -208,22 +208,26 @@ const Products = () => {
               </div>
             )}
 
-            <div className="pagination">
-              <Pagination
-                activePage={page}
-                itemsCountPerPage={limit}
-                totalItemsCount={productsCount}
-                onChange={setPage}
-                nextPageText="Next"
-                prevPageText="Prev"
-                firstPageText="1st"
-                lastPageText="Last"
-                itemClass="page-item"
-                linkClass="page-link"
-                activeClass="pageItemActive"
-                activeLinkClass="pageLinkActive"
-              />
-            </div>
+            {
+              productsCount && productsCount > 100 && (
+                <div className="pagination">
+                <Pagination
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={productsCount}
+                  onChange={setPage}
+                  nextPageText="Next"
+                  prevPageText="Prev"
+                  firstPageText="1st"
+                  lastPageText="Last"
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activeClass="pageItemActive"
+                  activeLinkClass="pageLinkActive"
+                />
+              </div>
+              )
+            }
           </div>
 
         </div>

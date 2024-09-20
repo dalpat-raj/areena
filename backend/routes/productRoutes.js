@@ -12,6 +12,8 @@ const {
   deleteProductByAdmin,
   getSameProducts,
   getSearchProducts,
+  getProductsCount,
+  editShopProduct,
 } = require("../controller/productController");
 
 // user
@@ -23,11 +25,13 @@ router.get("/get-same-products/:name", getSameProducts);
 
 // admin
 router.delete("/delete-product-admin/:id",isAutenticated, isAdmin("Admin"), deleteProductByAdmin)
+router.get("/products-count",isAutenticated, isAdmin("Admin"), getProductsCount)
 
 
 
 // seller 
 router.post("/create-product", isSeller, upload.array("images"), createProductShop);
+router.put("/edit-shop-product/:id", isSeller, upload.array("images"), editShopProduct);
 router.get("/get-all-product-shop/:id", getAllProductShop);
 router.delete("/delete-shop-product/:id",isSeller, deleteShopProduct);
 

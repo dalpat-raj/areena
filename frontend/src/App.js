@@ -17,6 +17,7 @@ import AdminOrderDetails from "./components/admin/adminAllOrders/adminOrderDetai
 import Inbox from "./components/user/inbox/Inbox";
 import About from "./pages/about/About";
 import Pricing from "./pages/Pricing/Pricing";
+import ExploreTopBanner from "./components/admin/exploreTopBanner/ExploreTopBanner";
 
 
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
@@ -324,6 +325,14 @@ function App() {
             element={
               <AdminProtectedRoute>
                 <Suspense fallback={""}><AdminWithdrawReques /></Suspense>
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/explore-top-banner"
+            element={
+              <AdminProtectedRoute>
+                <Suspense fallback={""}><ExploreTopBanner /></Suspense>
               </AdminProtectedRoute>
             }
           />

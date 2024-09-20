@@ -82,10 +82,6 @@
                 margin-top: 2rem;
                 .lineChart{ 
                     width: 100%;
-                    canvas{
-                        // width: 100% !important;
-                        // height: 250px !important;
-                    }
                 }
                 .doughnutChart{
                     width: 200px !important;
@@ -122,6 +118,27 @@
                             font-size: $fs-8;
                         }
                     }
+                }
+            }
+        }
+
+        .add__pinCode__main{
+            height: 60%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            div{
+                text-align: center;
+                h2{
+                    font-size: 2rem;
+                }
+                p{
+                    font-size: 1rem;
+                    margin-top: 1rem;
+                }
+                button{
+                    margin-top: 1rem;
                 }
             }
         }

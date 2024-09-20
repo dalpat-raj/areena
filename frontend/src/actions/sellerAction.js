@@ -66,6 +66,7 @@ export const updateSellerInfo = (seller) => async (dispatch) => {
     const { data } = await axios.put(`/api/v2/update-shop`, seller, {
       withCredentials: true,
     });
+    
     dispatch({
       type: "updateShopInfoSuccess",
       payload: data.shop,

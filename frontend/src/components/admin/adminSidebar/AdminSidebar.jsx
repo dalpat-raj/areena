@@ -6,7 +6,7 @@ import {FiPackage, FiShoppingBag} from "react-icons/fi";
 import {MdOutlineLocalOffer} from 'react-icons/md'
 import {VscNewFile} from "react-icons/vsc"
 import {CiMoneyBill, CiSettings} from "react-icons/ci"
-
+import { PiDressLight } from "react-icons/pi";
 import "./adminSidebar.scss";
 
 const AdminSidebar = ({active, setActive}) => {
@@ -80,6 +80,15 @@ const AdminSidebar = ({active, setActive}) => {
     </div>
 
     <div className={active === 8 ? "adminSidebar__row active" : "adminSidebar__row"}>
+        <Link to={"/admin/explore-top-banner"}>
+            <div className='sidebar__header'>
+                <div className='icon'><PiDressLight/></div>
+                <div className='icon_text'>Explore Top Categories</div>
+            </div>
+        </Link>
+    </div>
+
+    <div className={active === 9 ? "adminSidebar__row active" : "adminSidebar__row"}>
         <Link to={"/admin-setting"}>
             <div className='sidebar__header'>
                 <div className='icon'><CiSettings/></div>
