@@ -117,7 +117,7 @@ export const updateUserInfo = (user) => async (dispatch) => {
 
 
 // update user address 
-export const updateUserAddress = (country, state, city, zipCode, address1, address2, addressType) => async (dispatch) => {
+export const updateUserAddress = (country, state, city, pincode, address1, address2, addressType) => async (dispatch) => {
   try {
     dispatch({
       type: "updateUserAddressRequest",
@@ -126,13 +126,14 @@ export const updateUserAddress = (country, state, city, zipCode, address1, addre
       country, 
       state,
       city, 
-      zipCode, 
+      pincode, 
       address1, 
       address2, 
       addressType
     }, {
       withCredentials: true,
     });
+    
     dispatch({
       type: "updateUserAddressSuccess",
       payload: data.user,
@@ -151,7 +152,7 @@ export const deleteUserAddress = (id) => async (dispatch) => {
     dispatch({
       type: "deleteUserAddressRequest",
     });
-    const { data } = await axios.delete(`/api/v2/delete-user-address/${id}`, {
+    const { data } = await axios.delete(`/api/v2/delete-user-address/`, {
       withCredentials: true,
     });
     dispatch({

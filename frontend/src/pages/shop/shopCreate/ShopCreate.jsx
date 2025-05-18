@@ -12,6 +12,7 @@ import {
   personOutline,
 } from "ionicons/icons";
 import { BsShopWindow } from "react-icons/bs";
+import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import "./shopCreate.scss";
 import { useNavigate } from "react-router";
@@ -24,6 +25,9 @@ const ShopCreate = () => {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [address, setAddress] = useState();
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState();
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState();
@@ -48,6 +52,9 @@ const ShopCreate = () => {
       email: email,
       phone: phone,
       address: address,
+      country: country,
+      state: state,
+      city: city,
       zipCode: zipCode,
       password: password,
       file: avatar,
@@ -63,6 +70,7 @@ const ShopCreate = () => {
         setWait(false);
         alert(res.data.message);
         navigate("/");
+        
       })
       .catch((err) => {
         alert(err.response.data.error.message);
@@ -150,6 +158,61 @@ const ShopCreate = () => {
                     <span>
                       <IonIcon icon={locationOutline} />
                     </span>
+                  </div>
+
+                  <div className="box">
+                    <label htmlFor="country">Country</label>
+                    <select
+                      name=""
+                      id="country"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                    >
+                      <option value="">choose Your country</option>
+                      {Country &&
+                        Country.getAllCountries().map((item, i) => (
+                          <option key={i} value={item.isoCode}>
+                            {item.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+
+                  <div className="box__row">
+                    <div className="box">
+                      <label htmlFor="state">State</label>
+                      <select
+                        name=""
+                        id="state"
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                      >
+                        <option value="">choose Your state</option>
+                        {State &&
+                          State.getStatesOfCountry(country).map((item, i) => (
+                            <option key={i} value={item.isoCode}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div className="box">
+                      <label htmlFor="city">City</label>
+                      <select
+                        name=""
+                        id="city"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                      >
+                        <option value="">choose Your city</option>
+                        {City &&
+                          City.getCitiesOfState(country, state).map((item, i) => (
+                            <option key={i} value={item.isoCode}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
                   </div>
 
                   <div className="input__box">

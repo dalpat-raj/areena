@@ -28,6 +28,7 @@ router.delete("/delete-product-admin/:id",isAutenticated, isAdmin("Admin"), dele
 
 // seller 
 router.post("/create-product", isSeller, upload.array("images"), createProductShop);
+// router.post("/create-product/", isSeller, createProductShop);
 router.get("/get-all-product-shop/:id", getAllProductShop);
 router.delete("/delete-shop-product/:id",isSeller, deleteShopProduct);
 

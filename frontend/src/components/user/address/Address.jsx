@@ -12,39 +12,28 @@ import { useDispatch } from "react-redux";
 const Address = () => {
   const { user, error, success } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const [country, setCountry] = useState("");
+  const country = "India";
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState("");
+  const [pincode, setPincode] = useState("");
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
   const [addressType, setAddressType] = useState("");
 
+  const addressTypeData = ["Home", "Office"]
+  
   const dispatch = useDispatch();
-
-  const addressTypeData = [
-    {
-      name: "default",
-    },
-    {
-      name: "home",
-    },
-    {
-      name: "office",
-    },
-  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (addressType === "" || country === "" || city === "") {
+    if (state === "" || city === "" || pincode === "") {
       toast.error("please fill all the fields");
     } else {
-      dispatch(updateUserAddress(country,state, city, zipCode, address1, address2, addressType));
+      dispatch(updateUserAddress(country, state, city, pincode, address1, address2, addressType));
       setOpen(false);
-      setCountry("");
       setState("");
       setCity("");
-      setZipCode(null);
+      setPincode(null);
       setAddress1("");
       setAddress2("");
       setAddressType("");
@@ -54,8 +43,8 @@ const Address = () => {
     }
   };
 
-  const handleAddressDelete=(item)=>{
-    dispatch(deleteUserAddress(item._id))
+  const handleAddressDelete=()=>{
+    dispatch(deleteUserAddress())
     if(success){
       toast.success(success)
     }
@@ -84,20 +73,12 @@ const Address = () => {
               <form action="" onSubmit={handleSubmit}>
                 <div className="box">
                   <label htmlFor="country">Country</label>
-                  <select
+                  <input
                     name=""
                     id="country"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                  >
-                    <option value="">choose Your country</option>
-                    {Country &&
-                      Country.getAllCountries().map((item, i) => (
-                        <option key={i} value={item.isoCode}>
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
+                    value={"India"}
+                    readOnly
+                  />
                 </div>
 
                 <div className="box__row">
@@ -111,7 +92,7 @@ const Address = () => {
                     >
                       <option value="">choose Your state</option>
                       {State &&
-                        State.getStatesOfCountry(country).map((item, i) => (
+                        State.getStatesOfCountry("IN").map((item, i) => (
                           <option key={i} value={item.isoCode}>
                             {item.name}
                           </option>
@@ -128,7 +109,7 @@ const Address = () => {
                     >
                       <option value="">choose Your city</option>
                       {City &&
-                        City.getCitiesOfState(country, state).map((item, i) => (
+                        City.getCitiesOfState("IN", state).map((item, i) => (
                           <option key={i} value={item.isoCode}>
                             {item.name}
                           </option>
@@ -162,13 +143,13 @@ const Address = () => {
                 </div>
 
                 <div className="box">
-                  <label htmlFor="zipcode">Zip Code</label>
+                  <label htmlFor="zipcode">Pin Code</label>
                   <input
                     type="number"
                     id="zipcode"
                     required
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
                   />
                 </div>
 
@@ -183,8 +164,8 @@ const Address = () => {
                     <option value="">Choose Your Address Type</option>
                     {addressTypeData &&
                       addressTypeData.map((item, i) => (
-                        <option key={i} value={item.name}>
-                          {item.name}
+                        <option key={i} value={item}>
+                          {item}
                         </option>
                       ))}
                   </select>
@@ -212,32 +193,34 @@ const Address = () => {
           </button>
         </div>
 
+        
         {
-          user && user.addresses.map((item, i)=> (
-            <div className="card__row" key={i}>
+          user?.address && (
+            <div className="card__row">
             <div className="card__box">
-              <h4>{item?.addressType}</h4>
+              <h4>{user?.address?.addressType}</h4>
             </div>
             <div className="card__box">
               <p>{user?.name}</p>
             </div>
             <div className="card__box">
-              <p>{item?.address1} {item?.address2}, {item?.zipCode}</p>
+              <p>{user?.address?.address1} {user?.address?.address2}, {user?.address?.pincde}</p>
             </div>
             <div className="card__box">
               <p>{user?.phoneNumber}</p>
             </div>
             <div className="card__box">
-              <p className="delete__icon" onClick={()=>handleAddressDelete(item)}>
+              <p className="delete__icon" onClick={()=>handleAddressDelete()}>
                 <IonIcon icon={trashOutline} />
               </p>
             </div>
           </div>
-          ))
+          )
         }
+          
 
         {
-          user && user.addresses.length === 0 && (
+          user && user?.address?.length === 0 && (
             <div className="empty__address">
               <h4>You not have any saved address!</h4>
             </div>

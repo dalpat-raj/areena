@@ -109,21 +109,54 @@ exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
 // Create Product
 exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
   try {
-    req.body.details = JSON.parse(req.body.details)
-    req.body.color = JSON.parse(req.body.color)
-    req.body.size = JSON.parse(req.body.size)
+    const shopId = req?.shop?._id;
     
-    const shopId = req.body.shopId;
     const shop = await Shop.findById(shopId);
+    
     if (!shop) {
       return next(new ErrorHandler("Seller account is invalid", 404));
     } else {
+ 
       const files = req.files;
       const imageUrls = files.map((file) => `${file.filename}`);
-      const productData = req.body;
-      productData.images = imageUrls;
-      productData.shop = shop;
-
+      
+      const productData = {
+        ...req.body, // All basic fields
+        images: imageUrls,
+        shop: shop,
+        shopId: shopId,
+      };
+  
+      if (req.body.discount) {
+        productData.discount = JSON.parse(req.body.discount);
+      }
+  
+      if (req.body.dimension) {
+        productData.dimension = JSON.parse(req.body.dimension);
+      }
+      
+      if (req.body.tags) {
+        productData.tags = Array.isArray(req.body.tags)
+          ? req.body.tags
+          : [req.body.tags];
+      }
+  
+      if (req.body.features) {
+        productData.features = Array.isArray(req.body.features)
+          ? req.body.features
+          : [req.body.features];
+      }
+  
+      // 🧠 Convert numeric fields explicitly if needed (FormData sends strings)
+      productData.sellingPrice = Number(req.body.sellingPrice);
+      if (req.body.originalPrice) productData.originalPrice = Number(req.body.originalPrice);
+      productData.stock = Number(req.body.stock);
+  
+      // Parse date fields
+      if (productData.discount?.discountEndDate) {
+        productData.discount.discountEndDate = new Date(productData.discount.discountEndDate);
+      }
+      
       const product = await Product.create(productData);
 
       res.status(201).json({
@@ -137,10 +170,12 @@ exports.createProductShop = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+
 // Get all products for seller
 exports.getAllProductShop = catchAsyncErrors(async (req, res, next) => {
   try {
-    const products = await Product.find({ shopId: req.params.id });
+    
+    const products = await Product.find({ shopId: {_id: req.params.id} });
     res.status(201).json({
       success: true,
       products,

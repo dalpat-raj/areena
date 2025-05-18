@@ -11,6 +11,4 @@ const connectDatabase =()=>{
     })
 }
 
-// mongodb+srv://areena:kWlbhv7WmfeyxlUy@cluster0.8qks5wb.mongodb.net/areena?retryWrites=true&w=majority
-
 module.exports = connectDatabase;

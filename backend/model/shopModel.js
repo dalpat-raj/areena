@@ -23,11 +23,22 @@ const shopSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
   zipCode: {
     type: Number,
     required: true,
   },
-  pinCode: Array,
   password: {
     type: String,
     required: [true, "Please enter your password"],
@@ -39,6 +50,10 @@ const shopSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+  },
+  status: {
+    type: String,
+    default: false,
   },
   role: {
     type: String,

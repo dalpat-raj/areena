@@ -31,15 +31,20 @@
                     }
                 }
             }
+            .errors{
+                color: red;
+                font-size: 12px;
+
+            }
 
             .input__main__container{
                 margin: 1rem 0;
                 input, select{
                     width: 100% !important;
                     padding: 10px 10px;
-                    margin-bottom: 15px;
+                    margin-bottom: 4px;
                     border: 1px solid #eee;
-                    color: #000;
+                    color: $black-main;
                     border-radius: 6px;
                     font-size: 13px;
                     line-height: 20px;
@@ -51,6 +56,31 @@
                            }
                     }
                 }
+                .btn{
+                    color: white;
+                    cursor: pointer;
+                    margin-top: 15px;
+                }
+
+                .box{
+                    padding-top: 18px;
+                    position: relative;
+                    overflow: visible;
+                    label{
+                        position: absolute;
+                        top: 8px;
+                        left: 8px;
+                        padding: 0px 10px 0px 2px;
+                        background-color: #fff;
+                        font-size: 14px;
+                        font-weight: 500;
+                        span{
+                            color: $spanish-gray;
+                            font-size: $fs-8;
+                        }
+                    }
+                }
+                
                 .input__row{
                     display: flex;
                     gap: 1.5rem;

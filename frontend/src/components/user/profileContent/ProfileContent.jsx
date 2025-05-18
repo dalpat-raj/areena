@@ -6,7 +6,6 @@ import RefundOrder from '../ordres/RefundOrder';
 import TrackOrder from '../ordres/TrackOrder';
 import Address from '../address/Address';
 import PasswordChange from '../passwordChange/PasswordChange';
-import Inbox from '../inbox/Inbox';
 
 const ProfileContent = ({active}) => {
   return (
@@ -42,15 +41,6 @@ const ProfileContent = ({active}) => {
      {
         active === 4 && (
             <div className="box__container">
-                <Inbox/>
-            </div>
-        )
-    }
-
-     {/* { Track Order component } */}
-     {
-        active === 5 && (
-            <div className="box__container">
                 <TrackOrder/>
             </div>
         )
@@ -58,7 +48,7 @@ const ProfileContent = ({active}) => {
 
     {/* { Payment Methods component } */}
     {
-        active === 6 && (
+        active === 5 && (
             <div className="box__container">
                 <PasswordChange/>
             </div>
@@ -68,7 +58,7 @@ const ProfileContent = ({active}) => {
     
     {/* { Addres component } */}
     {
-        active === 7 && (
+        active === 6 && (
             <div className="box__container">
                 <Address/>
             </div>
@@ -77,7 +67,7 @@ const ProfileContent = ({active}) => {
 
     {/* { Logout component } */}
     {
-        active === 8 && (
+        active === 7 && (
             <div className="box__container">
                 <h2>Logout Success</h2>
             </div>

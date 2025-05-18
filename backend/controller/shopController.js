@@ -15,10 +15,15 @@ exports.shopCreate = async (req, res, next) => {
       email,
       phone,
       address,
+      country,
+      state,
+      city,
       zipCode,
       password,
+      avatar,
       description,
     } = req.body;
+    
     const shopEmail = await Shop.findOne({ email });
 
     if (shopEmail) {
@@ -32,29 +37,24 @@ exports.shopCreate = async (req, res, next) => {
       fileUrl = path.join(filename);
     }
 
-    const shop = {
-      name: name,
-      shopName: shopName,
-      email: email,
-      phone: phone,
-      address: address,
-      zipCode: zipCode,
-      password: password,
-      avatar: fileUrl,
-      description: description,
-    };
-
-    const activationToken = createActivationToken(shop);
-    // const activationUrl = `http://localhost:3000/shop-activation/${activationToken}`;
-    const activationUrl = `https://areenaa.in/shop-activation/${activationToken}`;
-
     try {
-      await sendMail({
-        email: shop.email,
-        subject: "Activate your Shop Account",
-        message: `Hello ${shop.name}, Please click on the link to activate your Shop account: ${activationUrl} This link valid for 5 minutes`,
+      let shop = await Shop.create({
+        name,
+        shopName,
+        email,
+        phone,
+        address,
+        country,
+        state, 
+        city,
+        zipCode,
+        password,
+        avatar,
+        description,
       });
+
       res.status(201).json({
+        shop: shop,
         success: true,
         message: `Please check your email`,
       });
@@ -66,53 +66,9 @@ exports.shopCreate = async (req, res, next) => {
   }
 };
 
-// create activation token
-const createActivationToken = (shop) => {
-  return jwt.sign(shop, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
-  });
-};
-
 // activation
 exports.activationShop = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const { activation_token } = req.body;
-    const newShop = jwt.verify(activation_token, process.env.ACTIVATION_SECRET);
-
-    if (!newShop) {
-      return next(new ErrorHandler("Invalid token", 400));
-    }
-
-    const {
-      name,
-      shopName,
-      email,
-      phone,
-      address,
-      zipCode,
-      password,
-      avatar,
-      description,
-    } = newShop;
-    let shop = await Shop.findOne({ email });
-    if (shop) {
-      return next(new ErrorHandler("User already exists!", 400));
-    }
-    shop = await Shop.create({
-      name,
-      shopName,
-      email,
-      phone,
-      address,
-      zipCode,
-      password,
-      avatar,
-      description,
-    });
-    sendShopToken(shop, 201, res);
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 400));
-  }
+  
 });
 
 // Login Shop

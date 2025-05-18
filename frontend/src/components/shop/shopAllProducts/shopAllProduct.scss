@@ -9,7 +9,7 @@
       }
  
   .products__row{
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
   }
 }
@@ -36,7 +36,7 @@
   .shop__all__products {
  
     .products__row{
-      grid-template-columns: auto auto !important;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
   }
@@ -47,7 +47,7 @@
   .shop__all__products {
     height: 91vh;
     .products__row{
-      grid-template-columns: auto auto auto !important;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
   }
@@ -57,7 +57,7 @@
   .shop__all__products {
  
     .products__row{
-      grid-template-columns: auto auto !important;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
   }

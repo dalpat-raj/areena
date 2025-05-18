@@ -53,7 +53,7 @@ export const getAllProductsShop = (id) => async(dispatch) => {
     dispatch({
       type: "allProductShopRequest",
     });
-
+    
     const {data} = await axios.get(`/api/v2/get-all-product-shop/${id}`);
     dispatch({
       type: "allProductShopSuccess",

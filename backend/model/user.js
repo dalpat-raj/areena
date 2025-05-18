@@ -2,6 +2,30 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
 
+const addressSchema = new mongoose.Schema({
+  country: {
+    type: String
+  },
+  state: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  address1: {
+    type: String
+  },
+  address2: {
+    type: String
+  },
+  pincode: {
+    type: Number
+  },
+  addressType: {
+    type: String
+  }
+});
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -13,7 +37,8 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please enter your email"],
     },
     phoneNumber: {
-      type: Number
+      type: Number,
+      required: [true, "Please enter phone number"],
     },
     password: {
         type: String,
@@ -21,29 +46,9 @@ const userSchema = new mongoose.Schema({
         minLength: [4, "Password should be greater than 6 characters"],
         select: false,
     },
-    addresses: [{
-      country: {
-        type: String
-      },
-      state: {
-        type: String
-      },
-      city: {
-        type: String
-      },
-      address1: {
-        type: String
-      },
-      address2: {
-        type: String
-      },
-      zipCode: {
-        type: Number
-      },
-      addressType: {
-        type: String
-      }
-    }],
+    address: {
+      type: addressSchema,
+    },
     avatar: {
         type: String,
     },

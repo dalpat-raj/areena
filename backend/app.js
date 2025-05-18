@@ -9,10 +9,6 @@ const path = require("path")
 
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-//     origin: "http://localhost:3000/",
-//     credentials: true,
-// }))
 app.use(Cors({
     origin: ["http://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -48,11 +44,11 @@ app.use("/api/v2", withdraw);
 app.use("/api/v2", color);
 
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+// app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+// });
 
 // Middleware for error
 app.use(ErrorHandler);

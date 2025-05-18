@@ -1,29 +1,28 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
+// const Razorpay = require("razorpay");
 
 const dotenv = require("dotenv");
 
 dotenv.config({path: "backend/config/config.env"})
 
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// const instance = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_SECRET,
+// });
 
-exports.paymentProcess = catchAsyncErrors(async (req, res, next) => {
-  const myPayment = await stripe.paymentIntents.create({
-    amount: req.body.amount,
-    currency: "inr",
-    metadata: {
-      company: "Becodemy",
-    },
-  });
-  res.status(200).json({
-    success: true,
-    client_secret: myPayment.client_secret,
-  });
-});
+// app.post("/api/payment/razorpay", async (req, res) => {
+//   const options = {
+//     amount: req.body.amount,
+//     currency: "INR",
+//     receipt: "receipt#1",
+//   };
 
-exports.paymentApiKey = catchAsyncErrors(async (req, res, next) => {
-    res.status(201).json({
-      stripeApiKey: process.env.STRIPE_API_KEY,
-    });
-});
+//   try {
+//     const order = await instance.orders.create(options);
+//     res.status(200).json(order);
+//   } catch (error) {
+//     res.status(500).json({ error });
+//   }
+// });

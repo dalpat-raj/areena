@@ -39,7 +39,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 // Login User
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body;   
 
     if (!email || !password) {
       return next(new ErrorHandler("Please Fill The Information", 500));
@@ -151,25 +151,19 @@ exports.updateUserAvatar = catchAsyncErrors(async (req, res, next) => {
 // Update User Address
 exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
-    const sameTypeAddress = user.addresses.find(
-      (address) => address.addressType === req.body.addressType
-    );
-    if (sameTypeAddress) {
-      return next(
-        new ErrorHandler(`${req.body.addressType} address already exists`)
-      );
-    }
+    const user = await User.findById(req.user.id);   
 
-    const existsAddress = user.addresses.find(
-      (address) => address._id === req.body._id
-    );
-    if (existsAddress) {
-      Object.assign(existsAddress, req.body);
-    } else {
-      user.addresses.push(req.body);
-    }
-
+    const {country, state, city, pincode, address1, address2, addressType} = req.body;
+  
+    user.address = {
+      country,
+      state,
+      city,
+      pincode,
+      address1,
+      address2,
+      addressType,
+    };
     await user.save();
 
     res.status(201).json({
@@ -185,14 +179,10 @@ exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
 exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const addressId = req.params.id;
 
-    await User.updateOne(
-      {
-        _id: userId,
-      },
-      { $pull: { addresses: { _id: addressId } } }
-    );
+    await User.findByIdAndUpdate(userId, {
+      $unset: { address: "" }
+    });
 
     const user = await User.findById(userId);
 

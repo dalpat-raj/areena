@@ -11,6 +11,38 @@
     .signup__row{
         max-width: 500px;
         margin: auto;
+        .box{
+            width: 100%;
+            margin-top: 0.8rem;
+            label{
+                font-size: $fs-7;
+                font-weight: 400;
+            }
+            select, input{
+                display: block;
+                width: 100%;
+                padding: 5px 10px;
+                margin-top: 0.2rem;
+                margin-bottom: 15px;
+                border: 1px solid #eee;
+                background-color: rgb(232, 240, 254);
+                color: #000;
+                border-radius: 6px;
+                font-size: 13px;
+                line-height: 20px;
+                &:focus{
+                    outline: 1px solid $black-main;
+                }
+            }
+            button{
+                width: 100%;
+                margin-top: 0.8rem;
+            }
+        }
+        .box__row{
+            display: flex;
+            gap: 1rem;
+        }
                 .input__box{
                     position: relative;
                     margin-top: 5px;

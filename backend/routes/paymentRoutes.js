@@ -5,7 +5,7 @@ const {
 } = require("../controller/paymentController");
 const router = express.Router();
 
-router.post("/payment/process", paymentProcess);
-router.get("/stripeapikey", paymentApiKey);
+// router.post("/payment/process", paymentProcess);
+// router.get("/stripeapikey", paymentApiKey);
 
 module.exports = router;

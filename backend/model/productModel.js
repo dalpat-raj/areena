@@ -1,58 +1,91 @@
 const mongoose = require("mongoose");
 
+const discountSchema = new mongoose.Schema({
+  discountTitle: { type: String },
+  discountAmount: { type: Number},
+  discountType: {
+    type: String,
+    enum: ["percentage", "fixed"],
+  },
+  discountEndDate: { type: Date },
+});
+
+const dimensionSchema = new mongoose.Schema({
+  width: { type: Number },
+  height: { type: Number },
+  depth: { type: Number },
+  dimensionUnit: {
+    type: String,
+    enum: ["cm", "inch"],
+    default: "cm",
+  },
+  weightValue: {
+    type: Number,
+    required: true,
+    min: [0.1, "Weight must be at least 0.1"],
+  },
+  weightUnit: {
+    type: String,
+    enum: ["g", "kg", "oz", "lb"],
+    required: true,
+  },
+  shippingClass: {
+    type: String,
+    enum: ["light", "fragile", "standard", "fragileHeavy"],
+  },
+});
+
 const productSchema = new mongoose.Schema({
-  name: {
+  sku: { type: String, required: true, minlength: 5 },
+  barcode: { type: String },
+  slug: {
     type: String,
-    required: [true, "Please enter your product name"],
+    required: true,
+    match: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
   },
-  brand: {
+  taxcode: { type: String },
+
+  title: { type: String, required: true, minlength: 5, maxlength: 150 },
+  description: { type: String, required: true, minlength: 10 },
+  productCollection: { type: String, required: true },
+  categories: { type: String, required: true },
+  tags: [{ type: String }],
+  features: [{ type: String }],
+  size: { type: String },
+  color: { type: String },
+  warranty: { type: Number },
+  warrantyType: { type: String },
+  material: { type: String },
+  origin: { type: String },
+  
+  images: [{ type: String, required: true }], // Store image URLs or paths
+
+  originalPrice: { type: Number },
+  sellingPrice: { type: Number, required: true, min: 200 },
+
+  discount: { type: discountSchema },
+
+  stock: { type: Number, required: true, min: 1 },
+  status: {
     type: String,
-    required: [true, "Please type product brand"],
+    enum: ["draft", "active", "outOfStock", "archived", "discontinued"],
+    required: true,
   },
-  size: [
-    {
-      type: String,
-    }
-  ],
-  category: {
-    type: String,
-    required: [true, "Please enter your product category"],
-  },
-  subCategory: {
-    type: String,
-  },
-  tags: {
-    type: String,
-  },
-  originalPrice: {
-    type: Number,
-    maxLength: 5,
-    minLength: 3,
-  },
-  sellingPrice: {
-    type: Number,
-    maxLength: 5,
-    minLength: 3,
-    required: [true, "Please enter your selling price"],
-  },
-  stock: {
-    type: Number,
-    required: [true, "Please enter your Stock"],
-  },
-  shippingAndReturn: {
-    type: String,
-  },
-  description: {
-    type: String,
-  },
-  images: [
-    {
-      type: String,
-    },
-  ],
-  color: {
+  shop: {
     type: Object,
+    required: true,
   },
+  shopId: {
+    type: String,
+    required: true,
+  },
+  sold: {
+    type: Number,
+    default: 0,
+  },
+
+  dimension: { type: dimensionSchema, required: true },
+
   reviews: [
     {
       user:{
@@ -72,25 +105,13 @@ const productSchema = new mongoose.Schema({
   ratings:{
     type: Number,
   },
-  shopId: {
-    type: String,
-    required: true,
-  },
-  shop: {
-    type: Object,
-    required: true,
-  },
-  sold_out: {
-    type: Number,
-    default: 0,
-  },
-  details: {
-    type: Object,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
+
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date },
+  publishedAt: { type: Date },
+
+  version: { type: Number },
+  metadata: { type: mongoose.Schema.Types.Mixed },
 });
 
 module.exports = mongoose.model("Product", productSchema);

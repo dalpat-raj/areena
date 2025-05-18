@@ -1,8 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-// import { Elements } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
 // import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
@@ -53,7 +51,6 @@ const ShopAllEvent = React.lazy(()=>import("./components/shop/shopEvent/shopAllE
 const ShopCouponCode = React.lazy(()=>import("./components/shop/shopCouponCode/ShopCouponCode"));
 const ShopPreview = React.lazy(()=>import("./components/shop/shopPreviewPage/ShopPreview"));
 const ShopWithdrawMoney = React.lazy(()=>import("./components/shop/shopWithdrawMoney/ShopWithdrawMoney"));
-const ShopInbox = React.lazy(()=>import("./components/shop/shopInbox/ShopInbox"));
 const ShopAllRefunds = React.lazy(()=>import("./components/shop/shopRefunds/ShopAllRefunds"));
 const ShopDeliveryArea = React.lazy(()=>import("./components/shop/ShopDeliveryArea/ShopDeliveryArea"))
 const ShopSetting = React.lazy(()=>import("./components/shop/shopSetting/ShopSetting"));
@@ -71,23 +68,10 @@ const AdminWithdrawReques = React.lazy(()=>import("./components/admin/adminWithd
 
 
 function App() {
-  // const [stripeApiKey, setStripeApiKey] = useState();
-
-  // async function getStripeApiKey() {
-  //   await axios
-  //     .get(`/api/v2/stripeapikey`)
-  //     .then((res) => {
-  //       setStripeApiKey(res.data.stripeApiKey);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   useEffect(() => {
     Store.dispatch(loadSeller());
     Store.dispatch(loadUser());
-    // getStripeApiKey();
   }, []);
 
   return (
@@ -95,13 +79,6 @@ function App() {
       <BrowserRouter>
         <HeaderTop />
         <Header />
-        {/* {stripeApiKey && (
-          <Elements stripe={loadStripe(stripeApiKey)}>
-            <Routes>
-              <Route path="/payment" element={<Payment />} />
-            </Routes>
-          </Elements>
-        )} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pages/wishlist" element={<Suspense fallback={""}><Wishlist /></Suspense>} />
@@ -230,14 +207,7 @@ function App() {
               </SellerProtectedRoute>
             }
           />
-          <Route
-            path="/shop-dashboard-messages"
-            element={
-              <SellerProtectedRoute>
-                <Suspense fallback={""}><ShopInbox /></Suspense>
-              </SellerProtectedRoute>
-            }
-          />
+          
           <Route
             path="/shop-dashboard-coupon-code"
             element={
