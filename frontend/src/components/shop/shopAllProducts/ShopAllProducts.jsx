@@ -13,8 +13,6 @@ const ShopAllProducts = () => {
     (state) => state.products
   );
   
-  console.log(shopProducts);
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

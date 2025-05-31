@@ -159,7 +159,7 @@ const ShopCouponCode = () => {
                   {shopProducts &&
                     shopProducts.map((item, i) => (
                       <option value={item.title} key={i}>
-                        {item.name}
+                        {item?.title}
                       </option>
                     ))}
                 </select>

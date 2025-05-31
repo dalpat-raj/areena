@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken")
 
 const addressSchema = new mongoose.Schema({
   country: {
-    type: String
+    type: String,
+    default: `india`
   },
   state: {
     type: String
@@ -22,7 +23,8 @@ const addressSchema = new mongoose.Schema({
     type: Number
   },
   addressType: {
-    type: String
+    type: String,
+    default: `home`
   }
 });
 

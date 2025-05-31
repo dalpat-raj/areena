@@ -273,7 +273,7 @@ const ProductDetails = () => {
                         </button>
                       </div>
 
-                      {data?.size && (
+                      {/* {data?.size && (
                         <div className="product__size">
                           <select
                             id="size"
@@ -287,7 +287,7 @@ const ProductDetails = () => {
                             ))}
                           </select>
                         </div>
-                      )}
+                      )} */}
                     </div>
 
                     <div className="wishlist__options">

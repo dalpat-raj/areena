@@ -114,14 +114,14 @@ export const getSelectedOrderDetails = (orderId) => async (dispatch) => {
     });
   }
 };
-export const getSelectedOrderShop = (orderId) => async (dispatch) => {
+export const getSelectedOrderShop = (orderId, sellerId) => async (dispatch) => {
   try {
     dispatch({
       type: "getSelectedOrdersShopRequest",
     });
 
     const { data } = await axios.get(
-      `/api/v2/get-selected-order-shop/${orderId}`,
+      `/api/v2/get-selected-order-shop/${orderId}/${sellerId}`,
       { withCredentials: true }
     );
     dispatch({
@@ -131,19 +131,20 @@ export const getSelectedOrderShop = (orderId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "getSelectedOrdersShopFail",
-      payload: error.response.data.error.message,
+      payload: error?.response?.data?.error?.message,
     });
   }
 };
 
-export const updateOrderStatus = (orderId, status) => async (dispatch) => {
+export const updateOrderStatus = (subOrderId, orderId, status) => async (dispatch) => {
+  
   try {
     dispatch({
       type: "updateOrderStatusRequest",
     });
 
     const { data } = await axios.put(
-      `/api/v2/update-order-status/${orderId}`,
+      `/api/v2/update-order-status/${subOrderId}/${orderId}`,
       { status },
       { withCredentials: true }
     );

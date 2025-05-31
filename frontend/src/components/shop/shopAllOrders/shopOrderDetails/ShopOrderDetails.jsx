@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiBeachBag } from "react-icons/gi";
 import {
   getSelectedOrderShop,
-  // updateOrderStatus,
+  updateOrderStatus,
   // updateRefundOrderStatus,
 } from "../../../../actions/orderAction";
 import { useNavigate, useParams } from "react-router";
@@ -11,29 +11,59 @@ import { HiBadgeCheck } from "react-icons/hi";
 import { backend__url } from "../../../../Server";
 import Loader from "../../../layout/loader/Loader";
 import "./shopOrderDetails.scss";
+import axios from "axios";
+import { loginToShiprocket } from "../../../../service/shipRocket";
 
 const ShopOrderDetails = () => {
   const { order, isLoading } = useSelector((state) => state.order);
-  // const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { orderId, sellerId } = useParams();
 
-  // const updateOrderStatusHandler = () => {
-  //   dispatch(updateOrderStatus(id, status));
-  // };
+  const updateOrderStatusHandler = () => {
+    dispatch(updateOrderStatus(order?._id, orderId, status));
+  };
 
-  // const refundUpdateOrderHandler = () => {
-  //   if (status === "") {
-  //     dispatch(updateRefundOrderStatus(id, "Processing Refund"));
-  //   } else {
-  //     dispatch(updateRefundOrderStatus(id, status));
-  //   }
-  // };
+  const downloadInvoiceHandler = async () => {
+    try {
+      if (!orderId) {
+        throw new Error("Order ID is required");
+      }
 
+      // API call to your backend
+      const response = await axios.get(
+        `/api/v2/shiprocket/download-invoice/${orderId}`,
+        {
+          responseType: 'blob', // Important for file download
+          withCredentials: true
+        }
+      );
+
+      // Create blob and download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `invoice_${orderId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("Invoice download error:", error);
+      // You can show error to user using toast or alert
+      alert(error.response?.data?.message || "Failed to download invoice");
+    }
+  };
+
+
+  
   useEffect(() => {
-    dispatch(getSelectedOrderShop(id));
-  }, [dispatch, id]);
+    dispatch(getSelectedOrderShop(orderId, sellerId));
+  }, [dispatch, orderId, sellerId]);
 
   return isLoading ? (
     <Loader />
@@ -41,7 +71,7 @@ const ShopOrderDetails = () => {
     <div className="shop_order_details">
       <div className="container">
         <div className="row">
-          {order?.status === "Delivered" ? (
+          {order?.status === "delivered" ? (
             <div className="heading heading_row">
               <span>
                 <HiBadgeCheck />
@@ -68,28 +98,34 @@ const ShopOrderDetails = () => {
             Order ID : <span>{order?._id?.slice(0, 9)}...</span>
           </p>
           <p>
-            Placed on : <span>{order?.createdAt?.slice(0, 10)}</span>
+            Placed on : <span>{new Date(order?.createdAt).toLocaleString()}</span>
           </p>
         </div>
 
         <div className="row product_details">
           <div className="shop_product_main">
             {order &&
-              order?.cart.map((item, i) => (
+              order?.items?.map((item, i) => (
                 <div className="image__box" key={i}>
                   <img
                     src={`${backend__url}/${item?.images[0]}`}
                     alt="product details"
                   />
                   <div className="product_text">
-                    <h5>{item?.name.slice(0, 15)}...</h5>
-                    <h5>₹ {item?.sellingPrice}</h5>
-                    {item?.qty && <h5>Quantity: {item?.qty}</h5>}
+                    <h5>{item?.sku}</h5>
+                    {item?.title && <h5>Size: {item?.title?.slice(0,15)}...</h5>}
+                    <h5>₹ {item?.sellingPrice} * {item?.qty} = {(item?.sellingPrice * item?.qty).toFixed(2)}</h5>
                     {item?.color && <h5>Color: {item?.color}</h5>}
                     {item?.size && <h5>Size: {item?.size}</h5>}
                   </div>
                 </div>
               ))}
+          </div>
+          <div className="total_info">
+            <p>Sub total. <span>₹ {(order?.payment?.subTotal)?.toFixed(2)}</span></p>
+            <p>Shipping Charge. <span>₹ {order?.payment?.shippingCharge}</span></p>
+            <p>DiscountPrice. <span>₹ {(order?.payment?.discount || 0)?.toFixed(2)}</span></p>
+            <p>Total. <span>₹ {(order?.payment?.total)?.toFixed(2)}</span></p>
           </div>
           <div className="payment_info">
             {order && order?.paymentInfo?.status === "succeeded" ? (
@@ -97,73 +133,93 @@ const ShopOrderDetails = () => {
             ) : (
               <>
                 <h5>Payment Info</h5>
-                <p>{order?.paymentInfo?.type}</p>
+                <p>{order?.payment?.status}</p>
               </>
             )}
           </div>
 
           <div className="update_stauts">
             <h4>Order Status</h4>
-            {/* {order?.status !== "Delivered" &&
-            order?.status !== "Refund Success" ? (
-              <>
-                {order?.status !== "Processing Refund" &&
-                order?.status !== "Refund Success" ? (
-                  <select
-                    value={status}
-                    className="btn-sel"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    {[
-                      "Processing",
-                      "Delivered",
-                    ]
-                      .slice(
-                        [
-                          "Processing",
-                          "Delivered",
-                        ].indexOf(order?.status)
-                      )
-                      .map((option, i) => (
-                        <option value={option} key={i}>
-                          {option}
-                        </option>
-                      ))}
-                  </select>
-                ) : (
-                  <select
-                    value={status}
-                    className="btn-sel"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    {["Processing Refund", "Refund Success"]
-                      .slice(
-                        ["Processing Refund", "Refund Success"].indexOf(
-                          order?.status
+            {order?.status !== "delivered" &&
+              (
+                <>
+                  {order?.status === "processing" && (
+                    <select
+                      value={status}
+                      className="btn-sel"
+                      onChange={(e) => setStatus(e.target.value)}
+                    >
+                      {[
+                        "processing",
+                        "confirm",
+                      ]
+                        .slice(
+                          [ 
+                            "processing",
+                            "confirm",
+                          ].indexOf(order?.status)
                         )
-                      )
-                      .map((option, i) => (
-                        <option value={option} key={i}>
-                          {option}
-                        </option>
-                      ))}
-                  </select>
-                )}
+                        .map((option, i) => (
+                          <option value={option} key={i}>
+                            {option}
+                          </option>
+                        ))}
+                    </select>
+                  )}
 
-                <button
-                  className="btn-main"
-                  onClick={
-                    order?.status !== "Processing Refund" &&
-                    order?.status !== "Refund Success"
-                      ? updateOrderStatusHandler
-                      : refundUpdateOrderHandler
+                  {/* // iimplemen download invoice */}
+                  {
+                    order?.status === `confirm` && (
+                      <select
+                        value={status}
+                        className="btn-sel"
+                        onChange={(e) => setStatus(e.target.value)}
+                      >
+                        {[
+                          "confirm",
+                          "ship now",
+                        ]
+                          .slice(
+                            [ 
+                              "confirm",
+                              "ship now",
+                            ].indexOf(order?.status)
+                          )
+                          .map((option, i) => (
+                            <option value={option} key={i}>
+                              {option}
+                            </option>
+                          ))}
+                      </select>
+                    )  
                   }
-                >
-                  Update Status
-                </button>
-              </>
-            ) : (
-            )} */}
+
+                  {
+                    order?.status === "ship now" && (
+                      <button
+                        className="btn-main"
+                        onClick={()=>downloadInvoiceHandler(order?.shipment?.order_id)}
+                      >
+                        Download Invoice
+                      </button>
+                    )
+                  }
+
+                  {
+                    (order?.status === `confirm` || order?.status === `processing`) && (
+                      <button
+                        className="btn-main"
+                        onClick={()=>
+                          updateOrderStatusHandler()
+                        }
+                      >
+                        Update Status
+                      </button>
+                    )  
+                  }
+                </>
+              )
+             }
               <span>{order?.status}</span>
           </div>
         </div>
@@ -171,19 +227,19 @@ const ShopOrderDetails = () => {
         <div className="order__info">
           <div className="shipping__info">
             <h4>Client Information</h4>
-            {order?.user?.name && (
+            {order?.shipping?.address?.name && (
               <p>
-                Name: <span>{order?.user?.name}</span>
+                Name: <span>{order?.shipping?.address?.name}</span>
               </p>
             )}
-            {order?.user?.email && (
+            {order?.shipping?.address?.email && (
               <p>
-                Email: <span>{order?.user?.email}</span>
+                Email: <span>{order?.shipping?.address?.email}</span>
               </p>
             )}
-            {order?.user?.phoneNumber && (
+            {order?.shipping?.address?.phone && (
               <p>
-                Phone: <span>{order?.user?.phoneNumber}</span>
+                Phone: <span>{order?.shipping?.address?.phone}</span>
               </p>
             )}
           </div>
@@ -191,25 +247,25 @@ const ShopOrderDetails = () => {
           <div className="shipping__info">
             <h4>Shipping Address</h4>
             <p>
-              {order?.shippingAddress?.address1 +
+              {order?.shipping?.address?.address1 +
                 ", " +
-                order?.shippingAddress?.address2 +
+                order?.shipping?.address?.address2 +
                 ", " +
-                order?.shippingAddress?.city}
+                order?.shipping?.address?.city}
             </p>
             <p>
-              {order?.shippingAddress?.state +
+              {order?.shipping?.address?.state +
                 " (" +
-                order?.shippingAddress?.country}
+                order?.shipping?.address?.country}
               )
             </p>
-            <p>Zip Code. {order?.shippingAddress?.zipCode}</p>
-            <p>+91 {order?.user?.phoneNumber}</p>
+            <p>PinCode. {order?.shipping?.address?.pincode}</p>
+            <p>+91 {order?.shipping?.address?.phone}</p>
           </div>
           <div className="price__box">
             <div className="total_price">
               <p>
-                Total Price : <span>₹ {order?.totalPrice}</span>
+                Total Price : <span>₹ {order?.payment?.total?.toFixed(2)}</span>
               </p>
             </div>
           </div>

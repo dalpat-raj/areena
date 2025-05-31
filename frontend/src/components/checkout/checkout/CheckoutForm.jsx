@@ -2,7 +2,6 @@ import React from "react";
 import { useForm,  } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { State, City } from "country-state-city";
-import { Link } from "react-router-dom";
 import { CheckoutSchema } from "../../../schema/CheckoutSchema";
 
 
@@ -11,7 +10,9 @@ const CheckoutForm = ({onSubmit, user}) => {
     const {register, handleSubmit, watch, formState: {errors}} = useForm({
         resolver: zodResolver(CheckoutSchema),
         defaultValues: {
-            country: "India"
+            country: "India",
+            state: user?.address?.state,
+            city: user?.address?.city
         }
     })
 
@@ -89,7 +90,6 @@ const CheckoutForm = ({onSubmit, user}) => {
                 <select
                     id="state"
                     {...register("state")}
-                    defaultValue={user?.address?.state}
                     >
                     <option value="">choose Your state</option>
                     {State &&
@@ -106,7 +106,6 @@ const CheckoutForm = ({onSubmit, user}) => {
                 <select
                     id="city"
                     {...register("city")}
-                    defaultValue={user?.address?.city}
                     >
                     <option value="">choose Your city</option>
                     {City &&

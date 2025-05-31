@@ -72,6 +72,18 @@
                 }
             }
         }
+        .total_info{
+            p{
+                font-size: $fs-8;
+                font-weight: 500;
+                margin-bottom: 5px;
+                span{
+                    font-size: $fs-9;
+                    font-weight: 500;
+                    color: #646464;
+                }
+            }
+        }
         .payment_info{
             h5{
                 font-size: $fs-6;

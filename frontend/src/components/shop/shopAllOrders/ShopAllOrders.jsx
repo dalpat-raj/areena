@@ -15,6 +15,7 @@ const ShopAllOrders = () => {
   useEffect(() => {
     dispatch(getAllOrdersShop(seller?._id));
   }, [seller, dispatch]);
+  
 
   return (
     <div className="dashboard__container">
@@ -31,29 +32,41 @@ const ShopAllOrders = () => {
               <div className="order__main">
                 <div className="box">
                   {orders &&
-                    orders.map((item, i) => (
-                      <Link to={`/shop/order/${item?._id}`}>
-                        <div className="row" key={i}>
+                    orders?.map((item, i) => {
+                      return(
+                        <Link to={`/shop/order/${item?.orderId}/${seller?._id}`}>
+                        <div className="row center" key={i}>
                           <div className="img_name">
-                            {item?.cart.map((item, i) => (
-                              <div className="img_name_row" key={i}>
-                                <img
-                                  src={`${backend__url}/${item?.images[0]}`}
-                                  alt="raj"
-                                />
-                                <p>
-                                  {item?.name.length >= 25
-                                    ? `${item?.name.slice(0, 25)}...`
-                                    : item?.name}
-                                </p>
+                            {item?.items?.map((item, i) => {
+                              return (
+                                <div className="img_name_row" key={i}>
+                                
+                                <div key={i}>
+                                  <img
+                                    src={`${backend__url}/${item?.images[0]}`}
+                                    alt="raj"
+                                  />
+                                  <p>
+                                    {item?.title?.length >= 25
+                                      ? `${item?.title?.slice(0, 25)}...`
+                                      : item?.title}
+                                  </p>
+                                </div>
+                                  
+                                
                               </div>
-                            ))}
+                              )
+                            })}
                           </div>
                           <div className="price">
-                            <p>₹ {item?.totalPrice}</p>
+                            <p>₹ {item?.totals?.total}</p>
                           </div>
                           <div className="status">
                             <p>{item?.status}</p>
+                          </div>
+
+                          <div className="status">
+                            <p>{new Date(item?.createdAt).toLocaleString()}</p>
                           </div>
                           <div className="update__btn">
                               <button className="btn-sec">
@@ -62,7 +75,8 @@ const ShopAllOrders = () => {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                      )
+                    })}
                 </div>
               </div>
             </div>
@@ -74,3 +88,5 @@ const ShopAllOrders = () => {
 };
 
 export default ShopAllOrders;
+
+ 

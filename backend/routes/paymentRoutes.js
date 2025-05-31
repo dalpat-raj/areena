@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-  paymentProcess,
-  paymentApiKey,
+  createRazorpayOrder,
+  verifyRazorpayPayment,
 } = require("../controller/paymentController");
 const router = express.Router();
 
-// router.post("/payment/process", paymentProcess);
-// router.get("/stripeapikey", paymentApiKey);
+router.post("/payment/create-razorpay-order", createRazorpayOrder);
+router.post("/payment/verify-payment", verifyRazorpayPayment);
 
 module.exports = router;

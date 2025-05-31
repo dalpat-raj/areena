@@ -9,6 +9,9 @@
       }
     .order__main{
         .box{
+            .center{
+                align-items: center;
+            }
             .row{
                 display: flex;
                 justify-content: space-between;

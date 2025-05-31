@@ -35,7 +35,7 @@ const RefundPolicy = React.lazy(()=>import("./pages/refundPolicy/RefundPolicy"))
 const ShippingReturn = React.lazy(()=>import("./pages/shippingReturn/ShippingReturn"));
 const TermsConditions = React.lazy(()=>import("./pages/termCondition/TermsConditions"));
 const Contact = React.lazy(()=>import("./pages/contact/Contact"));
-const Payment = React.lazy(()=>import("./components/checkout/payment/Payment"));
+// const Payment = React.lazy(()=>import("./components/checkout/payment/Payment"));
 
 // Shop
 const ShopCreate = React.lazy(()=>import("./pages/shop/shopCreate/ShopCreate"));
@@ -94,7 +94,7 @@ function App() {
           <Route path="/shipping-return" element={<Suspense fallback={""}><ShippingReturn /></Suspense>} />
           <Route path="/terms-conditions" element={<Suspense fallback={""}><TermsConditions /></Suspense>} />
           <Route path="/contact" element={<Suspense fallback={""}><Contact /></Suspense>} />
-          <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} />
+          {/* <Route path="/payment" element={<Suspense fallback={""}><Payment /></Suspense>} /> */}
           <Route path="*" element={<NotFound />} />
 
           {/* protected route     */}
@@ -158,7 +158,7 @@ function App() {
             }
           />
           <Route
-            path="/shop/order/:id"
+            path="/shop/order/:orderId/:sellerId"
             element={
               <SellerProtectedRoute>
                 <Suspense fallback={""}><ShopOrderDetails /></Suspense>

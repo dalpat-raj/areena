@@ -29,6 +29,7 @@ const conversation = require("./routes/conversationRoutes");
 const message = require("./routes/messageRoutes");
 const withdraw = require("./routes/withdrawRoutes");
 const color = require("./routes/colorRoutes");
+const shipment = require("./routes/shipmentRoute");
 
 
 app.use("/api/v2", user);
@@ -42,6 +43,7 @@ app.use("/api/v2", conversation);
 app.use("/api/v2", message);
 app.use("/api/v2", withdraw);
 app.use("/api/v2", color);
+app.use("/api/v2", shipment);
 
 
 // app.use(express.static(path.join(__dirname, "../frontend/build")));
