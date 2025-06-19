@@ -75,7 +75,6 @@ exports.verifyRazorpayPayment = catchAsyncErrors(async (req, res) => {
     
    const subOrders = vendors.map((vendor) => ({
       shopId: vendor.vendorId,
-      // items: vendor.items,
       items: vendor?.items?.map(item => ({
         ...item,
         productId: item?._id,
@@ -91,12 +90,28 @@ exports.verifyRazorpayPayment = catchAsyncErrors(async (req, res) => {
           country: buyer?.country,
           pincode: buyer?.pincode,
         },
+      },
+      shipment: {
+        courier_company_id: vendor?.courier_company_id,
+        courier_name: vendor?.courier_name,
+        estimated_delivery_days: vendor?.estimated_delivery_days,
+        rate: vendor?.rate,
+        freight_charge: vendor?.freight_charge,
+        rto_charges: vendor?.rto_charges,
+        pickup_availability: vendor?.pickup_availability,
+        cod_available: vendor?.cod,
+        realtime_tracking: vendor?.realtime_tracking,
         etd: vendor?.etd,
+        etd_hours: vendor?.etd_hours,
+        charge_weight: vendor?.charge_weight,
+        ccity: vendor?.ccity,
+        cstate: vendor?.cstate,
+        postcode: vendor?.postcode,
       },
       payment: {
         subTotal: vendor.subTotal,
         total: vendor.totalPrice,
-        shippingCharge: vendor.shippingCharge,
+        shippingCharge: vendor?.shippingCharge,
         discount: discountPrice,
         status: 'paid',
       },
@@ -144,7 +159,7 @@ exports.verifyRazorpayPayment = catchAsyncErrors(async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'Order created successfully!',
-      // order: mainOrder
+      order: mainOrder
     });
 
   } catch (error) {

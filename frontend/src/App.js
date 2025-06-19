@@ -21,7 +21,6 @@ import AdminOrderDetails from "./components/admin/adminAllOrders/adminOrderDetai
 const Login = React.lazy(()=>import("./components/user/loginSignUp/Login"));
 const SignUp = React.lazy(()=>import("./components/user/loginSignUp/SignUp"));
 const Profile = React.lazy(()=>import("./pages/profile/Profile"));
-const ActivationPage = React.lazy(()=>import("./pages/activation/ActivationPage"));
 const Wishlist = React.lazy(()=>import("./pages/wishlist/Wishlist"))
 const Products = React.lazy(()=>import("./components/products/product/Products"));
 const ProductDetails = React.lazy(()=>import("./components/products/productDetails/ProductDetails"))
@@ -52,7 +51,6 @@ const ShopCouponCode = React.lazy(()=>import("./components/shop/shopCouponCode/S
 const ShopPreview = React.lazy(()=>import("./components/shop/shopPreviewPage/ShopPreview"));
 const ShopWithdrawMoney = React.lazy(()=>import("./components/shop/shopWithdrawMoney/ShopWithdrawMoney"));
 const ShopAllRefunds = React.lazy(()=>import("./components/shop/shopRefunds/ShopAllRefunds"));
-const ShopDeliveryArea = React.lazy(()=>import("./components/shop/ShopDeliveryArea/ShopDeliveryArea"))
 const ShopSetting = React.lazy(()=>import("./components/shop/shopSetting/ShopSetting"));
 const ForgatePassword = React.lazy(()=>import("./pages/shop/forgatePassword/ForgatePassword"));
 
@@ -124,10 +122,6 @@ function App() {
           />
 
           {/* shop  */}
-          <Route
-            path="/shop-activation/:activation_token"
-            element={<Suspense fallback={""}><ActivationPage /></Suspense>}
-          />
           <Route path="/shop-create" element={<Suspense fallback={""}><ShopCreate /></Suspense>} />
           <Route path="/shop-login" element={<Suspense fallback={""}><ShopLogin /></Suspense>} />
           <Route path="/shop-forgate-password" element={<Suspense fallback={""}><ForgatePassword /></Suspense>} />
@@ -224,14 +218,7 @@ function App() {
               </SellerProtectedRoute>
             }
           />
-          <Route
-            path="/shop-dashboard-delivery-area"
-            element={
-              <SellerProtectedRoute>
-                <Suspense fallback={""}><ShopDeliveryArea /></Suspense>
-              </SellerProtectedRoute>
-            }
-          />
+          
           <Route
             path="/shop-dashboard-setting"
             element={

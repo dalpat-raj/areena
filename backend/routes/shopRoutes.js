@@ -10,6 +10,7 @@ const { shopCreate,
     updateShopAvatar,
     updateShop,
     getAllSellerForAdmin,
+    sellerStatusChangeByAdmin,
     deleteSellersByAdmin,
     addWithdrawMethods,
     deleteWithdrawMethods,
@@ -23,7 +24,6 @@ const { isSeller, isAdmin, isAutenticated } = require("../middleware/auth")
 
 
 router.post("/shop-create", upload.single("file"), shopCreate);
-router.post("/shop-activation", activationShop);
 router.post("/shop-login", loginShop);
 router.get("/getseller",isSeller,  loadShop);
 router.get("/shop-logout", logoutShop)
@@ -39,6 +39,7 @@ router.post("/forgate-shop-password", forgateShopPassword);
 
 // admin
 router.get("/admin-get-all-seller",isAutenticated, isAdmin("Admin"), getAllSellerForAdmin)
+router.put("/shop-status-change",isAutenticated, isAdmin("Admin"), sellerStatusChangeByAdmin)
 router.delete("/delete-seller-by-admin/:id",isAutenticated, isAdmin("Admin"), deleteSellersByAdmin)
 
 module.exports = router;

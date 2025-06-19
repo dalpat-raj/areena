@@ -6,7 +6,7 @@ const { download_Invoice } = require("../controller/shipmentController");
 
 
 
-router.get("/shiprocket/download-invoice/:order_id", isSeller, download_Invoice);
+router.post("/shiprocket/download-invoice/:shipment_id", isSeller, download_Invoice);
 
 
 module.exports = router;

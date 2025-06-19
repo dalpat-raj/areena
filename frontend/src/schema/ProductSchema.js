@@ -42,12 +42,12 @@ export const ProductSchema = z.object({
   status: z.enum(["draft", "active", "outOfStock", "archived", "discontinued"]),
 
   dimension: z.object({
-    width: z.coerce.number().optional(),
-    height: z.coerce.number().optional(),
-    depth: z.coerce.number().optional(),
-    dimensionUnit: z.enum(["cm", "inch"]).default("cm"),
-    weightValue: z.coerce.number().min(0.1, { message: "Weight must be at least 0.1" }),
-    weightUnit: z.enum(["g", "kg", "oz", "lb"]),
+    width: z.coerce.number().min(0).max(9999).multipleOf(0.001).optional(),
+    height: z.coerce.number().min(0).max(9999).multipleOf(0.001).optional(),
+    depth: z.coerce.number().min(0).max(9999).multipleOf(0.001).optional(),
+    dimensionUnit: z.enum(["cm"]).default("cm"),
+    weightValue: z.coerce.number().min(0.1, { message: "Weight must be at least 0.1" }).max(20).multipleOf(0.001),
+    weightUnit: z.enum(["kg"]),
     shippingClass: z.enum(["light", "fragile", "standard", "fragileHeavy"]),
   }).refine(data => data.weightValue > 0, {
     message: "Weight value must be positive",

@@ -75,7 +75,7 @@ const Account = () => {
             <div className="img__box">
               <img
                 src={`${backend__url}/${user ? user?.avatar : avatar}`}
-                alt="raj"
+                alt={user?.name}
               />
               <div className="image__input">
                 <input id="image" type="file" onChange={handleImageChange} />

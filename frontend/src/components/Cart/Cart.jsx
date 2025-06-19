@@ -14,6 +14,7 @@ import { addTocart, removeFromCart } from "../../actions/cart";
 
 const Cart = ({ setCartComponent }) => {
   const { cart } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user); 
 
   const [messageComponent, setMessageComponent] = useState(false);
   const [couponComponent, setCouponComponent] = useState(false);

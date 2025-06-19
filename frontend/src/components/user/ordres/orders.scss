@@ -10,49 +10,20 @@
     .box{
         .row{
             display: flex;
+            align-items: center;
             justify-content: space-between;
             margin-bottom: 1rem;
             border: 1px solid #eee;
             padding: 1rem 2rem;
-            .img_name{
-                display: flex;
-                flex-direction: column;
-                flex-basis: 45%;
-                gap: 10px;
-                .img_name_row{
-                    display: flex;
-                    gap: 10px;
-                }
-                img{
-                    width: 60px !important;
-                    height: 60px !important;
-                    object-fit: cover;
-                }
-                p{
-                    font-size: $fs-7;
-                    color: #333 !important;
-                    font-family: $font-domine;
-                }
+            gap: 1rem !important;
+            flex-wrap: wrap;
+            h4{
+                font-size: 1rem;
+                color: #333;
             }
-            .price{
-                flex-basis: 25%;
-                font-size: $fs-7;
-                color: #333 !important;
-
-            }
-            .status{
-                text-align: right;
-                flex-basis: 30%;
-                font-size: $fs-7;
-                columns: #333 !important;
-                font-weight: 500;
-                p{
-                    color: #333 !important;
-                    margin-bottom: 1rem;
-                }
-                .btn-sec{
-                    border: 1px solid #eee !important;
-                }
+            p{
+                color: #333;
+                font-size: 0.9rem;
             }
         }
     }
@@ -62,58 +33,9 @@
     .order__main{
         .box{
             .row{
-                margin-bottom: 1rem;
-                padding: 1rem 10px;
-                gap: 10px;
-                .img_name{
-                    gap: 10px;
-                    flex-basis: 70%;
-                    img{
-                        width: 50px !important;
-                        height: 50px !important;
-                        object-fit: cover;
-                    }
-                }
-                .price{
-                    display: none;
-                }
-                .status{
-                    flex-basis: 30%;
-                    .btn-sec{
-                        padding: 5px;
-                    }
-                }
+               
             }
         }
     }
 }
 
-@media only screen and (max-width: 480px){
-    .order__main{
-        .box{
-            .row{
-                display: block;
-                
-                margin-bottom: 1rem;
-                padding: 5px 10px;
-                gap: 0;
-                .price{
-                    display: none;
-                }
-                .status{
-                    flex-basis: 100%;
-                    text-align: left;
-                    padding: 0 !important;
-                    p{
-                        margin-bottom: 0;
-                        margin-top: 6px;
-                    }
-                    .btn-sec{
-                        padding: 5px;
-                        margin-top: 6px;
-                    }
-                }
-            }
-        }
-    }
-}

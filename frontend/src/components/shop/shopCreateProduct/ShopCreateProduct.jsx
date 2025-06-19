@@ -239,23 +239,22 @@ const ShopCreateProduct = () => {
                   <div className="box__row">
                     <div className='input__box'>
                       <label htmlFor="w">Width <span className="optional">Optional</span></label>
-                      <input type="number" id="w" {...register("dimension.width")}/>
+                      <input type="number" step="0.001" id="w" {...register("dimension.width")}/>
                     </div>
                     <div className='input__box'>
                       <label htmlFor="h">Height <span className="optional">Optional</span></label>
-                      <input type="number" id="h" {...register("dimension.height")}/>
+                      <input type="number" step="0.001" id="h" {...register("dimension.height")}/>
                     </div>
                   </div>
                   <div className="box__row">
                   <div className='input__box'>
                       <label htmlFor="dpt">Depth <span className="optional">Optional</span></label>
-                      <input type="number" id="dpt" {...register("dimension.depth")}/>
+                      <input type="number" step="0.001" id="dpt" {...register("dimension.depth")}/>
                     </div>
                     <div className='input__box'>
                       <label htmlFor="dt">Dimension Unit </label>
                         <select type="text" id="dt" {...register("dimension.dimensionUnit")} defaultValue={"cm"}>
                           <option value="cm">CM</option>
-                          <option value="in">IN</option>
                         </select>
                     </div>
                   </div>
@@ -263,16 +262,13 @@ const ShopCreateProduct = () => {
                   <div className="box__row">
                     <div className='input__box'>
                       <label htmlFor="weight">Weight</label>
-                      <input type="number" id="weight"  {...register("dimension.weightValue")}/>
+                      <input type="number" step="0.001" id="weight"  {...register("dimension.weightValue")}/>
                       {errors?.dimension?.weightValue && <span className="errors">{errors?.dimension?.weightValue?.message}</span>}
                     </div>
                     <div className='input__box'>
                       <label htmlFor="wu">Weight in Unit</label>
-                      <select type="text" id="wu" {...register("dimension.weightUnit")} defaultValue={"g"}>
-                        <option value="g">Gram</option>
+                      <select type="text" id="wu" {...register("dimension.weightUnit")} defaultValue={"kg"}>
                         <option value="kg">Kilogram</option>
-                        <option value="oz">oz</option>
-                        <option value="lb">lb</option>
                       </select>
                       {errors?.dimension?.weightUnit && <span className="errors">{errors?.dimension?.weightUnit?.message}</span>}
                     </div>

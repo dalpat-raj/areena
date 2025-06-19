@@ -3,29 +3,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const shopSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please enter your full name"],
-  },
-  shopName: {
-    type: String,
-    required: [true, "Please enter your shop name"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please enter your email"],
-  },
-  phone: {
-    type: String,
-    required: [true, "Please enter your Phone Number"],
-  },
-  address: {
+  complateAddress: {
     type: String,
     required: true,
+  },
+  landmark: {
+    type: String,
   },
   country: {
     type: String,
-    required: true,
+    default: "india",
   },
   state: {
     type: String,
@@ -35,24 +22,49 @@ const shopSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  zipCode: {
+  pincode: {
     type: Number,
     required: true,
   },
-  password: {
+  name: {
     type: String,
-    required: [true, "Please enter your password"],
-    minLength: [6, "Password should be greater than 6 characters"],
-    select: false,
+    required: [true, "Please enter your full name"],
   },
-  avatar: {
+  phoneNumber: {
     type: String,
+    required: [true, "Please enter your Phone Number"],
+  },
+  email: {
+    type: String,
+    required: [true, "Please enter your email"],
+  },
+  shopName: {
+    type: String,
+    required: [true, "Please enter your shop name"],
   },
   description: {
     type: String,
   },
-  status: {
+  password: {
     type: String,
+    required: [true, "Please enter your password"],
+    minLength: [8, "Password should be greater than 6 characters"],
+    select: false,
+  },
+  operationalDays: [
+    {type: String}
+  ],
+  openTime: {
+    type: String,
+  },
+  closeTime: {
+    type: String
+  },
+  avatar: {
+    type: String,
+  },
+  status: {
+    type: Boolean,
     default: false,
   },
   role: {

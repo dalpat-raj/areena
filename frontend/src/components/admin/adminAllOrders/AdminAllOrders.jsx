@@ -7,6 +7,7 @@ import { backend__url } from "../../../Server";
 import Loader from "../../layout/loader/Loader";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 
 const AdminAllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -39,7 +40,7 @@ const AdminAllOrders = () => {
                   <div className="order_container">
                     <div className="order__main">
                       <div className="box">
-                        {orders &&
+                        {orders?.length > 0 ?
                           orders.map((item, i) => (
                             <Link to={`/admin/order/${item?._id}`}>
                               <div className="row" key={i}>
@@ -66,7 +67,14 @@ const AdminAllOrders = () => {
                                 </div>
                               </div>
                             </Link>
-                          ))}
+                          )) : (
+                            <div className="no__orders">
+                              <div className="icon">
+                                <MdOutlineRemoveShoppingCart size={100}/>
+                              </div>
+                              <p>You have a no order's this time</p>
+                            </div>
+                          )}
                       </div>
                     </div>
                   </div>

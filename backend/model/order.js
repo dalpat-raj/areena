@@ -31,7 +31,10 @@ const orderItemSchema = new mongoose.Schema({
     weightUnit: String,
     shippingClass: String,
   },
-  
+  isReviewed: {
+    type: Boolean,
+    default:false,
+  }
 }, { _id: false });
 
 // ✅ Sub-orders per vendor
@@ -58,17 +61,35 @@ const subOrderSchema = new mongoose.Schema({
       country: { type: String, default: "India" },
       pincode: String
     },
-    etd: String || Number,
   },
   shipment: {
     order_id: String,
     channel_order_id: String,
     shipment_id: String,
+    awb_assign_status: String,
     awb_code: String,
     courier_company: String,
     courier_name: String,
     label_url: String,
-    status: String
+    manifest_url: String,
+    status: String,
+    courier_company_id: String,
+    estimated_delivery_days: String,
+    rate: Number,
+    freight_charge: String,
+    rto_charges: String,
+    pickup_availability: String,
+    pickup_scheduled_date: String,
+    pickup_token: String,
+    pickup_status: String,
+    cod_available: String,
+    realtime_tracking: String,
+    etd: String,
+    etd_hours: String,
+    charge_weight: String,
+    ccity: String,
+    cstate: String,
+    postcode: String
   },
   payment: {
     subTotal: Number,

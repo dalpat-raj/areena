@@ -12,7 +12,8 @@ import { backend__url } from "../../../../Server";
 import Loader from "../../../layout/loader/Loader";
 import "./shopOrderDetails.scss";
 import axios from "axios";
-import { loginToShiprocket } from "../../../../service/shipRocket";
+import { toast } from "react-toastify";
+
 
 const ShopOrderDetails = () => {
   const { order, isLoading } = useSelector((state) => state.order);
@@ -25,39 +26,36 @@ const ShopOrderDetails = () => {
     dispatch(updateOrderStatus(order?._id, orderId, status));
   };
 
-  const downloadInvoiceHandler = async () => {
-    try {
-      if (!orderId) {
-        throw new Error("Order ID is required");
-      }
+const downloadInvoiceHandler = async (shipment_id) => {
+  if (!shipment_id) {
+    toast.error("Shipment ID is missing");
+    return;
+  }
 
-      // API call to your backend
-      const response = await axios.get(
-        `/api/v2/shiprocket/download-invoice/${orderId}`,
-        {
-          responseType: 'blob', // Important for file download
-          withCredentials: true
-        }
-      );
+  try {
+    const response = await axios.post(`/api/v2/shiprocket/download-invoice/${shipment_id}`);
+    
+    const { label_url } = response.data;
 
-      // Create blob and download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `invoice_${orderId}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      
-      // Clean up
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-
-    } catch (error) {
-      console.error("Invoice download error:", error);
-      // You can show error to user using toast or alert
-      alert(error.response?.data?.message || "Failed to download invoice");
+    if (!label_url) {
+      toast.error("Label URL not found");
+      return;
     }
-  };
+
+    // PDF Download Trigger
+    const link = document.createElement("a");
+    link.href = label_url;
+    link.setAttribute("download", `invoice_${shipment_id}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    toast.success("Invoice downloaded successfully");
+  } catch (error) {
+    console.error("Invoice download error:", error);
+    toast.error("Failed to download invoice");
+  }
+};
 
 
   
@@ -198,7 +196,7 @@ const ShopOrderDetails = () => {
                     order?.status === "ship now" && (
                       <button
                         className="btn-main"
-                        onClick={()=>downloadInvoiceHandler(order?.shipment?.order_id)}
+                        onClick={()=>downloadInvoiceHandler(order?.shipment?.shipment_id)}
                       >
                         Download Invoice
                       </button>

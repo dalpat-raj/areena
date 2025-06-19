@@ -21,6 +21,7 @@ const ProfileSidebar = ({ active, setActive }) => {
     dispatch(LogoutUser());
     navigate("/");
   };
+console.log(active);
 
   return (
     <div className="profileSidebar__main">
@@ -89,9 +90,9 @@ const ProfileSidebar = ({ active, setActive }) => {
       >
         <div className="sidebar__header">
           <span>
-            <AiOutlineMessage />
+            <FiMap />
           </span>
-          <span>Inbox</span>
+          <span>Track Orders</span>
         </div>
       </div>
 
@@ -103,9 +104,9 @@ const ProfileSidebar = ({ active, setActive }) => {
       >
         <div className="sidebar__header">
           <span>
-            <FiMap />
+            <RiLockPasswordLine />
           </span>
-          <span>Track Orders</span>
+          <span>Password Change</span>
         </div>
       </div>
 
@@ -117,20 +118,6 @@ const ProfileSidebar = ({ active, setActive }) => {
       >
         <div className="sidebar__header">
           <span>
-            <RiLockPasswordLine />
-          </span>
-          <span>Password Change</span>
-        </div>
-      </div>
-
-      <div
-        className={
-          active === 7 ? "profileSidebar__row active" : "profileSidebar__row"
-        }
-        onClick={() => setActive(7)}
-      >
-        <div className="sidebar__header">
-          <span>
             <LiaAddressBookSolid />
           </span>
           <span>Address</span>
@@ -139,9 +126,9 @@ const ProfileSidebar = ({ active, setActive }) => {
 
       <div
         className={
-          active === 8 ? "profileSidebar__row active" : "profileSidebar__row"
+          active === 7 ? "profileSidebar__row active" : "profileSidebar__row"
         }
-        onClick={() => setActive(8) || logoutUserHandler()}
+        onClick={() => setActive(7) || logoutUserHandler()}
       >
         <div className="sidebar__header">
           <span>

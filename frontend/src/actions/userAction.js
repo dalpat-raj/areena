@@ -117,7 +117,7 @@ export const updateUserInfo = (user) => async (dispatch) => {
 
 
 // update user address 
-export const updateUserAddress = (country, state, city, pincode, address1, address2, addressType) => async (dispatch) => {
+export const updateUserAddress = (country, state, city, pincode, address1, addressType) => async (dispatch) => {
   try {
     dispatch({
       type: "updateUserAddressRequest",
@@ -128,7 +128,6 @@ export const updateUserAddress = (country, state, city, pincode, address1, addre
       city, 
       pincode, 
       address1, 
-      address2, 
       addressType
     }, {
       withCredentials: true,

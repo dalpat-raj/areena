@@ -123,6 +123,21 @@ const Checkout = () => {
                 subTotal: group.subTotal,
                 shippingCharge: group.shippingCharge,
                 totalPrice: group.totalPrice,
+                courier_company_id: group?.courier_company_id,
+                courier_name: group?.courier_name,
+                estimated_delivery_days: group?.estimated_delivery_days,
+                rate: group?.rate,
+                freight_charge: group?.freight_charge,
+                rto_charges: group?.rto_charges,
+                pickup_availability: group?.pickup_availability,
+                cod_available: group?.cod,
+                realtime_tracking: group?.realtime_tracking,
+                etd: group?.etd,
+                etd_hours: group?.etd_hours,
+                charge_weight: group?.charge_weight,
+                ccity: group?.ccity,
+                cstate: group?.cstate,
+                postcode: group?.postcode,
               })),
               totalAmount: totalPrice,
               shippingPrice: shippingPrice,
@@ -130,13 +145,14 @@ const Checkout = () => {
               paymentMethod: 'razorpay',
               razorpay_order_id: response?.razorpay_order_id,
             };
-
+            
             const verification = await axios.post('/api/v2/payment/verify-payment', {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
               orderData
             });
+            
             if(verification){
               toast.success('Payment Successful! Order placed.');
               
@@ -172,6 +188,9 @@ const Checkout = () => {
   }
 
   useEffect(() => {
+    if(!user){
+      navigate("/login")
+    }
     setData([...cart]);
     dispatch(loadUser());
     const calculateShipping = async () => {
@@ -181,7 +200,7 @@ const Checkout = () => {
       if (!grouped[shopId]) {
         grouped[shopId] = {
           items: [],
-          pickupPincode: item?.shop?.zipCode,
+          pickupPincode: item?.shop?.pincode,
           subTotal: 0,
           totalWeight: 0,
           shippingCharge: 0,
@@ -193,7 +212,7 @@ const Checkout = () => {
 
     Object.values(grouped).forEach(group => {
       group.totalWeight = group.items.reduce((sum, item) =>
-        sum + (((item?.dimension?.weightValue / 1000) || 0) * item?.qty), 0);
+        sum + ((item?.dimension?.weightValue  || 0) * item?.qty), 0);
       group.subTotal = group.items.reduce((sum, item)=> sum + (item.sellingPrice * item?.qty) ,0)
     });
 
@@ -207,12 +226,25 @@ const Checkout = () => {
         user?.address?.pincode, 
         vendor.totalWeight
       );
-       
-      vendor.etd = data?.estimated_delivery_days;
-      vendor.shippingCharge = data?.rate;
-      vendor.totalPrice = vendor.subTotal + data?.rate;
 
-      totalShipping += data?.rate;
+      vendor.shippingCharge = data?.rate;
+      vendor.courier_company_id = data?.courier_company_id;
+      vendor.courier_name = data?.courier_name;
+      vendor.estimated_delivery_days = data?.estimated_delivery_days;
+      vendor.rate = data?.rate;
+      vendor.freight_charge = data?.freight_charge;
+      vendor.rto_charges = data?.rto_charges;
+      vendor.pickup_availability = data?.pickup_availability;
+      vendor.cod_available = data?.cod === 1;
+      vendor.realtime_tracking = data?.realtime_tracking;
+      vendor.etd = data?.etd;
+      vendor.etd_hours = data?.etd_hours;
+      vendor.charge_weight = data?.charge_weight;
+      vendor.ccity = data?.city;
+      vendor.cstate = data?.state;
+      vendor.postcode = data?.postcode;
+
+      totalShipping += data?.rate || 0;  
     }
 
     setGroupedByVendor(grouped);

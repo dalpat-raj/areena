@@ -6,6 +6,7 @@ import Loader from "../../layout/loader/Loader";
 import { getAllOrdersShop } from "../../../actions/orderAction";
 import { backend__url } from "../../../Server";
 import "./shopAllOrder.scss";
+import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 
 const ShopAllOrders = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -31,7 +32,7 @@ const ShopAllOrders = () => {
             <div className="col__2 shop_all_orders">
               <div className="order__main">
                 <div className="box">
-                  {orders &&
+                  {orders?.length >= 1 ?
                     orders?.map((item, i) => {
                       return(
                         <Link to={`/shop/order/${item?.orderId}/${seller?._id}`}>
@@ -76,7 +77,14 @@ const ShopAllOrders = () => {
                         </div>
                       </Link>
                       )
-                    })}
+                    }) : (
+                      <div className="no__orders">
+                        <div className="icon">
+                          <MdOutlineRemoveShoppingCart size={100}/>
+                        </div>
+                        <p>You have no Order's this time</p>
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

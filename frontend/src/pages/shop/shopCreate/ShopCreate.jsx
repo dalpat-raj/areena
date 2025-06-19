@@ -1,80 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { IonIcon } from "@ionic/react";
-import {
-  callOutline,
-  codeOutline,
-  eyeOffOutline,
-  eyeOutline,
-  homeOutline,
-  locationOutline,
-  lockClosedOutline,
-  mailOutline,
-  personOutline,
-} from "ionicons/icons";
-import { BsShopWindow } from "react-icons/bs";
+import {toast} from 'react-toastify'
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import "./shopCreate.scss";
 import { useNavigate } from "react-router";
 import Footer from "../../../components/layout/footer/Footer";
 import Loader from "../../../components/layout/loader/Loader";
+import { useForm,  } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SellerSchema } from "../../../schema/SellerSchema";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 const ShopCreate = () => {
-  const [name, setName] = useState();
-  const [shopName, setShopName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
-  const [address, setAddress] = useState();
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState();
+
+  const {reset ,register, handleSubmit, watch, setValue, formState: {errors}} = useForm({
+    resolver: zodResolver(SellerSchema),
+    defaultValues: {
+        country: "india",
+    }
+  })
+
   const [avatar, setAvatar] = useState();
-  const [password, setPassword] = useState();
-  const [description, setDescription] = useState("");
-  const [visible, setVisible] = useState(true);
-  const [wait, setWait] = useState(false);
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const selectedState = watch("state");
+  const states = State.getStatesOfCountry("IN");
+  const cities = selectedState
+    ? City.getCitiesOfState(
+        "IN",
+        states.find((s) => s.name === selectedState)?.isoCode || ""
+      )
+    : [];
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
   };
 
-  const CreateShop = (e) => {
-    e.preventDefault();
-    setWait(true);
-
+  const onSubmit = (formData) => {
+    setIsLoading(true)
     const shopData = {
-      name: name,
-      shopName: shopName,
-      email: email,
-      phone: phone,
-      address: address,
-      country: country,
-      state: state,
-      city: city,
-      zipCode: zipCode,
-      password: password,
-      file: avatar,
-      description: description,
-    };
-
+      ...formData,
+      file: avatar
+    }
+    
     axios
       .post(`/api/v2/shop-create`, shopData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
       .then((res) => {
-        setWait(false);
-        alert(res.data.message);
-        navigate("/");
-        
+        reset();
+        setIsLoading(false);
+        setMessage(res.data.message);
       })
       .catch((err) => {
-        alert(err.response.data.error.message);
-        setWait(false);
+        toast.error(err.response?.data?.error?.message);
+        setIsLoading(false);
       });
   };
 
@@ -84,222 +69,225 @@ const ShopCreate = () => {
 
   return (
     <>
-      {wait ? (
+      {isLoading ? (
         <Loader />
+      ) : message ? (
+        <div className="message__main">
+          <p className="message">{message}</p>
+          <button className="btn-main" onClick={()=>navigate("/")}>Go Back</button>
+        </div>
       ) : (
-        <>
+         <>
           <div className="shopcreate__main">
             <div className="container">
               <div className="container__heading">
                 <h2>Register As Seller</h2>
               </div>
               <div className="signup__row">
-                <form action="" onSubmit={CreateShop}>
-                  <div className="input__box">
-                    <input
-                      type="text"
-                      id="name"
-                      placeholder="Your Full Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={personOutline} />
-                    </span>
-                  </div>
-
-                  <div className="input__box">
-                    <input
-                      type="text"
-                      id="shopname"
-                      placeholder="Shop Name"
-                      value={shopName}
-                      onChange={(e) => setShopName(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={homeOutline} />
-                    </span>
-                  </div>
-
-                  <div className="input__box">
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={mailOutline} />
-                    </span>
-                  </div>
-
-                  <div className="input__box">
-                    <input
-                      type="number"
-                      id="phone"
-                      placeholder="Phone Number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={callOutline} />
-                    </span>
-                  </div>
-
-                  <div className="input__box">
-                    <input
-                      type="text"
-                      id="address"
-                      placeholder="Enter Your Full Address"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={locationOutline} />
-                    </span>
-                  </div>
-
+                <form action="" onSubmit={handleSubmit(onSubmit)}>
+                  <h4>Basic Details</h4>
+                  <h5>Pickup/RTO Incharge at Address</h5>
                   <div className="box">
-                    <label htmlFor="country">Country</label>
-                    <select
-                      name=""
-                      id="country"
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                    >
-                      <option value="">choose Your country</option>
-                      {Country &&
-                        Country.getAllCountries().map((item, i) => (
-                          <option key={i} value={item.isoCode}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="box__row">
-                    <div className="box">
-                      <label htmlFor="state">State</label>
-                      <select
-                        name=""
-                        id="state"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                      >
-                        <option value="">choose Your state</option>
-                        {State &&
-                          State.getStatesOfCountry(country).map((item, i) => (
-                            <option key={i} value={item.isoCode}>
-                              {item.name}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                    <div className="box">
-                      <label htmlFor="city">City</label>
-                      <select
-                        name=""
-                        id="city"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                      >
-                        <option value="">choose Your city</option>
-                        {City &&
-                          City.getCitiesOfState(country, state).map((item, i) => (
-                            <option key={i} value={item.isoCode}>
-                              {item.name}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="input__box">
-                    <input
-                      type="number"
-                      id="zipcode"
-                      placeholder="Your Pin Code"
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={codeOutline} />
-                    </span>
-                  </div>
-
-                  {/* <div className="input__box">
-                    <input
-                      type="number"
-                      placeholder="Pin Code (Where You Deliver Your Products)"
-                      value={pinCode}
-                      onChange={(e) => setPinCode(+e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={codeOutline} />
-                    </span>
-                  </div> */}
-
-                  <div className="input__box">
-                    <input
-                      type={visible ? "password" : "text"}
-                      id="password"
-                      placeholder="Enter Your Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <span>
-                      <IonIcon icon={lockClosedOutline} />
-                    </span>
-                    <div className="Pass__icon">
-                      {visible ? (
-                        <p
-                          onClick={() => setVisible(!visible)}
-                          className="eye__open"
-                        >
-                          <IonIcon icon={eyeOutline} />
-                        </p>
-                      ) : (
-                        <p
-                          onClick={() => setVisible(!visible)}
-                          className="eye__close"
-                        >
-                          <IonIcon icon={eyeOffOutline} />
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="img__shoose">
-                    {avatar && (
-                      <span className="img_span">
-                        <img src={URL.createObjectURL(avatar)} alt="areena" />
-                      </span>
-                    )}
-                    <div className="input__boxx">
+                    <div className="input__box box_1">
+                      <label htmlFor="name">Your Full Name</label>
                       <input
-                        type="file"
-                        name="avatar"
-                        accept=".jpg,.jpeg,.png"
-                        onChange={(e) => handleFileInputChange(e)}
-                        className="sr-only"
+                        type="text"
+                        id="name"
+                        placeholder="Your Full Name"
+                        {...register("name")}
                       />
-                      <div className="text">
-                        <BsShopWindow size={18} />
-                        <p>Shop Picture</p>
+                      {errors?.name && <span className="errors">{errors?.name?.message}</span>}
+                    </div>
+
+                    <div className="input__box box_2">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        placeholder="i.e acd@gmail.com"
+                        {...register("email")}
+                      />
+                      {errors?.email && <span className="errors">{errors?.email?.message}</span>}
+                    </div>
+
+                    <div className="input__box box_3">
+                      <label htmlFor="password">Phone Number</label>
+                      <input
+                        type="number"
+                        id="phone"
+                        placeholder="Enter 10 digit mobile number"
+                        {...register("phoneNumber")}
+                        />
+                        {errors?.phoneNumber && <span className="errors">{errors?.phoneNumber?.message}</span>}
+                    </div>
+                    <div className="input__box box_4">
+                      <label htmlFor="password">Password</label>
+                      <input
+                        type={"password"}
+                        id="password"
+                        placeholder="Enter Your Password"
+                        {...register("password")}
+                      />
+                      {errors?.password && <span className="errors">{errors?.password?.message}</span>}
+                    </div>
+                    <div className="input__box box_5">
+                      <label htmlFor="desc">Description</label>
+                      <textarea
+                        type="text"
+                        id="desc"
+                        placeholder="Write Description"
+                        {...register("description")}
+                      />
+                    </div>
+                    <div className="img__shoose input__box box_6">
+                      {avatar && (
+                        <span className="img_span">
+                          <img src={URL.createObjectURL(avatar)} alt="areena" />
+                        </span>
+                      )}
+                      <div className="input__boxx">
+                        <input
+                          type="file"
+                          name="avatar"
+                          accept=".jpg,.jpeg,.png"
+                          onChange={(e) => handleFileInputChange(e)}
+                          className="sr-only"
+                        />
+                        <div className="img_icon">
+                          <IoCloudUploadOutline size={100}/>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="input__box">
-                    <textarea
-                      type="text"
-                      placeholder="Write Description"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
+                  <h4>Please Type Your Address</h4>
+                  <div className="box">
+                    <div className="input__box">
+                      <label htmlFor="shop">Shop Name</label>
+                      <input
+                        type="text"
+                        id="shop"
+                        placeholder="Shop Name"
+                        {...register("shopName")}
+                      />
+                      {errors?.shopName && <span className="errors">{errors?.shopName?.message}</span>}
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="address">complate address</label>
+                      <input
+                        type="text"
+                        id="address"
+                        placeholder="House/Floor No., Building Name or Street, Locality"
+                        {...register("complateAddress")}
+                      />
+                      {errors?.complateAddress && <span className="errors">{errors?.complateAddress?.message}</span>}
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="landmark">Landmark</label>
+                      <input
+                        type="text"
+                        id="landmark"
+                        placeholder="Any nearby post ooffice, market, Hospital as the landmark"
+                        {...register("landmark")}
+                      />
+                    </div>
+                    <div className="input__box">
+                      <label htmlFor="pioncode">PinCode</label>
+                      <input
+                        type="number"
+                        id="pioncode"
+                        placeholder="Add Pincode"
+                        {...register("pincode")}
+                      />
+                      {errors?.pincode && <span className="errors">{errors?.pincode?.message}</span>}
+                    </div>
+
+                   <div className="input__box">
+                    <label htmlFor="state">State</label>
+                    <select
+                      id="state"
+                      {...register("state")}
+                      onChange={(e) => {
+                        setValue("state", e.target.value);
+                        setValue("city", ""); // Reset city when state changes
+                      }}
+                    >
+                      <option value="">Choose Your State</option>
+                      {states.map((state) => (
+                        <option key={state.isoCode} value={state.name}>
+                          {state.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors?.state && <span className="errors">{errors?.state?.message}</span>}
                   </div>
 
+                  <div className="input__box">
+                    <label htmlFor="city">City</label>
+                    <select
+                      id="city"
+                      {...register("city")}
+                      disabled={!selectedState}
+                    >
+                      <option value="">Choose Your City</option>
+                      {cities.map((city) => (
+                        <option key={city.name} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors?.city && <span className="errors">{errors?.city?.message}</span>}
+                  </div>
+                </div>
+
+                  <h4>Operational timings</h4>
+                  <h5>Contact information for this location</h5>
+                  <div className="box">
+                    <div className="input__box box_7">
+                      <label htmlFor="days" className="days">Operational days</label>
+                      <div className="days-checkbox-group">
+                        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day, i) => (
+                          <div key={i} className="day-checkbox">
+                            <input
+                              type="checkbox"
+                              id={`day-${day}`}
+                              value={day}
+                              {...register("operationalDays")} // This will group all checkboxes
+                            />
+                            <label htmlFor={`day-${day}`}>{day}</label>
+                          </div>
+                        ))}
+                        {errors?.operationalDays && <span className="errors">{errors?.operationalDays?.message}</span>}
+                      </div>
+                    </div>
+                    <div className="input__box__2">
+                      <label htmlFor="">Warehouse Timing</label>
+                      <div className="input__box__22">
+                        <div className="input__box">
+                          <label htmlFor="openTime">Open Time</label>
+                          <select id="openTime" {...register("openTime")}>
+                            {["5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM"].map((item, i) => (
+                              <option value={item} key={i}>
+                                {item}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="input__box">
+                          <label htmlFor="closeTime">Close Time</label>
+                          <select id="closeTime" {...register("closeTime")}>
+                            {["4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"].map((item, i) => (
+                              <option value={item} key={i}>
+                                {item}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
                   <div className="button__container">
                     <button type="submit" className="btn-main">
                       SUBMIT

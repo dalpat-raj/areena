@@ -11,22 +11,20 @@ const discountSchema = new mongoose.Schema({
 });
 
 const dimensionSchema = new mongoose.Schema({
-  width: { type: Number },
+  width: { type: Number},
   height: { type: Number },
   depth: { type: Number },
   dimensionUnit: {
     type: String,
-    enum: ["cm", "inch"],
     default: "cm",
   },
   weightValue: {
     type: Number,
     required: true,
-    min: [0.1, "Weight must be at least 0.1"],
   },
   weightUnit: {
     type: String,
-    enum: ["g", "kg", "oz", "lb"],
+    default: "kg",
     required: true,
   },
   shippingClass: {
@@ -102,6 +100,10 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
+  isReviewed: {
+    type:Boolean,
+    default: false,
+  },
   ratings:{
     type: Number,
   },

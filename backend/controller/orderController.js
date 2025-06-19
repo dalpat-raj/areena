@@ -8,53 +8,52 @@ const { default: axios } = require("axios");
 const loginToShiprocket = require("../services/shiprocket");
 
 
+// exports.createOrder = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     const { cart, shippingAddress, user, shippingPrice, discountPrice, paymentInfo } = req.body;
 
-exports.createOrder = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const { cart, shippingAddress, user, shippingPrice, discountPrice, paymentInfo } = req.body;
+//     const shopItems = new Map();
+//     for (const item of cart) {
+//       const shopId = item.shopId;
+//       if (!shopItems.has(shopId)) {
+//         shopItems.set(shopId, []);
+//       }
+//       shopItems.get(shopId).push(item);
+//     }
 
-    const shopItems = new Map();
-    for (const item of cart) {
-      const shopId = item.shopId;
-      if (!shopItems.has(shopId)) {
-        shopItems.set(shopId, []);
-      }
-      shopItems.get(shopId).push(item);
-    }
+//     // create order for each shop
+//     const orders = [];
 
-    // create order for each shop
-    const orders = [];
+//     for (const [shopId, items] of shopItems) {
+//       const order = await Order.create({
+//         cart: items,
+//         shippingAddress,
+//         user,
+//         shippingPrice,
+//         discountPrice,
+//         subTotalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) - discountPrice,
+//         totalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) + shippingPrice - discountPrice,
+//         paymentInfo,
+//       });
+//       orders.push(order);
+//     }
 
-    for (const [shopId, items] of shopItems) {
-      const order = await Order.create({
-        cart: items,
-        shippingAddress,
-        user,
-        shippingPrice,
-        discountPrice,
-        subTotalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) - discountPrice,
-        totalPrice: items?.reduce((acc, item) => acc + item?.qty * item?.sellingPrice, 0) + shippingPrice - discountPrice,
-        paymentInfo,
-      });
-      orders.push(order);
-    }
-
-    res.status(201).json({
-      success: true,
-      orders,
-    });
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
-  }
-});
+//     res.status(201).json({
+//       success: true,
+//       orders,
+//     });
+//   } catch (error) {
+//     return next(new ErrorHandler(error.message, 500));
+//   }
+// });
 
 // get all orders of users
 exports.getAllOrdersUser = catchAsyncErrors(async (req, res, next) => {
   try {
-    const orders = await Order.find({ "user._id": req.params.userId }).sort({
+    const orders = await Order.find({ "userId": req.params.userId }).sort({
       createdAt: -1,
     });
-
+    
     res.status(200).json({
       success: true,
       orders,
@@ -67,7 +66,7 @@ exports.getAllOrdersUser = catchAsyncErrors(async (req, res, next) => {
 // get selected order of users
 exports.getSelectedOrderUser = catchAsyncErrors(async (req, res, next) => {  
   try {
-    const order = await Order.findById(req.params.orderId)
+    const order = await Order.findOne({orderId: req?.params?.orderId})
 
     res.status(200).json({
       success: true,
@@ -188,7 +187,7 @@ exports.getSelectedOrderShop = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// update order status for shop
+// update order status for shop            we will back
 exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
   const {subOrderId, orderId} = req.params;
   const {status} = req.body;
@@ -203,19 +202,18 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     if (!subOrder) {
       return next(new ErrorHandler("SubOrder not found!", 404));
     }
-
+     
     // Step 3: Update status
-    // subOrder.status = status;
+    subOrder.status = status;
 
     // Optional: Add a status history log
-    // subOrder.statusHistory = subOrder?.statusHistory || [];
-    // subOrder.statusHistory?.push({
-    //   status,
-    //   updatedAt: new Date()
-    // });
+    subOrder.statusHistory = subOrder?.statusHistory || [];
+    subOrder.statusHistory?.push({
+      status,
+      updatedAt: new Date()
+    });
     const token = await loginToShiprocket();
     
-
     if (status === "confirm") {
       const productUpdateOperations = subOrder.items.map(async (item) => {
         return {
@@ -246,14 +244,14 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       await shop.save();
 
       // create shiprocket order
-      const totalWeight = subOrder?.items?.reduce((sum, item) => sum + ((item?.dimension?.weightValue || 0) / 1000), 0);
-
+      const totalWeight = subOrder?.items?.reduce((sum, item) => sum + item?.dimension?.weightValue, 0);
+      
       // 2. Shiprocket order create payload
       const shiprocketOrderPayload = {
         order_id: subOrderId,
         order_date: new Date().toISOString().slice(0, 10),
-        pickup_location: `prikup` || `307028`, 
-        channel_id: "", // Optional
+        auto_schedule_pickup: true,
+        pickup_location: shop?.shopName, 
         billing_customer_name: order.buyerDetails.name,
         billing_last_name: "",
         billing_address: order.buyerDetails.address1,
@@ -295,13 +293,10 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
       );
       
       subOrder.shipment = {
+        ...subOrder.shipment,
         order_id: shiprocketResponse.data?.order_id,
         channel_order_id: shiprocketResponse?.data?.channel_order_id,
-        shipment_id: shiprocketResponse.data?.shipment_id,
-        awb_code: shiprocketResponse.data?.awb_code,
-        courier_company: shiprocketResponse?.data?.courier_company_id,
-        courier_name: shiprocketResponse?.data?.courier_name,
-        label_url: shiprocketResponse.data?.label_url,
+        shipment_id: shiprocketResponse.data?.shipment_id,     
         status: shiprocketResponse.data?.status
       };
       } catch (error) {
@@ -310,11 +305,13 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
     }
     
     if(status == "ship now"){
+      
       try {
-        const response = await axios.post(
+        const shipResponse = await axios.post(
           "https://apiv2.shiprocket.in/v1/external/courier/assign/awb",
           {
             shipment_id: subOrder?.shipment?.shipment_id,
+            courier_id: subOrder?.shipment?.courier_company_id
           },
           {
             headers: {
@@ -322,16 +319,19 @@ exports.updateOrderStatus = catchAsyncErrors(async (req, res, next) => {
             },
           }
         );
-        console.log(`response`, response?.data);
         
+        subOrder.shipment = {
+        ...subOrder.shipment,
+        ...shipResponse.data.response?.data
+      };
       } catch (error) {
         console.log(`error sip now`, error);
       }
     }
     
     // Step 4: Save the main order document
-    // order.markModified('subOrders');
-    // await order.save();
+    order.markModified('subOrders');
+    await order.save();
     
     res.status(200).json({
       success: true,

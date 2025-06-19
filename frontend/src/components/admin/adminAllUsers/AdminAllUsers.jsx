@@ -35,12 +35,12 @@ const AdminAllUsers = () => {
 
               <div className="col__2 admin__sellers">
                 {allUsers &&
-                  allUsers?.map((item) => (
-                    <div className="seller__row">
+                  allUsers?.map((item, i) => (
+                    <div className="seller__row" key={i}>
                       <div className="img__name__box">
                         <img
                           src={`${backend__url}/${item?.avatar}`}
-                          alt={item?.shopName}
+                          alt={item?.name}
                         />
                         <div className="name">
                           <p>Name : {item?.name}</p>
@@ -51,9 +51,9 @@ const AdminAllUsers = () => {
                         <p>Phone : {item?.phoneNumber}</p>
                         <p>Email : {item?.email}</p>
                         <p>
-                          Address : {item?.addresses[0]?.address1},
-                          {item?.addresses[0]?.address2},{" "}
-                          {item?.addresses[0]?.zipCode}
+                          Address : {item?.address?.address1},
+                          {item?.address?.address2},{" "}
+                          {item?.address?.pincode}
                         </p>
                       </div>
                     </div>

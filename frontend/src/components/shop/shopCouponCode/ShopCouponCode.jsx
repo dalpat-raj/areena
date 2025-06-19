@@ -71,7 +71,7 @@ const ShopCouponCode = () => {
         <div className="container">
           <div className="dashboard__row">
             <div className="col__2 dashboard__sidebar">
-              <DashboardSidebar active={9} />
+              <DashboardSidebar active={8} />
             </div>
             <div className="col__2 coupon__code__h">
               <div className="btn-box">

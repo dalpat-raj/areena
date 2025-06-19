@@ -216,15 +216,17 @@ exports.deleteShopProduct = catchAsyncErrors(async (req, res, next) => {
 });
 
 // review for products by user
+
 exports.createNewReview = catchAsyncErrors(async (req, res, next) => {
   try {
     const { user, rating, comment, productId, orderId } = req.body;
+    
 
     const product = await Product.findById(productId);
     if (!product) {
       return next(new ErrorHandler("product not found", 404));
     }
-
+    
     const review = {
       user,
       rating,
@@ -232,7 +234,7 @@ exports.createNewReview = catchAsyncErrors(async (req, res, next) => {
       productId,
     };
 
-    isReviewed = product.reviews.find((rev) => rev.user._id === req.user._id);
+    let isReviewed = product.reviews.find((rev) => rev.user._id === req.user._id);
 
     if (isReviewed) {
       product.reviews.forEach((rev) => {
@@ -254,10 +256,16 @@ exports.createNewReview = catchAsyncErrors(async (req, res, next) => {
 
     await product.save({ validateBeforeSave: false });
 
-    await Order.findByIdAndUpdate(
-      orderId,
-      { $set: { "cart.$[elem].isReviewed": true } },
-      { arrayFilters: [{ "elem._id": productId }], new: true }
+    await Order.findOneAndUpdate(
+      {orderId: orderId},
+      { $set: { "subOrders.$[sub].items.$[item].isReviewed": true } },
+      {
+        arrayFilters: [
+          { "sub.items.productId": productId },
+          { "item.productId": productId }
+        ],
+        new: true
+      }
     );
 
     res.status(200).json({

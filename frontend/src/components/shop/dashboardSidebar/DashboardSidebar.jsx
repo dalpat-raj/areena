@@ -11,6 +11,7 @@ import "./dashboardSidebar.scss";
 import { RxDashboard } from 'react-icons/rx';
 
 const DashboardSidebar = ({active}) => {
+    
   return (
     <div className="dashboardSidebar__main">
 
@@ -79,15 +80,6 @@ const DashboardSidebar = ({active}) => {
     </div>
 
     <div className={active === 8 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
-        <Link to={"/shop-dashboard-messages"}>
-            <div className='sidebar__header'>
-                <div className='icon'><BiMessageSquareDetail/></div>
-                <div className='text'>Shop Inbox</div>
-            </div>
-        </Link>
-    </div>
-
-    <div className={active === 9 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
         <Link to={"/shop-dashboard-coupon-code"}>
             <div className='sidebar__header'>
                 <div className='icon'><AiOutlineGift/></div>
@@ -96,7 +88,7 @@ const DashboardSidebar = ({active}) => {
         </Link>
     </div>
 
-    <div className={active === 10 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
+    <div className={active === 9 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
         <Link to={"/shop-dashboard-refund"}>
             <div className='sidebar__header'>
                 <div className='icon'><HiOutlineReceiptRefund/></div>
@@ -105,16 +97,7 @@ const DashboardSidebar = ({active}) => {
         </Link>
     </div>
 
-    <div className={active === 11 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
-        <Link to={"/shop-dashboard-delivery-area"}>
-            <div className='sidebar__header'>
-                <div className='icon'><BiMapPin/></div>
-                <div className='text'>Your Delivery Area</div>
-            </div>
-        </Link>
-    </div>
-
-    <div className={active === 12 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
+    <div className={active === 10 ? "dashboardSidebar__row active" : "dashboardSidebar__row"}>
         <Link to={"/shop-dashboard-setting"}>
             <div className='sidebar__header'>
                 <div className='icon'><CiSettings/></div>

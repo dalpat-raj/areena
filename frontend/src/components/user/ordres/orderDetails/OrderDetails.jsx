@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiBeachBag } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router";
@@ -13,8 +13,6 @@ import { RxCross2 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loader from "../../../layout/loader/Loader";
 import { createNewReview } from "../../../../actions/reviewAction";
-import ComponentToPrint from "../../../admin/adminAllOrders/ComponentToPrint";
-import { useReactToPrint } from "react-to-print";
 
 const OrderDetails = () => {
   const { user } = useSelector((state) => state.user);
@@ -28,10 +26,9 @@ const OrderDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  const handlePrint = ()=>{
+    // label print api call 
+  }
 
   const reviewHandler = async () => {
     dispatch(
@@ -39,7 +36,7 @@ const OrderDetails = () => {
         user,
         rating,
         comment,
-        productId: selectedItem._id,
+        productId: selectedItem.productId,
         orderId: id,
       })
     );
@@ -48,7 +45,7 @@ const OrderDetails = () => {
       window.location.reload();
     }
   };
-
+  
   const refundHandler = (id) => {
     dispatch(orderRefund(id));
   };
@@ -66,7 +63,7 @@ const OrderDetails = () => {
     <div className="order_details">
       <div className="container">
         <div className="row">
-          {order?.status === "Delivered" ? (
+          {order?.subOrders?.[0]?.status === "delivered" ? (
             <div className="heading heading_row">
               <span>
                 <HiBadgeCheck />
@@ -91,7 +88,7 @@ const OrderDetails = () => {
 
         <div className="order_id">
           <p>
-            Order ID : <span>{order?._id?.slice(0, 9)}...</span>
+            Order ID : <span>{order?.orderId}</span>
           </p>
           <p>
             Placed on : <span>{order?.createdAt?.slice(0, 10)}</span>
@@ -100,49 +97,54 @@ const OrderDetails = () => {
 
         <div className="product_details">
           {order &&
-            order?.cart?.map((item, i) => (
-              <div className="product_main" key={i}>
-                <div className="image__box">
-                  <img
-                    src={`${backend__url}/${item?.images[0]}`}
-                    alt="product details"
-                  />
-                  <div className="product_text">
-                    <h5>{item?.name.slice(0, 15)}...</h5>
-                    <h5>₹ {item?.sellingPrice}</h5>
-                    {item?.qty && <h5>Quantity: {item?.qty}</h5>}
-                    {item?.color && <h5>Color: {item?.color}</h5>}
-                    {item?.size && <h5>Size: {item?.size}</h5>}
-                  </div>
-                </div>
+            order?.subOrders?.map((itemss, i) => (
+              
+              itemss?.items?.map((item, i)=>{
+                return(
+                  <div className="product_main" key={i}>
+                    <div className="image__box">
+                      <img
+                        src={`${backend__url}/${item?.images?.[0]}`}
+                        alt="product details"
+                      />
+                      <div className="product_text">
+                        <h5>{item?.title?.slice(0, 15)}...</h5>
+                        <h5>₹ {item?.sellingPrice}</h5>
+                        {item?.qty && <h5>Quantity: {item?.qty}</h5>}
+                        {item?.color && <h5>Color: {item?.color}</h5>}
+                        {item?.size && <h5>Size: {item?.size}</h5>}
+                      </div>
+                    </div>
 
-                <div className="payment_info">
-                  {order && order?.paymentInfo?.status === "succeeded" ? (
-                    <img src={"/payment.png"} alt="payment" />
-                  ) : (
-                    <>
-                      <h5>Payment Info</h5>
-                      <p>Not Paid</p>
-                    </>
-                  )}
-                </div>
+                    <div className="payment_info">
+                      {order && itemss?.payment?.status === "paid" ? (
+                        <img src={"/payment.png"} alt="payment" />
+                      ) : (
+                        <>
+                          <h5>Payment Info</h5>
+                          <p>Not Paid</p>
+                        </>
+                      )}
+                    </div>
 
-                {order?.status === "Delivered" ? (
-                  item?.isReviewed === true ? null : (
-                    <button
-                      onClick={() => setOpen(true) || setSelectedItem(item)}
-                      className="btn-sec update_status"
-                    >
-                      Write a Review
-                    </button>
-                  )
-                ) : (
-                  <div className="update_stauts">
-                    <h4>Order Status</h4>
-                    <p>{order?.status}</p>
+                    {itemss?.status === "delivered" ? (
+                      item?.isReviewed === true ? null : (
+                        <button
+                          onClick={() => setOpen(true) || setSelectedItem(item)}
+                          className="btn-sec update_status"
+                        >
+                          Write a Review
+                        </button>
+                      )
+                    ) : (
+                      <div className="update_stauts">
+                        <h4>Order Status</h4>
+                        <p>{itemss?.status}</p>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                )
+              })
             ))}
         </div>
 
@@ -205,40 +207,37 @@ const OrderDetails = () => {
           <div className="shipping__info">
             <h4>Shipping Address</h4>
             <p>
-              {order?.shippingAddress?.address1 +
+              {order?.buyerDetails?.address1 +
                 ", " +
-                order?.shippingAddress?.address2 +
+                order?.buyerDetails?.address2 +
                 ", " +
-                order?.shippingAddress?.city}
+                order?.buyerDetails?.city}
             </p>
             <p>
-              {order?.shippingAddress?.state +
+              {order?.buyerDetails?.state +
                 " (" +
-                order?.shippingAddress?.country}
+                order?.buyerDetails?.country}
               )
             </p>
-            <p>Zip Code. {order?.shippingAddress?.zipCode}</p>
-            <p>+91 {order?.user?.phoneNumber}</p>
+            <p>Pin Code. {order?.buyerDetails?.pincode}</p>
+            <p>+91 {order?.buyerDetails?.phone}</p>
           </div>
           <div className="price__box">
             <div className="total_price">
               <h4>Payment Details</h4>
-              {order?.shippingPrice && (
-                <p>Shipping : ₹ {order?.shippingPrice}</p>
+              {order?.totals?.shippingPrice && (
+                <p>Shipping : ₹ {order?.totals?.shippingPrice}</p>
               )}
-              {order?.discountPrice && (
+              {order?.totals?.discount && (
                 <p>
                   Discount : ₹{" "}
-                  {order?.discountPrice !== null ? order?.discountPrice : 0}
+                  {order?.totals?.discount !== null ? order?.totals?.discount : 0}
                 </p>
               )}
-              {order?.subTotalPrice && (
-                <p>SubTotal : ₹ {order?.subTotalPrice}</p>
+              {order?.totals?.grandTotal && (
+                <p>SubTotal : ₹ {order?.totals?.grandTotal - order?.totals?.shippingPrice}</p>
               )}
-              {order?.totalPrice && <p>Total Price : ₹ {order?.totalPrice}</p>}
-              <div className="Component__to__print">
-                <ComponentToPrint ref={componentRef} />
-              </div>
+              {order?.totals?.grandTotal && <p>Total Price : ₹ {order?.totals?.grandTotal}</p>}
               <button className="btn-main" onClick={handlePrint}>
                 Download Invoice
               </button>
@@ -246,9 +245,9 @@ const OrderDetails = () => {
           </div>
         </div>
 
-        <div className="row btn_row">
+        {/* <div className="row btn_row">
           <button className="btn-main">Send Message To Seller</button>
-          {order?.status === "Delivered" && (
+          {order?.status === "delivered" && (
             <button
               onClick={() => refundHandler(order?._id)}
               className="btn-sec"
@@ -256,7 +255,7 @@ const OrderDetails = () => {
               Give a Refund
             </button>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 const express = require("express");
 const { isAutenticated, isSeller, isAdmin } = require("../middleware/auth");
-const { createOrder, getAllOrdersUser, getAllOrdersSeller, updateOrderStatus, getSelectedOrderUser, getSelectedOrderShop, orderRefund, updateRefundOrderStatus, getAllOrdersAdmin } = require("../controller/orderController");
+const { getAllOrdersUser, getAllOrdersSeller, updateOrderStatus, getSelectedOrderUser, getSelectedOrderShop, orderRefund, updateRefundOrderStatus, getAllOrdersAdmin } = require("../controller/orderController");
 const router = express.Router();
 
 // users
-router.post("/create-order", createOrder);
-router.post("/orders/calculate-shipping", createOrder);
+// router.post("/create-order", createOrder);
+// router.post("/orders/calculate-shipping", createOrder);
 router.get("/get-all-orders-user/:userId", isAutenticated, getAllOrdersUser);
 router.get("/get-selected-order-user/:orderId", isAutenticated, getSelectedOrderUser);
 router.put("/order-refund/:id", orderRefund);

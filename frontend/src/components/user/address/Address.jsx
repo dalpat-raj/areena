@@ -17,7 +17,6 @@ const Address = () => {
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
   const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
   const [addressType, setAddressType] = useState("");
 
   const addressTypeData = ["Home", "Office"]
@@ -29,13 +28,12 @@ const Address = () => {
     if (state === "" || city === "" || pincode === "") {
       toast.error("please fill all the fields");
     } else {
-      dispatch(updateUserAddress(country, state, city, pincode, address1, address2, addressType));
+      dispatch(updateUserAddress(country, state, city, pincode, address1, addressType));
       setOpen(false);
       setState("");
       setCity("");
       setPincode(null);
       setAddress1("");
-      setAddress2("");
       setAddressType("");
       if(success){
         toast.success(success)
@@ -119,7 +117,7 @@ const Address = () => {
                 </div>
 
                 <div className="box">
-                  <label htmlFor="address1">Apartment, suit, etc. (optional)</label>
+                  <label htmlFor="address1">Full Address</label>
                   <input
                     type="address"
                     id="address1"
@@ -127,18 +125,6 @@ const Address = () => {
                     value={address1}
                     placeholder="Apartment, suit, etc. (optional)"
                     onChange={(e) => setAddress1(e.target.value)}
-                  />
-                </div>
-
-                <div className="box">
-                  <label htmlFor="address2">Address</label>
-                  <input
-                    type="address"
-                    id="address2"
-                    required
-                    placeholder="Address"
-                    value={address2}
-                    onChange={(e) => setAddress2(e.target.value)}
                   />
                 </div>
 

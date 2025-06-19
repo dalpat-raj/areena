@@ -8,6 +8,7 @@ import { LoginSeller } from "../../../actions/sellerAction";
 import Footer from "../../../components/layout/footer/Footer";
 import "./shopLogin.scss";
 import axios from "axios";
+import {toast} from 'react-toastify'
 
 const ShopLogin = () => {
   const { isSeller } = useSelector((state) => state.seller);
@@ -39,7 +40,7 @@ const ShopLogin = () => {
         navigate("/shop-dashboard")
       })
       .catch((error) => {
-        alert(error?.response?.data?.error?.message);
+        toast.error(error?.response?.data?.error?.message);
       });
   };
 

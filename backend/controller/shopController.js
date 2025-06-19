@@ -10,19 +10,22 @@ const fs = require("fs");
 exports.shopCreate = async (req, res, next) => {
   try {
     const {
-      name,
-      shopName,
-      email,
-      phone,
-      address,
-      country,
+      complateAddress,
+      landmark,
       state,
       city,
-      zipCode,
-      password,
-      avatar,
+      pincode,
+      name,
+      phoneNumber,
+      email,
+      shopName,
       description,
+      password,
+      operationalDays,
+      openTime,
+      closeTime,
     } = req.body;
+    
     
     const shopEmail = await Shop.findOne({ email });
 
@@ -39,24 +42,27 @@ exports.shopCreate = async (req, res, next) => {
 
     try {
       let shop = await Shop.create({
-        name,
-        shopName,
-        email,
-        phone,
-        address,
-        country,
-        state, 
+        complateAddress,
+        landmark,
+        state,
         city,
-        zipCode,
-        password,
-        avatar,
+        pincode,
+        name,
+        phoneNumber,
+        email,
+        shopName,
         description,
+        password,
+        operationalDays,
+        openTime,
+        closeTime,
+        avatar: fileUrl,
       });
 
       res.status(201).json({
         shop: shop,
         success: true,
-        message: `Please check your email`,
+        message: `✅ account is created! wait for admin approvel. we will inform you from E-mail`,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -65,11 +71,6 @@ exports.shopCreate = async (req, res, next) => {
     return next(new ErrorHandler(error.message, 400));
   }
 };
-
-// activation
-exports.activationShop = catchAsyncErrors(async (req, res, next) => {
-  
-});
 
 // Login Shop
 exports.loginShop = catchAsyncErrors(async (req, res, next) => {
@@ -83,7 +84,10 @@ exports.loginShop = catchAsyncErrors(async (req, res, next) => {
     const shop = await Shop.findOne({ email }).select("+password");
 
     if (!shop) {
-      return next(new ErrorHandler("User does not exists!", 400));
+      return next(new ErrorHandler("Invalid credentials!", 400));
+    }
+    if (!shop.status) {
+      return next(new ErrorHandler("your account under reviewing! please try after some time", 400));
     }
 
     const isPasswordValid = await shop.comparePassword(password);
@@ -217,6 +221,27 @@ exports.getAllSellerForAdmin = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.sellerStatusChangeByAdmin = catchAsyncErrors(async (req, res, next) => {
+  const {sellerId, status} = req.body;
+  
+  try {
+    const shop = await Shop.findById(sellerId);
+    if(!shop){
+      return next(new ErrorHandler("shop not found!", 404));
+    }
+    shop.status = status;
+    await shop.save();
+    
+    res.status(201).json({
+      success: true,
+      message: "Status Changed ✅"
+    })
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+  
+})
+
 // delete sellers by admin
 exports.deleteSellersByAdmin = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -256,7 +281,7 @@ exports.addWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
 exports.updatePinCode = catchAsyncErrors(async (req, res, next)=>{
   try {
     const shop = await Shop.findById(req.shop._id);
-    shop.pinCode = [...shop.pinCode, req.body.pinCode]
+    shop.pincode = req.body.pincode
     await shop.save();
     res.status(201).json({
       success: true,
@@ -286,7 +311,6 @@ exports.deleteWithdrawMethods = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
-
 
 // delete pinCode 
 exports.deletePinCode = catchAsyncErrors(async (req, res, next) => {

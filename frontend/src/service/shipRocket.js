@@ -3,8 +3,8 @@ import axios from "axios";
 
 export const loginToShiprocket = async () => {
   const credentials = {
-    email: "geetakumari958747@gmail.com",
-    password: "z#CT&Z8mbS4qjm7T",
+    email: "dalpatt12@gmail.com",
+    password: "j5Vf02c%^!W832GV",
   };
 
   const res = await axios.post("https://apiv2.shiprocket.in/v1/external/auth/login", credentials);
@@ -14,6 +14,7 @@ export const loginToShiprocket = async () => {
 
 
 export const getShippingRate = async (pickupPincode, deliveryPincode, weight) => {
+  
   try {
     // 1. Get token
     const token = await loginToShiprocket();
@@ -33,11 +34,41 @@ export const getShippingRate = async (pickupPincode, deliveryPincode, weight) =>
         },
       }
     );
-
-    const data = {
-      rate: res?.data?.data?.available_courier_companies?.[0]?.rate || 0,
-      estimated_delivery_days: res?.data?.data?.available_courier_companies?.[0]?.estimated_delivery_days || 5,
+    
+     const couriers = res?.data?.data?.available_courier_companies || [];
+     
+    if (!couriers?.length) {
+      console.warn("❌ No courier options available");
+      return null;
     }
+
+    const selectedCourier = couriers.reduce((min, cur) =>
+      Number(cur.rate) < Number(min.rate) ? cur : min,
+      couriers[0]
+    );
+
+    if (!selectedCourier) {
+      console.warn("❌ No selected courier after reduce");
+      return null;
+    }
+    
+    const data = {
+      courier_company_id: selectedCourier?.courier_company_id,
+      courier_name: selectedCourier?.courier_name,
+      estimated_delivery_days: selectedCourier?.estimated_delivery_days,
+      rate: selectedCourier?.rate,
+      freight_charge: selectedCourier?.freight_charge,
+      rto_charges: selectedCourier?.rto_charges,
+      pickup_availability: selectedCourier?.pickup_availability,
+      cod: selectedCourier?.cod,
+      realtime_tracking: selectedCourier?.realtime_tracking,
+      etd: selectedCourier?.etd,
+      etd_hours: selectedCourier?.etd_hours,
+      charge_weight: selectedCourier?.charge_weight,
+      ccity: selectedCourier?.city,
+      cstate: selectedCourier?.state,
+      postcode: selectedCourier?.postcode,
+    };
     return data;
   } catch (err) {
     console.error("Error getting shipping rate:", err?.response?.data || err.message);

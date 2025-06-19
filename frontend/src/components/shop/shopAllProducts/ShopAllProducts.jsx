@@ -30,7 +30,7 @@ const ShopAllProducts = () => {
 
           {isLoading ? (
             <Loader />
-          ) : (shopProducts ? (
+          ) : (shopProducts?.length >= 1 ? (
             <div className="col__2 shop__all__products">
               <div className="products__row">
                 {shopProducts &&

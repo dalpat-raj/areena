@@ -65,6 +65,16 @@
                             }
                         }
                     }
+                    .no__orders{
+                        height: 80vh;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        .icon{
+                            color: rgb(94, 94, 94);
+                        }
+                    }
                 }
             }
         }
