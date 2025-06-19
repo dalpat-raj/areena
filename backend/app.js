@@ -10,7 +10,7 @@ const path = require("path")
 app.use(express.json());
 app.use(cookieParser());
 app.use(Cors({
-    origin: ["https://areenaa.in"],
+    origin: ["https://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }));
