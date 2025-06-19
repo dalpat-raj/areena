@@ -10,7 +10,7 @@ const path = require("path")
 app.use(express.json());
 app.use(cookieParser());
 app.use(Cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://areenaa.in"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }));
@@ -46,11 +46,11 @@ app.use("/api/v2", color);
 app.use("/api/v2", shipment);
 
 
-// app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+});
 
 // Middleware for error
 app.use(ErrorHandler);
